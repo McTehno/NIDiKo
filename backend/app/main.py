@@ -27,12 +27,12 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# Registracija globalnih obravnavalnikov napak
+# Register global exception handlers
 app.add_exception_handler(HTTPException, http_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(Exception, unexpected_exception_handler)
 
-# Nastavitev CORS pravil za lokalno razvojno okolje in produkcijo
+# Configure CORS middleware for local development and production environments
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -47,7 +47,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Registracija domenskih API usmerjevalnikov
+# Register domain API routers
 app.include_router(search_router, prefix="/api")
 app.include_router(questionnaires_router, prefix="/api")
 app.include_router(assessments_router, prefix="/api")
@@ -57,7 +57,7 @@ app.include_router(learning_units_router, prefix="/api")
 app.include_router(users_router, prefix="/api")
 app.include_router(user_progress_router, prefix="/api")
 
-# Registracija AI in glasovnih asistentov
+# Register AI and voice assistant routers
 app.include_router(voice_help_router, prefix="/api")
 app.include_router(assessment_assistant_router, prefix="/api")
 app.include_router(learning_path_assistant_router, prefix="/api")
@@ -68,7 +68,7 @@ app.include_router(learning_unit_assistant_router, prefix="/api")
 @app.get("/")
 def read_root() -> dict[str, str]:
     """
-    Korenski preizkusni endpoint za preverjanje stanja delovanja backenda.
+    Root health-check endpoint to verify backend service operational status.
     """
     return {
         "message": "NIDiKo backend is running."

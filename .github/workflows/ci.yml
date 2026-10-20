@@ -95,5 +95,22 @@ jobs:
           python -m pip show pytest
           python -m pip show pytest-asyncio
 
-      - name: Run backend tests
-        run: python -m pytest --asyncio-mode=auto
+      - name: Run backend tests with coverage
+        run: |
+          python -m pytest --asyncio-mode=auto --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml --cov-report=html:htmlcov
+
+      - name: Generate Coverage Step Summary
+        if: always()
+        run: |
+          echo "### Python Test Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          python -m coverage report --format=markdown >> $GITHUB_STEP_SUMMARY || true
+
+      - name: Upload coverage report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-coverage-report
+          path: |
+            backend/coverage.xml
+            backend/htmlcov
+          retention-days: 14

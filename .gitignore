@@ -15,7 +15,9 @@ backend/**/*.py[cod]
 # Test and coverage files
 backend/.pytest_cache/
 backend/.coverage
+backend/.coverage.*
 backend/htmlcov/
+backend/coverage.xml
 
 # Logs
 backend/*.log
