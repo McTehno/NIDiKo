@@ -99,6 +99,14 @@ Specifikacija (podlaga, pogoji, podatki, akcije in pričakovanja) je ločena od 
 | 3.3 | Vnesi navedene napačne podatke in oddaj prijavo. | Vidno je »Napačen e-poštni naslov ali geslo.« in URL ostane /login. Splošna napaka ne dokazuje pravilne zavrnitve podatkov. | Pricakovana zavrnitev podatkov, prikazano: Prišlo je do napake. Poskusite znova. | 1.81 | FAIL | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts-03_03_fail.png) |
 | 3.4 | Ponovno odpri up_001, odpri AI panel in vpiši vprašanje. | Vrednost polja ustreza vnosu; gumb Pošlji vprašanje je omogočen. Brez preverjanja odgovora AI. | Panel uspesno aktiviran, vpisana poizvedba v polje 'Vprašaj pomočnika ...' | 5.50 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts03_04_ai_pomocnik_odprt.png) |
 
+#### Pojasnilo rezultata FAIL pri koraku 3.3
+
+Korak 3.3 pričakuje obvestilo »Napačen e-poštni naslov ali geslo.«, aplikacija pa je prikazala »Prišlo je do napake. Poskusite znova.«. Ker dejanski rezultat ne ustreza izbranemu pričakovanemu rezultatu, je korak označen kot **FAIL**. Po merilu tega poročila morajo uspeti vsi koraki, zato je **FAIL tudi celoten TS-NIDIKO-03**; koraki 3.1, 3.2 in 3.4 so uspešni.
+
+**Izvor merila:** pričakovano besedilo je bilo pri dopolnitvi testa izpeljano iz lokalne kode `LoginPage.tsx`, ki tako prevede napako `Invalid login credentials`. To je strožje merilo tega testa, ne posebej potrjena uporabniška zahteva. **ISO/IEC/IEEE 29119-3:2021 ne predpisuje besedila prijavne napake.** Razdelki 8.3.3.8 (pričakovani rezultati), 8.9.2 (dejanski rezultati) in 8.9.3 (rezultat testa) dajejo podlago za dokumentiranje pričakovanj, opažanj in njihove primerjave; konkretno pričakovanje mora utemeljiti projekt.
+
+**Omejitev sklepa:** FAIL tukaj pomeni odstopanje pri prikazu obvestila. Ne dokazuje, da aplikacija omogoča prijavo z napačnimi podatki, niti ne pomeni kršitve standarda. Splošno obvestilo ne razkrije, ali je vzrok napačno geslo, povezava ali druga napaka. Če je cilj preveriti samo zavrnitev prijave, drugačno besedilo samo zase ni zadosten razlog za FAIL; preveriti je treba odsotnost prijavljene seje in dostopa do zaščitenih funkcij. Nadaljnji korak je potrditi merilo obvestila in preveriti odgovor Supabase Auth, nato test ponoviti.
+
 ### TS-NIDIKO-04: Prehod od modula do učne enote prek vmesnika
 
 - **Odgovorna oseba:** Mihajlo Dejanović; **cilj:** preveriti uporabniški tok, določen z naslednjimi koraki.
@@ -153,7 +161,7 @@ Specifikacija (podlaga, pogoji, podatki, akcije in pričakovanja) je ločena od 
 
 | ID | Scenarij / resnost | Opažanje in pričakovano vedenje | Stanje / nadaljnji korak |
 |---|---|---|---|
-| OBS-01 | TS-NIDIKO-03 / srednja | Ob napačnih podatkih je prikazana splošna napaka namesto prevoda »Napačen e-poštni naslov ali geslo.« iz LoginPage.tsx. Sama splošna napaka ne dokaže pravilne avtentikacijske zavrnitve. | Odprto: preveriti odgovor Supabase Auth, konfiguracijo okolja in preslikavo napak; nato ponoviti 3.3. Izvornega vzroka ne pripisujemo aplikaciji brez dodatne diagnostike. |
+| OBS-01 | TS-NIDIKO-03 / srednja | Ob napačnih podatkih je prikazana splošna napaka namesto prevoda »Napačen e-poštni naslov ali geslo.« iz LoginPage.tsx. Sama splošna napaka ne dokaže pravilne avtentikacijske zavrnitve. | Odprto: potrditi merilo za besedilo obvestila ter preveriti odgovor Supabase Auth, konfiguracijo okolja in preslikavo napak; nato ponoviti 3.3. Izvornega vzroka ne pripisujemo aplikaciji brez dodatne diagnostike. |
 
 Začetni poskus dopolnjene avtomatizacije je odkril tudi težave s čakanjem na animacije in zastarelimi elementi ter razliko med velikostjo okna in viewporta. Poganjalnik je bil popravljen in ponovljen; ta dokument poroča zadnjo izvedbo.
 
