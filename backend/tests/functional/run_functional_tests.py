@@ -9,6 +9,10 @@ import os
 import sys
 import time
 import json
+import argparse
+import platform
+from pathlib import Path
+from urllib.parse import urlparse
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -16,9 +20,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
 
 # Zagotovitev pravilnega izpisa UTF-8 znakov na konzoli
-sys.stdout.reconfigure(encoding='utf-8')
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 
 # Konfiguracija poti in URL naslovov (izkljucno relativne poti za GitHub repo)
 BASE_URL = "http://46.225.17.135"
@@ -38,10 +44,17 @@ else:
 
 REL_SCREENSHOT_DIR = os.path.join("docs", "assets", "funkcionalno-testiranje")
 SCREENSHOT_DIR = os.path.join(REPO_ROOT, REL_SCREENSHOT_DIR)
-os.makedirs(SCREENSHOT_DIR, exist_ok=True)
+
 
 class FunctionalTestRunner:
-    def __init__(self):
+    def __init__(self, base_url=BASE_URL, output_dir=None):
+        global BASE_URL, SCREENSHOT_DIR
+        BASE_URL = base_url.rstrip('/')
+        self.started_at = datetime.now().astimezone().isoformat()
+        self.run_id = datetime.now().astimezone().strftime('%Y%m%dT%H%M%S%f%z')
+        SCREENSHOT_DIR = str(Path(output_dir) if output_dir else
+                             Path(REPO_ROOT) / 'test-results' / self.run_id)
+        Path(SCREENSHOT_DIR).mkdir(parents=True, exist_ok=False)
         self.results = []
         self.driver = None
 
@@ -56,7 +69,9 @@ class FunctionalTestRunner:
         chrome_options.add_argument("--disable-extensions")
         
         self.driver = webdriver.Chrome(options=chrome_options)
-        self.driver.implicitly_wait(6)
+        self.driver.implicitly_wait(1)
+        self.driver.set_page_load_timeout(30)
+        self.wait = WebDriverWait(self.driver, 12)
         print("[SETUP] Chrome WebDriver uspesno inicializiran (1920x1080, headless nacin).")
 
     def teardown_driver(self):
@@ -68,15 +83,23 @@ class FunctionalTestRunner:
     def capture_screenshot(self, filename: str, description: str):
         """Zajem zaslonskega posnetka in shranjevanje z relativno potjo."""
         filepath = os.path.join(SCREENSHOT_DIR, filename)
-        self.driver.save_screenshot(filepath)
-        rel_path = f"assets/funkcionalno-testiranje/{filename}"
+        if not self.driver.save_screenshot(filepath):
+            raise RuntimeError(f"Zajem slike ni uspel: {filepath}")
+        rel_path = filename
         print(f"  [DOKAZ / SCREENSHOT] Shranjen: {filename} ({description})")
         return rel_path
 
     def record_step(self, scenario_id: str, author: str, step_no: int, action: str, expected: str, actual: str, status: str, duration: float, screenshot: str = None):
         """Zapis posameznega izvedenega testnega koraka z relativno potjo."""
+        if status == 'FAIL' and screenshot is None and self.driver:
+            try:
+                screenshot = self.capture_screenshot(
+                    f"{scenario_id.lower()}_{step_no:02d}_fail.png", "Napaka koraka")
+            except Exception:
+                pass  # Napaka zajema ne sme prekriti izvirne napake testa.
         step_data = {
-            "scenario_id": scenario_id,
+            "scenario_id": scenario_id.replace("TS-", "TS-NIDIKO-"),
+            "timestamp": datetime.now().astimezone().isoformat(),
             "author": author,
             "step_no": step_no,
             "action": action,
@@ -144,9 +167,18 @@ class FunctionalTestRunner:
         # Korak 1.4: Preizkus filtrov
         t0 = time.time()
         try:
-            checkboxes = self.driver.find_elements(By.CSS_SELECTOR, "input[type='checkbox']")
+            checkboxes = self.driver.find_elements(By.CSS_SELECTOR, "aside input[type='checkbox']")
+            assert len(checkboxes) == 3, "Manjkajo filtri tipov vsebine"
+            assert not any(c.is_selected() for c in checkboxes), "Pricakovano zacetno stanje brez filtrov"
+            checkboxes[0].click()
+            self.wait.until(lambda d: checkboxes[0].is_selected() and
+                len(d.find_elements(By.CSS_SELECTOR, 'article')) > 0 and
+                all(c.find_element(By.CSS_SELECTOR, 'span.uppercase').text.casefold() == 'učna pot'
+                    for c in d.find_elements(By.CSS_SELECTOR, 'article')))
+            assert self.driver.find_elements(By.XPATH, "//article[.//h3[contains(., 'Iskanje informacij z umetno inteligenco')]]"), "Manjka pricakovana ucna pot"
+
             ss = self.capture_screenshot("ts01_04_filtri_podrocja.png", "Prikaz filtrov za tipe vsebin")
-            self.record_step(scenario_id, author, 4, "Preverjanje filtrov po tipih vsebin (ucne poti, moduli, enote)", "Filtri so interaktivni in omogocajo ozenje zadetkov", f"Zaznanih {len(checkboxes)} filtrirnih elementov v stranski vrstici", "PASS", time.time() - t0, ss)
+            self.record_step(scenario_id, author, 4, "Preverjanje filtrov po tipih vsebin (ucne poti, moduli, enote)", "Filtri so interaktivni in omogocajo ozenje zadetkov", "Izbran filter Ucne poti; vsi prikazani zadetki imajo tip Ucna pot", "PASS", time.time() - t0, ss)
         except Exception as e:
             self.record_step(scenario_id, author, 4, "Filtriranje vsebin", "Uveljavitev filtrov", str(e), "FAIL", time.time() - t0)
 
@@ -154,14 +186,15 @@ class FunctionalTestRunner:
         t0 = time.time()
         try:
             cards = self.driver.find_elements(By.TAG_NAME, "article")
-            target_card = cards[0]
+            target_card = self.driver.find_element(By.XPATH,
+                "//article[.//h3[contains(., 'Iskanje informacij z umetno inteligenco')]]")
             self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", target_card)
             time.sleep(1)
             target_card.click()
             time.sleep(2)
             
             current_url = self.driver.current_url
-            assert "/learning-paths/" in current_url or "/modules/" in current_url, f"Pricakovana navigacija na vsebino, URL: {current_url}"
+            assert urlparse(current_url).path == "/learning-paths/up_001", f"Pricakovana navigacija na vsebino, URL: {current_url}"
             h1_elements = [h.text for h in self.driver.find_elements(By.TAG_NAME, "h1") if h.text.strip()]
             main_title = h1_elements[0] if h1_elements else "Brez naslova"
             ss = self.capture_screenshot("ts01_05_podrobnosti_ucne_poti.png", f"Stran podrobnosti ucne vsebine ({main_title})")
@@ -243,6 +276,7 @@ class FunctionalTestRunner:
             ss = self.capture_screenshot("ts02_05_rezultat_samoocene.png", "Prikaz priporocila ucenja po oddaji vprasalnika")
             headings = [h.text for h in self.driver.find_elements(By.CSS_SELECTOR, "h1, h2, h3") if h.text.strip()]
             has_assessment = any("samoocen" in h.lower() for h in headings)
+            assert has_assessment, "Manjka sekcija Samoocena po oddaji"
             self.record_step(scenario_id, author, 5, "Klik na 'Zakljuci →' in klic zalednega servisa /api/assessment/evaluate", "Zaledni izracun kompetenc in prikaz priporocila ucenja na strani podrobnosti", f"Preusmeritev na {current_url}, prisotna sekcija Samoocena: {has_assessment}", "PASS", time.time() - t0, ss)
         except Exception as e:
             self.record_step(scenario_id, author, 5, "Oddaja vprasalnika", "Prikaz priporocila ucenja", str(e), "FAIL", time.time() - t0)
@@ -259,18 +293,12 @@ class FunctionalTestRunner:
         try:
             self.driver.get(f"{BASE_URL}/learning-paths/up_001")
             time.sleep(2)
-            action_buttons = self.driver.find_elements(By.XPATH, "//button[contains(., 'Shrani') or contains(., 'Dokončano') or .//*[name()='svg']]")
-            for btn in action_buttons:
-                try:
-                    self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
-                    time.sleep(0.5)
-                    btn.click()
-                    break
-                except:
-                    continue
-            time.sleep(1.5)
-            modal = self.driver.find_elements(By.XPATH, "//*[contains(text(), 'Za to dejanje se moraš prijaviti') or contains(text(), 'Prijava je potrebna')]")
-            assert len(modal) > 0, "Opozorilni modal AuthRequiredDialog se ni prikazal!"
+            save_button = self.wait.until(EC.element_to_be_clickable(
+                (By.CSS_SELECTOR, "button[aria-label='Shrani za pozneje']")))
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", save_button)
+            save_button.click()
+            self.wait.until(EC.visibility_of_element_located((By.XPATH,
+                "//*[contains(text(), 'Za to dejanje se moraš prijaviti') or contains(text(), 'Prijava je potrebna')]")))
             ss = self.capture_screenshot("ts03_01_auth_dialog.png", "Modalno okno za zahtevo po prijavi")
             self.record_step(scenario_id, author, 1, "Poskus shranjevanja vsebine s strani neprijavljenega uporabnika", "Prikaz varnostnega modalnega okna AuthRequiredDialog z obvestilom", "Modal 'Za to dejanje se moraš prijaviti' se uspesno prikaze", "PASS", time.time() - t0, ss)
         except Exception as e:
@@ -301,10 +329,12 @@ class FunctionalTestRunner:
             pass_input.send_keys("NepravilnoGeslo123!")
             time.sleep(1)
             submit_btn.click()
-            time.sleep(2.5)
-            
-            error_alerts = self.driver.find_elements(By.CSS_SELECTOR, ".text-red-500, .text-red-600, .bg-red-50, [role='alert']")
-            error_text = error_alerts[0].text if error_alerts else "Sistem zavrnil prijavo z obvestilom"
+            # Zahtevamo dejansko obvestilo o napacnih podatkih, ne splosne omrezne napake.
+            error_alert = self.wait.until(EC.visibility_of_element_located((By.XPATH,
+                "//*[normalize-space(text())='Napačen e-poštni naslov ali geslo.' or normalize-space(text())='Prišlo je do napake. Poskusite znova.']")))
+            error_text = error_alert.text
+            assert error_text == 'Napačen e-poštni naslov ali geslo.', f'Pricakovana zavrnitev podatkov, prikazano: {error_text}'
+            assert urlparse(self.driver.current_url).path == '/login', "Prijava ni ostala zavrnjena"
             ss = self.capture_screenshot("ts03_03_login_napaka.png", "Prikaz napake ob neveljavnih prijavnih podatkih")
             self.record_step(scenario_id, author, 3, "Vnos neveljavnih prijavnih podatkov in klik na 'Prijavi se'", "Sistem zavrne prijavo in prikaze uporabniku prijazno opozorilo", f"Prijava zavrnjena, zaznano opozorilo: '{error_text}'", "PASS", time.time() - t0, ss)
         except Exception as e:
@@ -325,7 +355,10 @@ class FunctionalTestRunner:
             chat_inputs = self.driver.find_elements(By.CSS_SELECTOR, "input[placeholder*='Vprašaj'], textarea")
             assert len(chat_inputs) > 0, "Vnosno polje za klepet z AI asistentom ni bilo najdeno!"
             active_input = chat_inputs[0]
-            self.driver.execute_script("arguments[0].value = 'Kaj obsega ta učna pot?';", active_input)
+            active_input.send_keys('Kaj obsega ta učna pot?')
+            assert active_input.get_attribute('value') == 'Kaj obsega ta učna pot?'
+            send_button = self.driver.find_element(By.CSS_SELECTOR, "button[aria-label='Pošlji vprašanje']")
+            assert send_button.is_enabled(), "React ni sprejel vnesenega vprasanja"
             time.sleep(1)
             
             ss = self.capture_screenshot("ts03_04_ai_pomocnik_odprt.png", "Odprt interaktivni panel AI pomocnika z vprasanjem")
@@ -362,7 +395,10 @@ class FunctionalTestRunner:
             # Pomaknemo se do vizualizatorja ucnih enot
             self.driver.execute_script("window.scrollBy(0, 400);")
             time.sleep(1)
-            unit_nodes = self.driver.find_elements(By.CSS_SELECTOR, "button[data-lu-node], [data-lu-node], div[class*='relative']")
+            unit_nodes = self.driver.find_elements(By.CSS_SELECTOR, "button[data-lu-node]")
+            assert unit_nodes, "Manjkajo vozlisca ucnih enot"
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", unit_nodes[0])
+            self.wait.until(EC.visibility_of(unit_nodes[0]))
             ss = self.capture_screenshot("ts04_02_modul_ucne_enote.png", "Seznam in vizualizacija ucnih enot znotraj modula mod_014")
             self.record_step(scenario_id, author, 2, "Pregled seznama in vizualizacije ucnih enot modula", "Prikaz vizualizacije ucnih enot (LearningUnitVisualizer) z vozlisci zaporedja", f"Zaznana vozlisca ucnih enot za modul 'Analiza in obdelava podatkov' ({len(unit_nodes)} elementov)", "PASS", time.time() - t0, ss)
         except Exception as e:
@@ -371,7 +407,11 @@ class FunctionalTestRunner:
         # Korak 4.3: Prehod na ucno enoto ue_036
         t0 = time.time()
         try:
-            self.driver.get(f"{BASE_URL}/learning-units/ue_036")
+            node = self.driver.find_element(By.CSS_SELECTOR, "button[data-lu-node='0']")
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", node)
+            self.wait.until(EC.element_to_be_clickable(node))
+            node.click()
+            self.wait.until(EC.url_contains('/learning-units/ue_036'))
             time.sleep(2)
             assert "/learning-units/ue_036" in self.driver.current_url, f"Napacen URL: {self.driver.current_url}"
             u_title = [h.text for h in self.driver.find_elements(By.TAG_NAME, "h1") if h.text.strip()][0]
@@ -428,6 +468,9 @@ class FunctionalTestRunner:
                     finish_btn[0].click()
                     time.sleep(3)
             
+            self.wait.until(lambda d: urlparse(d.current_url).path == '/modules/mod_014')
+            self.wait.until(EC.visibility_of_element_located((By.XPATH,
+                "//*[self::h1 or self::h2 or self::h3][contains(., 'Samoocena')]")))
             current_url = self.driver.current_url
             ss = self.capture_screenshot("ts05_03_modul_ocena_rezultat.png", "Prikaz stanja po oddaji ocenjevanja modula")
             self.record_step(scenario_id, author, 3, "Zakljucek vprasalnika modula in vrnitev na podrobnosti", "Uspesna obdelava odgovorov prek zaledja in preusmeritev na modul", f"Koncni URL: {current_url}", "PASS", time.time() - t0, ss)
@@ -456,8 +499,23 @@ class FunctionalTestRunner:
         # Korak 6.2: Preveritev navigacijskih povezav
         t0 = time.time()
         try:
-            nav_links = self.driver.find_elements(By.CSS_SELECTOR, "nav a, header a")
-            assert len(nav_links) > 0, "Navigacijske povezave niso najdene!"
+            for path in ('/', '/search', '/about', '/register'):
+                def click_link(driver):
+                    try:
+                        link = driver.find_element(By.CSS_SELECTOR, f"header a[href='{path}']")
+                        if not link.is_displayed() or not link.is_enabled():
+                            return False
+                        link.click()
+                        return True
+                    except StaleElementReferenceException:
+                        return False
+                self.wait.until(click_link)
+                self.wait.until(lambda d: urlparse(d.current_url).path == path)
+                self.wait.until(lambda d: any(h.is_displayed() and h.text.strip()
+                    for h in d.find_elements(By.TAG_NAME, 'h1')))
+            self.driver.get(f"{BASE_URL}/about")
+            self.wait.until(EC.visibility_of_element_located((By.TAG_NAME, 'h1')))
+            nav_links = self.driver.find_elements(By.CSS_SELECTOR, 'header a')
             ss = self.capture_screenshot("ts06_02_navigacija_glava.png", "Glavna navigacijska vrstica na strani 'O nas'")
             self.record_step(scenario_id, author, 2, "Preverjanje delovanja zgornje navigacije", "Prisotne povezave Domov, Iskanje, O nas in Prijava/Registracija", f"Zaznanih {len(nav_links)} povezav v navigaciji", "PASS", time.time() - t0, ss)
         except Exception as e:
@@ -466,57 +524,84 @@ class FunctionalTestRunner:
         # Korak 6.3: Preizkus odzivnega dizajna (mobilni pogled 375x812)
         t0 = time.time()
         try:
-            self.driver.set_window_size(375, 812)
+            self.driver.execute_cdp_cmd('Emulation.setDeviceMetricsOverride', {
+                'width': 375, 'height': 812, 'deviceScaleFactor': 1, 'mobile': False})
             time.sleep(1.5)
+            dimensions = self.driver.execute_script("""
+                return {width: window.innerWidth, height: window.innerHeight,
+                        contentWidth: document.documentElement.scrollWidth};
+            """)
+            assert dimensions['width'] == 375 and dimensions['height'] == 812, f'Napacen viewport: {dimensions}'
+            assert dimensions['contentWidth'] <= dimensions['width'] + 1, f"Vodoravni preliv: {dimensions}"
+            assert any(h.is_displayed() and h.text.strip() for h in self.driver.find_elements(By.TAG_NAME, 'h1'))
             ss = self.capture_screenshot("ts06_03_o_nas_mobilni_pogled.png", "Stran 'O nas' v mobilnem pogledu (375x812)")
             
             # Ponastavimo nazaj na polno locljivost za nadaljnje delo
+            self.driver.execute_cdp_cmd('Emulation.clearDeviceMetricsOverride', {})
             self.driver.set_window_size(1920, 1080)
             time.sleep(1)
-            self.record_step(scenario_id, author, 3, "Preizkus odzivnega prikaza na mobilni locljivosti (375x812)", "Uporabniski vmesnik se prilagodi manjsi sirini zaslona brez prekrivanja", "Odziven prikaz uspesno potrjen, vsebina berljiva in prilagojena", "PASS", time.time() - t0, ss)
+            self.record_step(scenario_id, author, 3, "Preizkus odzivnega prikaza na mobilni locljivosti (375x812)", "Uporabniski vmesnik se prilagodi manjsi sirini zaslona brez prekrivanja", f"Izmerjen viewport: {dimensions}; brez vodoravnega preliva; vizualni pregled prekrivanja je locen", "PASS", time.time() - t0, ss)
         except Exception as e:
+            self.driver.execute_cdp_cmd('Emulation.clearDeviceMetricsOverride', {})
             self.driver.set_window_size(1920, 1080)
             self.record_step(scenario_id, author, 3, "Preizkus mobilnega pogleda", "Prilagoditev postavitve", str(e), "FAIL", time.time() - t0)
 
     def generate_json_summary(self):
         """Izvoz rezultatov testiranja v JSON format z izkljucno relativnimi potmi."""
         summary = {
-            "timestamp": datetime.now().isoformat(),
+            "run_id": self.run_id,
+            "started_at": self.started_at,
+            "timestamp": datetime.now().astimezone().isoformat(),
+            "python": platform.python_version(),
+            "browser_version": self.driver.capabilities.get('browserVersion') if self.driver else None,
+            "execution_error": getattr(self, 'execution_error', None),
             "target_environment": BASE_URL,
             "browser": "Google Chrome (Headless 1920x1080)",
             "team_members": ["Tilen Kek", "Mihajlo Dejanović"],
             "total_steps": len(self.results),
             "passed_steps": len([r for r in self.results if r["status"] == "PASS"]),
             "failed_steps": len([r for r in self.results if r["status"] == "FAIL"]),
+            "scenario_statuses": {
+                f'TS-NIDIKO-{n:02d}': ('PASS' if len(steps) == count and
+                    all(r['status'] == 'PASS' for r in steps) else 'FAIL')
+                for n, count in enumerate((5, 5, 4, 3, 3, 3), 1)
+                for steps in [[r for r in self.results if r['scenario_id'] == f'TS-NIDIKO-{n:02d}']]
+            },
             "steps": self.results
         }
         json_path = os.path.join(SCREENSHOT_DIR, "test_execution_summary.json")
         with open(json_path, "w", encoding="utf-8") as f:
             json.dump(summary, f, indent=2, ensure_ascii=False)
-        rel_summary_path = os.path.join("docs", "assets", "funkcionalno-testiranje", "test_execution_summary.json").replace("\\", "/")
+        rel_summary_path = json_path
         print(f"\n[SUMMARY] Povzetek testiranja shranjen v: {rel_summary_path}")
         return summary
 
 def main():
-    runner = FunctionalTestRunner()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--base-url', default=BASE_URL)
+    parser.add_argument('--output-dir', help='Nova mapa za dokaze posameznega zagona')
+    args = parser.parse_args()
+    if not __debug__:
+        parser.error('Testov ne zaganjaj z -O: preverjanja assert morajo biti vkljucena.')
+    runner = FunctionalTestRunner(args.base_url, args.output_dir)
     try:
         runner.setup_driver()
-        # Sklop 1: Tilen Kek
-        runner.run_scenario_1()
-        runner.run_scenario_2()
-        runner.run_scenario_3()
-        # Sklop 2: Mihajlo Dejanović
-        runner.run_scenario_4()
-        runner.run_scenario_5()
-        runner.run_scenario_6()
-        
-        summary = runner.generate_json_summary()
-        print("\n" + "="*80)
-        print(f"SKUPNI REZULTAT IZVEDBE FUNKCIONALNIH TESTOV (6 SCENARIJEV):")
-        print(f"Skupaj korakov: {summary['total_steps']} | Uspesnih: {summary['passed_steps']} | Neuspesnih: {summary['failed_steps']}")
-        print("="*80)
+        for n in range(1, 7):
+            # Vsak scenarij dobi neodvisno anonimno sejo.
+            runner.driver.get(BASE_URL)
+            runner.driver.delete_all_cookies()
+            runner.driver.execute_script('window.localStorage.clear(); window.sessionStorage.clear();')
+            getattr(runner, f'run_scenario_{n}')()
+    except Exception as exc:
+        runner.execution_error = f'{type(exc).__name__}: {exc}'
+        print(f'[ERROR] {runner.execution_error}')
     finally:
+        summary = runner.generate_json_summary()
         runner.teardown_driver()
+    print(f"Skupaj: {summary['total_steps']}; PASS: {summary['passed_steps']}; FAIL: {summary['failed_steps']}")
+    return 0 if (not summary['execution_error'] and
+                 all(status == 'PASS' for status in summary['scenario_statuses'].values())) else 1
 
-if __name__ == "__main__":
-    main()
+
+if __name__ == '__main__':
+    sys.exit(main())

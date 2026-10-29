@@ -43,3 +43,6 @@ backend/temp/
 # Node modules for frontend
 node_modules/
 frontend/.env
+
+# Dokazi lokalnih funkcionalnih zagonov; izbrane rezultate hranimo v docs/assets.
+/test-results/
