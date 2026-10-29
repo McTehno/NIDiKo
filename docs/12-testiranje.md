@@ -2,6 +2,11 @@
 
 Ta dokument opisuje način preverjanja delovanja aplikacije **NIDiKo**.
 
+Specifikacije šestih funkcionalnih scenarijev, odgovorne osebe, dejanski rezultati,
+odstopanja in navodila za ponovitev so v
+[poročilu funkcionalnega testiranja](16-porocilo-funkcionalno-testiranje.md).
+Dokazi ponovitve 29. 10. 2026 so ločeni od prvotnih dokazov z dne 27. 10. 2026.
+
 Namen testiranja je zagotoviti, da frontend, backend, podatkovna baza, avtentikacija, vprašalnik, AI pomočnik in uporabniški napredek delujejo pravilno ter da spremembe ne pokvarijo obstoječih funkcionalnosti.
 
 ---

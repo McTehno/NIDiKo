@@ -1,431 +1,191 @@
-# Poročilo o funkcionalnem testiranju rešitve z brskalnikom (Projekt NIDiKo)
+# Funkcionalni testni primeri in poročilo izvedbe – NIDiKo
 
-**Predmet:** Zagotavljanje kakovosti  
-**Projekt:** NIDiKo – Priporočilni sistem za izbiro učnih poti (Praktikum II)  
-**Standard testne dokumentacije:** ISO/IEC/IEEE 29119-3:2021 (*Software and systems engineering — Software testing — Part 3: Test documentation*)  
-**Avtorja poročila (aktivna člana ekipe):** Tilen Kek, Mihajlo Dejanović  
-*(Opomba o sestavi skupine: Pri razvoju rešitve NIDiKo v okviru Praktikuma II so prvotno sodelovali 3 člani razvojne ekipe. Pri tej nalogi funkcionalnega testiranja članica Nina Stevoska ni sodelovala, zato sva celotno načrtovanje, specifikacijo in avtomatizirano izvedbo funkcionalnih testnih scenarijev po standardu ISO/IEC/IEEE 29119-3:2021 pripravila in izvedla zgoraj navedena 2 člana skupine – vsak po 3 testne scenarije, skupaj 6 scenarijev).*  
-**Datum izdelave poročila:** Oktober 2026  
-**Testirano okolje (SUT):** Staging produkcijsko okolje (`http://46.225.17.135` / API `http://46.225.17.135:8000`)  
-**Uporabljeno orodje za avtomatizacijo v brskalniku:** Google Chrome (v156, Headless način 1920×1080), Selenium WebDriver (Python 3.13)  
-**Lokacija avtomatizirane skripte:** [`backend/tests/functional/run_functional_tests.py`](../backend/tests/functional/run_functional_tests.py)  
-**Lokacija dokaznih gradiv in slik:** [`docs/assets/funkcionalno-testiranje/`](assets/funkcionalno-testiranje/)
+**Predmet:** Zagotavljanje kakovosti
+**Različica dokumenta:** 2, pregled in ponovitev 29. 10. 2026
+**Podlaga pregleda:** commit `64ca55dfe0443ac2abecb0763d7af76840b2648f` in lokalna implementacija.
+**Odgovorni osebi po obstoječi matriki:** Tilen Kek, Mihajlo Dejanović.
+**Način izvedbe dopolnitve:** avtomatiziran zagon s pomočjo OpenAI Codex; ročna potrditev obeh članov s tem ni izkazana.
 
----
+## 1. Obseg in dokumentacijska podlaga
 
-## Kazalo vsebine
-1. [Uvod in namen funkcionalnega testiranja](#1-uvod-in-namen-funkcionalnega-testiranja)
-2. [Pregled obstoječe dokumentacije in obnova ključnih funkcionalnosti rešitve](#2-pregled-obstoječe-dokumentacije-in-obnova-ključnih-funkcionalnosti-rešitve)
-   - 2.1 [Identifikacija obstoječe projektne dokumentacije](#21-identifikacija-obstoječe-projektne-dokumentacije)
-   - 2.2 [Obnova in specifikacija ključnih funkcionalnosti sistema NIDiKo](#22-obnova-in-specifikacija-ključnih-funkcionalnosti-sistema-nidiko)
-3. [Skupinska uskladitev in matrika testnih scenarijev (delitev nalog)](#3-skupinska-uskladitev-in-matrika-testnih-scenarijev-delitev-nalog)
-4. [Struktura predloge testnega scenarija po standardu ISO/IEC/IEEE 29119-3:2021](#4-struktura-predloge-testnega-scenarija-po-standardu-isoicieee-29119-32021)
-5. [Podrobna specifikacija in izvedba testnih scenarijev po članih ekipe](#5-podrobna-specifikacija-in-izvedba-testnih-scenarijev-po-članih-ekipe)
-   - **Sklop 1: Tilen Kek (Scenariji TS-01 do TS-03)**
-     - 5.1 [Testni scenarij 1 (TS-NIDIKO-01): Iskanje, večkriterijsko filtriranje in navigacija do podrobnosti učne poti](#51-testni-scenarij-1-ts-nidiko-01-iskanje-večkriterijsko-filtriranje-in-navigacija-do-podrobnosti-učne-poti)
-     - 5.2 [Testni scenarij 2 (TS-NIDIKO-02): Izvedba diagnostičnega samoocenjevalnega vprašalnika in priporočilo učenja](#52-testni-scenarij-2-ts-nidiko-02-izvedba-diagnostičnega-samoocenjevalnega-vprašalnika-in-priporočilo-učenja)
-     - 5.3 [Testni scenarij 3 (TS-NIDIKO-03): Avtentikacija, zaščita profilnih funkcij in uporaba AI svetovalca](#53-testni-scenarij-3-ts-nidiko-03-avtentikacija-zaščita-profilnih-funkcij-in-uporaba-ai-svetovalca)
-   - **Sklop 2: Mihajlo Dejanović (Scenariji TS-04 do TS-06)**
-     - 5.4 [Testni scenarij 4 (TS-NIDIKO-04): Hierarhična navigacija skozi module in raziskovanje učnih enot](#54-testni-scenarij-4-ts-nidiko-04-hierarhična-navigacija-skozi-module-in-raziskovanje-učnih-enot)
-     - 5.5 [Testni scenarij 5 (TS-NIDIKO-05): Diagnostično samoocenjevanje na ravni posameznega modula](#55-testni-scenarij-5-ts-nidiko-05-diagnostično-samoocenjevanje-na-ravni-posameznega-modula)
-     - 5.6 [Testni scenarij 6 (TS-NIDIKO-06): Pregled predstavitvene vsebine »O nas«, delovanje navigacije in odzivni dizajn](#56-testni-scenarij-6-ts-nidiko-06-pregled-predstavitvene-vsebine-o-nas-delovanje-navigacije-in-odzivni-dizajn)
-6. [Tehnični postopek avtomatizirane izvedbe testov z brskalnikom](#6-tehnični-postopek-avtomatizirane-izvedbe-testov-z-brskalnikom)
-7. [Zbirni rezultati testiranja, metrika in analiza odstopanj (Defect Log)](#7-zbirni-rezultati-testiranja-metrika-in-analiza-odstopanj-defect-log)
-8. [Sklep in priporočila za nadaljnje zagotavljanje kakovosti](#8-sklep-in-priporočila-za-nadaljnje-zagotavljanje-kakovosti)
-9. [Izjava o uporabi orodij umetne inteligence (AI Declaration)](#9-izjava-o-uporabi-orodij-umetne-inteligence-ai-declaration)
+Obstoječa oddaja že vsebuje šest scenarijev, matriko odgovornih oseb, korake in slikovne dokaze. Dopolnitev ohranja razdelitev treh scenarijev na vsakega od dveh navedenih članov ter odpravlja nekatera preverjanja, ki so lahko vrnila lažen PASS. Če je pri tej nalogi dejansko obvezna tričlanska ekipa, šest scenarijev ne zadošča: tretji član potrebuje svoje tri. Sestave ekipe ta pregled ni neodvisno preverjal.
 
----
-
-## 1. Uvod in namen funkcionalnega testiranja
-
-V okviru vaj pri predmetu **Zagotavljanje kakovosti** nadaljujemo delo na projektu **NIDiKo**, razvitem pri predmetu Praktikum II. Rešitev predstavlja priporočilni sistem za strukturirano usmerjanje uporabnikov pri pridobivanju digitalnih kompetenc skladno z evropskim referenčnim okvirom DigComp.
-
-Namen funkcionalnega testiranja na sistemski ravni (angl. *End-to-End System Testing*) je empirično preveriti delovanje aplikacije skozi oči končnega uporabnika v resničnem spletnem brskalniku. Medtem ko enotski testi (dokumentirani v [`docs/15-porocilo-testiranje-enot.md`](15-porocilo-testiranje-enot.md)) preverjajo posamezne Python funkcije in servise v izolaciji, funkcionalno testiranje validira:
-- grafični uporabniški vmesnik (React 19, Tailwind CSS),
-- asinhrono komunikacijo med odjemalcem in zaledjem (FastAPI REST API),
-- usmerjanje poti na odjemalcu (React Router 7),
-- obravnavo dinamičnih stanj, vnosnih obrazcev, validacij in animacij,
-- pravilnost izračuna ter vizualizacije priporočil na podlagi samoocenjevalnega vprašalnika.
-
----
-
-## 2. Pregled obstoječe dokumentacije in obnova ključnih funkcionalnosti rešitve
-
-### 2.1 Identifikacija obstoječe projektne dokumentacije
-
-Pred načrtovanjem testnih scenarijev sva temeljito pregledala obstoječo projektno dokumentacijo v mapi `docs/`:
-
-| Dokument | Namen in ključne ugotovitve za testiranje |
+| Dokument | Uporaba pri načrtovanju |
 |---|---|
-| [`01-pregled-projekta.md`](01-pregled-projekta.md) | Opredelitev ciljnih skupin, namena zmanjševanja digitalne vrzeli in modularne zgradbe kurikuluma. |
-| [`02-tehnoloski-sklad.md`](02-tehnoloski-sklad.md) | Popis tehnologij: React 19, TypeScript, FastAPI, MongoDB Atlas, Supabase Auth ter Azure kognitivne storitve. |
-| [`03-arhitektura.md`](03-arhitektura.md) | Večplastna arhitektura odjemalec-strežnik in vloge posameznih komponent. |
-| [`06-api-endpointi.md`](06-api-endpointi.md) | Specifikacija REST končnih točk (`/api/learning-paths`, `/api/modules`, `/api/learning-units`, `/api/search`, `/api/assessment`). |
-| [`07-uporabniski-tokovi.md`](07-uporabniski-tokovi.md) | Ključna podlaga za scenarije: tokovi iskanja, pregleda podrobnosti, vprašalnika, priporočila ter avtentikacije. |
-| [`08-zaslonski-prikazi.md`](08-zaslonski-prikazi.md) | Referenčni izgled grafičnih gradnikov na namiznih in mobilnih napravah. |
-| [`12-testiranje.md`](12-testiranje.md) | Smernice za lokalni zagon in preverjanje celovitosti frontenda ter backenda. |
-| [`14-logika-vprasalnika.md`](14-logika-vprasalnika.md) | Algoritem ocenjevanja in pravila predpogojev (vpliv odgovorov DA/NE na predčasni zaključek vprašalnika). |
-| [`15-porocilo-testiranje-enot.md`](15-porocilo-testiranje-enot.md) | Zaledno testiranje enot `AssessmentService`, `QuestionnaireService` in `SearchService` ter integracija v GitHub Actions CI. |
-
-### 2.2 Obnova in specifikacija ključnih funkcionalnosti sistema NIDiKo
-
-Na osnovi obstoječe dokumentacije in analize implementirane izvorne kode sva sintetizirala 6 ključnih funkcionalnosti (KF) rešitve NIDiKo:
-
-1. **KF-01: Iskanje in večparametrsko filtriranje vsebin (Search & Filter Engine)**  
-   Uporabnik lahko v iskalnik vpiše ključne besede. Sistem z odloženim proženjem (500 ms *debounce*) pošlje zahtevek na `/api/search` in vrne zadetke v obliki kartic, ki jih je mogoče filtrirati po tipih (učne poti, moduli, učne enote).
-2. **KF-02: Hierarhični pregled strukturiranih učnih vsebin (Route & Module Explorer)**  
-   Uporabnik lahko pregleduje hierarhijo: Učna pot $\rightarrow$ Moduli $\rightarrow$ Učne enote. Vsaka raven vsebuje opis, trajanje, kompetence DigComp in vizualizacijo zaporedja korakov (RouteMap / LearningUnitVisualizer).
-3. **KF-03: Diagnostični samoocenjevalni vprašalnik (Diagnostic Assessment Questionnaire)**  
-   Izvedba DA/NE vprašalnika na ravni učne poti ali posameznega modula. Sistem dinamično prilagaja zaporedje vprašanj glede na predpogoje (odgovor NE pri zaporednih enotah sproži zaključek vprašalnika).
-4. **KF-04: Inteligentni priporočilni sistem (Recommendation & Placement Engine)**  
-   Zaledni servis `AssessmentService` analizira zbrane odgovore, prepozna osvojene in manjkajoče kompetence ter uporabniku predlaga optimalno vstopno točko (`start_module_id`, `start_learning_unit_id`).
-5. **KF-05: Avtentikacija in zaščita profilnih funkcij (Authentication & Authorization Guard)**  
-   Upravljanje uporabniških sej prek Supabase Auth in JWT žetonov. Anonimnim obiskovalcem je ob poskusu shranjevanja ali všečkanja prikazano opozorilno okno `AuthRequiredDialog`, ki zahteva prijavo.
-6. **KF-06: Kontekstualni AI pomočnik in odzivna uporabniška izkušnja (AI Assistant & Responsive UX)**  
-   Integriran zložljivi stranski panel `CollapsibleChatPanel` z Azure OpenAI podporo ter popolnoma prilagodljiva postavitev elementov za namizne, tablične in mobilne zaslone.
-
----
-
-## 3. Skupinska uskladitev in matrika testnih scenarijev (delitev nalog)
-
-V skupini sva se uskladila in oblikovala enotno tabelo testnih scenarijev. Ker članica Nina Stevoska pri nalogi ni sodelovala, sva si delo razdelila **Tilen Kek** in **Mihajlo Dejanović** – vsak je prevzel po **3 funkcionalne testne scenarije** (skupaj 6 scenarijev):
-
-| ID scenarija | Naziv testnega scenarija | Funkcionalno področje | Prioriteta | Odgovorna oseba | Status izvedbe |
-|:---:|---|---|:---:|:---:|:---:|
-| **TS-NIDIKO-01** | **Iskanje, večkriterijsko filtriranje in navigacija do podrobnosti učne poti** | KF-01, KF-02 (Iskalnik in poti) | Visoka | **Tilen Kek** | **100 % PASS** (5/5 korakov) |
-| **TS-NIDIKO-02** | **Izvedba diagnostičnega samoocenjevalnega vprašalnika in priporočilo učenja** | KF-03, KF-04 (Ocenjevanje & priporočila) | Visoka | **Tilen Kek** | **100 % PASS** (5/5 korakov) |
-| **TS-NIDIKO-03** | **Avtentikacija, zaščita profilnih funkcij in uporaba AI svetovalca** | KF-05, KF-06 (Varnost & AI pomočnik) | Visoka | **Tilen Kek** | **100 % PASS** (4/4 korakov) |
-| **TS-NIDIKO-04** | **Hierarhična navigacija skozi module in raziskovanje posameznih učnih enot** | KF-02 (Modularna zgradba & enote) | Visoka | **Mihajlo Dejanović** | **100 % PASS** (3/3 korakov) |
-| **TS-NIDIKO-05** | **Diagnostično samoocenjevanje na ravni posameznega modula (Module Assessment)** | KF-03, KF-04 (Ocenjevanje modula) | Srednja | **Mihajlo Dejanović** | **100 % PASS** (3/3 korakov) |
-| **TS-NIDIKO-06** | **Pregled predstavitvene vsebine »O nas«, delovanje navigacije in odzivni dizajn** | KF-06, Splošno (UX / Responsive Design) | Srednja | **Mihajlo Dejanović** | **100 % PASS** (3/3 korakov) |
-
-> Vseh **6 testnih scenarijev** je bilo v celoti specificiranih po standardu **ISO/IEC/IEEE 29119-3:2021** ter uspešno avtomatizirano izvedenih v realnem spletnem brskalniku Google Chrome (23 korakov, 100 % uspeh).
-
----
-
-## 4. Struktura predloge testnega scenarija po standardu ISO/IEC/IEEE 29119-3:2021
-
-Vsi testni scenariji sledijo mednarodnemu standardu **ISO/IEC/IEEE 29119-3:2021** (*Part 3: Test documentation – Test Case Specification*):
-1. **Identifikator scenarija (Test Scenario ID):** Enolična oznaka `TS-NIDIKO-XX`.
-2. **Naziv scenarija (Title):** Jasen opis preizkušane zmožnosti.
-3. **Odgovorna oseba / Preizkuševalec (Tester):** Ime in priimek člana skupine.
-4. **Cilj in namen testiranja (Objective / Purpose):** Opredelitev pričakovanega poslovnega in tehničnega obnašanja.
-5. **Sledljivost zahtev (Traceability):** Povezava s ključnimi funkcionalnostmi (KF) in uporabniškimi tokovi.
-6. **Predpogoji (Preconditions):** Stanje sistema pred začetkom izvajanja.
-7. **Testni podatki (Test Data):** Natančne vhodne vrednosti, poizvedbe in identifikatorji.
-8. **Podrobni koraki izvedbe (Execution Steps):** Zaporedna številka, akcija, vhodni podatki, pričakovani rezultat, dejanski rezultat, čas izvedbe, status (PASS/FAIL) in relativna pot do posnetka zaslona.
-9. **Popogoji (Postconditions):** Končno stanje sistema in podatkov po zaključku scenarija.
-
----
-
-## 5. Podrobna specifikacija in izvedba testnih scenarijev po članih ekipe
-
-### Sklop 1: Tilen Kek (Scenariji TS-01 do TS-03)
-
----
-
-### 5.1 Testni scenarij 1 (TS-NIDIKO-01): Iskanje, večkriterijsko filtriranje in navigacija do podrobnosti učne poti
-
-#### 5.1.1 Specifikacija scenarija po ISO/IEC/IEEE 29119-3:2021
-
-| Parameter | Vrednost |
-|---|---|
-| **Identifikator scenarija** | `TS-NIDIKO-01` |
-| **Naziv scenarija** | Iskanje, večkriterijsko filtriranje in navigacija do podrobnosti učne poti |
-| **Odgovorna oseba** | **Tilen Kek** |
-| **Cilj testiranja** | Preveriti zanesljivost iskalnika ob vnosu niza, delovanje odloženega pošiljanja zahtevkov (debounce), dinamični prikaz kartic rezultatov, preizkus filtrov ter pravilen prenos stanja ob prehodu na stran učne poti. |
-| **Sledljivost zahtev** | KF-01 (Iskalni mehanizem), KF-02 (Prikaz podrobnosti), Uporabniški tokovi 5 in 6 |
-| **Predpogoji** | Aplikacija NIDiKo je dostopna na `http://46.225.17.135`. Baza MongoDB vsebuje veljavne učne poti (`up_001` idr.). |
-| **Testni podatki** | Poizvedba: `"umetna inteligenca"`; Ciljna učna pot: `up_001` |
-| **Končni status** | **USPEŠNO (PASS)** – 5/5 korakov uspešnih (14.61 s) |
-
-#### 5.1.2 Zapisnik izvedenih korakov in primerjava rezultatov
+| [Pregled projekta](01-pregled-projekta.md) | Namen in ciljne funkcionalnosti. |
+| [Arhitektura](03-arhitektura.md), [podatkovni model](05-podatkovni-model.md) | Povezava učna pot–modul–učna enota in zaledne odvisnosti. |
+| [API](06-api-endpointi.md), [uporabniški tokovi](07-uporabniski-tokovi.md) | Iskanje, navigacija, prijava in vprašalnik. |
+| [Zaslonski prikazi](08-zaslonski-prikazi.md), [testiranje](12-testiranje.md) | Vmesnik in ponovitev testov. |
+| [Logika vprašalnika](14-logika-vprasalnika.md) | Veje Da/Ne in zaključevanje zaporednih vsebin. |
+
+Ključne funkcionalnosti: **KF-01** iskanje in filtri; **KF-02** hierarhija vsebin; **KF-03** vprašalnik; **KF-04** prikaz samoocene/priporočila; **KF-05** prijava in zaščita dejanj; **KF-06** AI panel, navigacija in odzivni prikaz. Ker dokumentacija ne določa vseh preverljivih podrobnosti, so konkretna merila (npr. besedilo zavrnitve prijave) dopolnjena iz izvorne kode, navedene pri scenariju.
+
+Predloga je projektna prilagoditev dokumentacije po zgledu **ISO/IEC/IEEE 29119-3:2021**. Uporablja identifikatorje, podlago/zahteve, predpogoje, podatke, korake, pričakovane in dejanske rezultate, popogoje ter zapisnik odstopanj. Polno besedilo standarda ni bilo preverjeno, zato ne trdimo formalne skladnosti. Standard opredeljuje predloge testne dokumentacije: [ISO](https://www.iso.org/standard/79429.html), [IEEE](https://standards.ieee.org/ieee/29119-3/7499/).
+
+## 2. Matrika scenarijev in odgovornosti
+
+| ID | Naziv | Odgovorna oseba | Prioriteta | Sledljivost | Rezultat ponovitve |
+|---|---|---|---|---|---|
+| TS-NIDIKO-01 | Iskanje, filtriranje po tipu in podrobnosti učne poti | Tilen Kek | Visoka | KF-01, KF-02 | PASS |
+| TS-NIDIKO-02 | Vprašalnik učne poti z odgovoroma Da in Ne | Tilen Kek | Visoka | KF-03, KF-04 | PASS |
+| TS-NIDIKO-03 | Zaščita shranjevanja, napačna prijava in vnos v AI panel | Tilen Kek | Visoka | KF-05, KF-06 | FAIL |
+| TS-NIDIKO-04 | Prehod od modula do učne enote prek vmesnika | Mihajlo Dejanović | Visoka | KF-02 | PASS |
+| TS-NIDIKO-05 | Vprašalnik posameznega modula | Mihajlo Dejanović | Srednja | KF-03, KF-04 | PASS |
+| TS-NIDIKO-06 | Stran O nas, navigacija in mobilni viewport | Mihajlo Dejanović | Srednja | KF-06 | PASS |
+
+## 3. Okolje, merila in omejitve
+
+- Zagon: `2026-10-29T08:35:12.013497+01:00` do `2026-10-29T08:36:20.498608+01:00`; čas vsebuje UTC odmik.
+- Ciljno okolje: `http://46.225.17.135`; izvorni zapis ga označuje kot staging. Identiteta objavljene Git revizije in posnetek baze nista znana.
+- Python `3.12.6`, Chrome `156.0.8078.48`, Selenium 4.51.0, brezglavi način; namizno okno 1920 × 1080. Velikost okna ni isto kot notranji viewport.
+- Vsak scenarij začne z očiščenimi piškotki, localStorage in sessionStorage. Obstoječi podatki učnih vsebin se ne spreminjajo. Vprašalnik se odda anonimno.
+- **PASS:** izvedeni so vsi predvideni koraki in vsa njihova preverjanja so uspešna. **FAIL:** najmanj eno preverjanje ali izvedba ni uspešna. Manjkajoč korak ali napaka zagona ne moreta dati uspešnega scenarija. Vzrok FAIL je lahko aplikacija, okolje ali avtomatizacija; ne pomeni samodejno napake izdelka.
+- Za sprejem vseh šestih scenarijev zahtevamo 6/6 PASS; pri odstopanju navedemo vzrok, dokaz in potreben ponovni preizkus. Ta merila ne pomenijo sprejema celotne aplikacije.
+- Preverjamo prikaz samoocene, ne matematične pravilnosti vseh priporočil ali točne priporočene učne enote. Omrežni klic in čas API nista neposredno merjena.
+- AI test preveri odprtje panela, vnos in omogočen gumb. Vprašanja ne pošlje in ne preveri odgovora ali Azure storitve.
+- Mobilni test preveri velikost viewporta, vodoravni preliv in glavni naslov. Ne potrjuje celotne dostopnosti, prekrivanja vseh elementov ali delovanja na fizičnem telefonu.
+
+## 4. Specifikacija primerov in zapisnik izvedbe
+
+Specifikacija (podlaga, pogoji, podatki, akcije in pričakovanja) je ločena od stolpcev izvedbe (dejanski rezultat, čas, status, dokaz). Posnetki in JSON pripadajo samo spodnjemu zagonu.
+
+### TS-NIDIKO-01: Iskanje, filtriranje po tipu in podrobnosti učne poti
+
+- **Odgovorna oseba:** Tilen Kek; **cilj:** preveriti uporabniški tok, določen z naslednjimi koraki.
+- **Testna podlaga:** Domača stran, iskanje in filtriranje v 07-uporabniski-tokovi.md; SearchPage.tsx in SearchFilters.tsx.
+- **Predpogoji:** Anonimna seja; dostopna učna pot up_001 z naslovom »Iskanje informacij z umetno inteligenco«; vsi filtri izključeni.
+- **Testni podatki:** Poizvedba: umetna inteligenca; filter: Učne poti; pričakovani cilj: /learning-paths/up_001.
+- **Popogoji in čiščenje:** Odprta ciljna učna pot. Filter ostane v seji; seja se pred naslednjim scenarijem ponastavi.
+- **Rezultat:** PASS; čas korakov 12.62 s.
+
+| Korak | Akcija | Pričakovani rezultat | Dejanski rezultat | Čas (s) | Status | Dokaz |
+|---|---|---|---|---:|---|---|
+| 1.1 | Odpri /. | Naslov zavihka vsebuje NIDiKo. | Stran uspesno nalozena, naslov: 'NIDiKo' | 2.92 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts01_01_domaca_stran.png) |
+| 1.2 | Klikni Iskanje v glavi. | URL vsebuje /search in iskalnik je dosegljiv. | Preusmeritev na http://46.225.17.135/search, prisotni filtri in vnosno polje | 2.33 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts01_02_iskanje_zacetno.png) |
+| 1.3 | Vpiši umetna inteligenca. | Prikaže se najmanj ena kartica zadetka. | Najdenih 10 zadetkov, prvi: 'Iskanje informacij z umetno inteligenco \| UČNA POT \| #umetna inteligenca \| #UI \|' | 2.31 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts01_03_iskanje_zadetki.png) |
+| 1.4 | Izberi filter Učne poti. | Filter je izbran; prikazani zadetki imajo tip UČNA POT in vključujejo ciljno pot. | Izbran filter Ucne poti; vsi prikazani zadetki imajo tip Ucna pot | 1.56 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts01_04_filtri_podrocja.png) |
+| 1.5 | Klikni kartico Iskanje informacij z umetno inteligenco. | Odpre se točno /learning-paths/up_001. | Uspesna navigacija na http://46.225.17.135/learning-paths/up_001, naslov: 'Iskanje informacij z umetno inteligenco' | 3.50 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts01_05_podrobnosti_ucne_poti.png) |
+
+### TS-NIDIKO-02: Vprašalnik učne poti z odgovoroma Da in Ne
+
+- **Odgovorna oseba:** Tilen Kek; **cilj:** preveriti uporabniški tok, določen z naslednjimi koraki.
+- **Testna podlaga:** 14-logika-vprasalnika.md, razdelek o zaporednih vsebinah; QuestionnairePage.tsx.
+- **Predpogoji:** Anonimna seja; pot up_001 s pripadajočim vprašalnikom; dosegljivo zaledje.
+- **Testni podatki:** up_001; prvo vprašanje: Da; drugo vprašanje: Ne.
+- **Popogoji in čiščenje:** Vrnitev na /learning-paths/up_001 in prikazana sekcija Samoocena; lokalni napredek se pred naslednjim scenarijem izbriše.
+- **Rezultat:** PASS; čas korakov 14.20 s.
+
+| Korak | Akcija | Pričakovani rezultat | Dejanski rezultat | Čas (s) | Status | Dokaz |
+|---|---|---|---|---:|---|---|
+| 2.1 | Odpri up_001 in klikni Odpri vprašalnik. | Prehod na /assessment in prikaz vprašanja. | URL: http://46.225.17.135/assessment?target_type=learning_path&target_id=up_001, vprasanje: 'Razumem osnovni koncept umetne inteligence.' | 5.49 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts02_01_vprasalnik_vstop.png) |
+| 2.2 | Na prvo vprašanje odgovori Da. | Na voljo je gumb Naslednjo. | Odgovor zabelezen, omogocen prehod 'Naslednjo →' | 1.43 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts02_02_vprasalnik_odgovor_da.png) |
+| 2.3 | Klikni Naslednjo. | Prikaže se naslednje vprašanje; njegovo besedilo je zabeleženo v zapisniku. | Uspesen prehod, novo vprasanje: 'Znam prepoznati primere umetne inteligence v vsakdanjem življenju.' | 2.36 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts02_03_vprasalnik_vprasanje_2.png) |
+| 2.4 | Odgovori Ne. | Na voljo je gumb Zaključi. | Prikazan gumb 'Zaključi →' za oddajo samoocene | 1.33 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts02_04_vprasalnik_odgovor_ne.png) |
+| 2.5 | Klikni Zaključi. | Vrnitev na /learning-paths/up_001; prisotna sekcija Samoocena. | Preusmeritev na http://46.225.17.135/learning-paths/up_001, prisotna sekcija Samoocena: True | 3.59 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts02_05_rezultat_samoocene.png) |
+
+### TS-NIDIKO-03: Zaščita shranjevanja, napačna prijava in vnos v AI panel
+
+- **Odgovorna oseba:** Tilen Kek; **cilj:** preveriti uporabniški tok, določen z naslednjimi koraki.
+- **Testna podlaga:** 07-uporabniski-tokovi.md; LoginPage.tsx (prevod Invalid login credentials); DetailActions in LearningPathAssistantBox.
+- **Predpogoji:** Anonimna seja; dostopen Supabase Auth; e-poštni naslov testnega računa ne obstaja. To je predpostavka, ne administrativno preverjeno dejstvo.
+- **Testni podatki:** up_001; neveljaven_uporabnik@test.si; geslo NepravilnoGeslo123!; osnutek vprašanja: Kaj obsega ta učna pot?
+- **Popogoji in čiščenje:** Neuspešna prijava ostane na /login. Nato se odpre up_001 in v AI panel vnese osnutek; vprašanje se ne pošlje. Seja se počisti.
+- **Rezultat:** FAIL; čas korakov 12.12 s.
+
+| Korak | Akcija | Pričakovani rezultat | Dejanski rezultat | Čas (s) | Status | Dokaz |
+|---|---|---|---|---:|---|---|
+| 3.1 | Na up_001 klikni Shrani za pozneje. | Vidno opozorilo, da je potrebna prijava. | Modal 'Za to dejanje se moraš prijaviti' se uspesno prikaze | 2.58 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts03_01_auth_dialog.png) |
+| 3.2 | V opozorilu klikni Prijavi se. | Odpre se /login. | Uspesna navigacija na http://46.225.17.135/login, prisoten prijavni obrazec | 2.23 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts03_02_login_obrazec.png) |
+| 3.3 | Vnesi navedene napačne podatke in oddaj prijavo. | Vidno je »Napačen e-poštni naslov ali geslo.« in URL ostane /login. Splošna napaka ne dokazuje pravilne zavrnitve podatkov. | Pricakovana zavrnitev podatkov, prikazano: Prišlo je do napake. Poskusite znova. | 1.81 | FAIL | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts-03_03_fail.png) |
+| 3.4 | Ponovno odpri up_001, odpri AI panel in vpiši vprašanje. | Vrednost polja ustreza vnosu; gumb Pošlji vprašanje je omogočen. Brez preverjanja odgovora AI. | Panel uspesno aktiviran, vpisana poizvedba v polje 'Vprašaj pomočnika ...' | 5.50 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts03_04_ai_pomocnik_odprt.png) |
+
+### TS-NIDIKO-04: Prehod od modula do učne enote prek vmesnika
+
+- **Odgovorna oseba:** Mihajlo Dejanović; **cilj:** preveriti uporabniški tok, določen z naslednjimi koraki.
+- **Testna podlaga:** 07-uporabniski-tokovi.md; LearningUnitVisualizer.tsx; podatkovna hierarhija v 05-podatkovni-model.md.
+- **Predpogoji:** Anonimna seja; mod_014 z učnimi enotami; prvo vozlišče vodi na ue_036.
+- **Testni podatki:** Modul mod_014: Analiza in obdelava podatkov; prvo vozlišče; cilj /learning-units/ue_036.
+- **Popogoji in čiščenje:** Odprta učna enota ue_036; brez sprememb trajnih podatkov.
+- **Rezultat:** PASS; čas korakov 6.55 s.
+
+| Korak | Akcija | Pričakovani rezultat | Dejanski rezultat | Čas (s) | Status | Dokaz |
+|---|---|---|---|---:|---|---|
+| 4.1 | Odpri /modules/mod_014. | URL vsebuje /modules/mod_014 in prikazan je neprazen naslov modula. | Modul nalozen, naslov: 'Analiza in obdelava podatkov' | 2.54 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts04_01_modul_podrobnosti.png) |
+| 4.2 | Pomakni se do prvega vozlišča učnih enot. | Obstajajo elementi button[data-lu-node]; prvo vozlišče po pomiku in čakanju postane vidno. | Zaznana vozlisca ucnih enot za modul 'Analiza in obdelava podatkov' (4 elementov) | 1.55 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts04_02_modul_ucne_enote.png) |
+| 4.3 | Klikni prvo vozlišče učne enote. | Prehod skozi vmesnik na /learning-units/ue_036; prikazan neprazen naslov enote. | Ucna enota nalozena, naslov: 'Uvod v podatkovno modeliranje' | 2.46 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts04_03_ucna_enota_podrobnosti.png) |
 
-| # | Uporabniška akcija | Vhodni podatki | Pričakovani rezultat | Dejanski rezultat | Čas | Status | Posnetek zaslona |
-|:---:|---|---|---|---|:---:|:---:|---|
-| **1.1** | Navigacija na domačo stran aplikacije | URL: `http://46.225.17.135/` | Naložena začetna stran z logotipom NIDiKo in navigacijsko vrstico. | Stran uspešno naložena, naslov okna: `'NIDiKo'`. | 6.02 s | **PASS** | `assets/funkcionalno-testiranje/ts01_01_domaca_stran.png` |
-| **1.2** | Klik na povezavo »Iskanje« v glavi | Klik na povezavo `/search` | Preusmeritev na `/search`, prikaz iskalnega vnosnega polja in filtrov. | Uspešna navigacija na `http://46.225.17.135/search`, naslov `'Iskanje \| NIDiKo'`. | 2.36 s | **PASS** | `assets/funkcionalno-testiranje/ts01_02_iskanje_zacetno.png` |
-| **1.3** | Vnos poizvedbe v iskalno polje | Tekst: `"umetna inteligenca"` | Po 500 ms se osveži seznam kartic z ustreznimi zadetki. | Najdenih 10 kartic zadetkov (`<article>`), prva kartica: *»Iskanje informacij z umetno inteligenco«*. | 2.35 s | **PASS** | `assets/funkcionalno-testiranje/ts01_03_iskanje_zadetki.png` |
-| **1.4** | Preveritev filtrov po tipih vsebin | Checkbox gradniki filtrov | Filtri za učne poti, module in enote so interaktivni. | Zaznani 3 filtrirni elementi v stranski vrstici. | 0.24 s | **PASS** | `assets/funkcionalno-testiranje/ts01_04_filtri_podrocja.png` |
-| **1.5** | Klik na prvo kartico zadetka | Klik na kartico učne poti | Preusmeritev na `/learning-paths/up_001` z opisom in zemljevidom poti. | Uspešna navigacija na `http://46.225.17.135/learning-paths/up_001`, naslov: *»Iskanje informacij z umetno inteligenco«*. | 3.50 s | **PASS** | `assets/funkcionalno-testiranje/ts01_05_podrobnosti_ucne_poti.png` |
-
-#### 5.1.3 Slikovni dokazi izvedbe (Scenarij 1)
-
-| Korak 1.1: Začetna stran | Korak 1.2: Vstop v iskanje |
-|---|---|
-| ![Domača stran](assets/funkcionalno-testiranje/ts01_01_domaca_stran.png) | ![Iskanje začetno](assets/funkcionalno-testiranje/ts01_02_iskanje_zacetno.png) |
-
-| Korak 1.3: Zadetki iskanja | Korak 1.5: Podrobnosti učne poti |
-|---|---|
-| ![Iskanje zadetki](assets/funkcionalno-testiranje/ts01_03_iskanje_zadetki.png) | ![Podrobnosti učne poti](assets/funkcionalno-testiranje/ts01_05_podrobnosti_ucne_poti.png) |
+### TS-NIDIKO-05: Vprašalnik posameznega modula
 
----
+- **Odgovorna oseba:** Mihajlo Dejanović; **cilj:** preveriti uporabniški tok, določen z naslednjimi koraki.
+- **Testna podlaga:** 14-logika-vprasalnika.md; QuestionnairePage.tsx in ModuleDetailPage.tsx.
+- **Predpogoji:** Anonimna seja; modul mod_014 z zaporednimi vprašanji in dosegljivim zaledjem.
+- **Testni podatki:** /assessment?target_type=module&target_id=mod_014; prvo vprašanje Da, naslednje Ne, če je prikazano.
+- **Popogoji in čiščenje:** Vrnitev na /modules/mod_014 s sekcijo Samoocena; lokalni odgovori se pred naslednjim scenarijem počistijo.
+- **Rezultat:** PASS; čas korakov 11.74 s.
 
-### 5.2 Testni scenarij 2 (TS-NIDIKO-02): Izvedba diagnostičnega samoocenjevalnega vprašalnika in priporočilo učenja
+| Korak | Akcija | Pričakovani rezultat | Dejanski rezultat | Čas (s) | Status | Dokaz |
+|---|---|---|---|---:|---|---|
+| 5.1 | Odpri vprašalnik modula mod_014. | URL vsebuje /assessment in prikazan je neprazen naslov vprašanja. | Nalozeno vprasanje modula: 'Razumem, kaj je podatkovni model in zakaj ga potrebujemo.' | 2.81 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts05_01_modul_vprasalnik_zacetek.png) |
+| 5.2 | Izberi Da. | Na voljo je navigacijski gumb Naslednjo ali Zaključi. | Odgovor zabelezen, aktiven gumb 'Naslednjo →' | 1.47 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts05_02_modul_vprasalnik_da.png) |
+| 5.3 | Nadaljuj; na naslednje vprašanje po potrebi odgovori Ne in zaključi. | Odpre se /modules/mod_014 in vidna je sekcija Samoocena. | Koncni URL: http://46.225.17.135/modules/mod_014 | 7.46 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts05_03_modul_ocena_rezultat.png) |
 
-#### 5.2.1 Specifikacija scenarija po ISO/IEC/IEEE 29119-3:2021
+### TS-NIDIKO-06: Stran O nas, navigacija in mobilni viewport
 
-| Parameter | Vrednost |
-|---|---|
-| **Identifikator scenarija** | `TS-NIDIKO-02` |
-| **Naziv scenarija** | Izvedba diagnostičnega samoocenjevalnega vprašalnika in priporočilo učenja |
-| **Odgovorna oseba** | **Tilen Kek** |
-| **Cilj testiranja** | Preveriti zagon vprašalnika za učno pot, beleženje odgovorov DA/NE, uveljavitev predpogojne logike (prekinitev ob odgovoru NE pri zaporednih vsebinah), zaledni klic `/api/assessment/evaluate` ter vizualizacijo priporočene vstopne točke. |
-| **Sledljivost zahtev** | KF-03 (Vprašalnik), KF-04 (Priporočilni servis), Pravila logike vprašalnika ([`14-logika-vprasalnika.md`](14-logika-vprasalnika.md)) |
-| **Predpogoji** | Odprta stran učne poti `up_001`. Zaledni servis za ocenjevanje je aktiven. |
-| **Testni podatki** | Vprašanje 1: Odgovor = `"Da"`; Vprašanje 2: Odgovor = `"Ne"` |
-| **Končni status** | **USPEŠNO (PASS)** – 5/5 korakov uspešnih (14.16 s) |
+- **Odgovorna oseba:** Mihajlo Dejanović; **cilj:** preveriti uporabniški tok, določen z naslednjimi koraki.
+- **Testna podlaga:** 08-zaslonski-prikazi.md; Navbar.tsx; osnovni odzivni prikaz.
+- **Predpogoji:** Anonimna seja; dosegljive strani /, /search, /about in /register; namizno okno 1920 × 1080.
+- **Testni podatki:** /about; navigacijske poti /, /search, /about, /register; emuliran viewport 375 × 812 CSS px.
+- **Popogoji in čiščenje:** Odprta stran /about; emulacija mobilnega viewporta je odstranjena, okno povrnjeno na namizno velikost.
+- **Rezultat:** PASS; čas korakov 6.98 s.
 
-#### 5.2.2 Zapisnik izvedenih korakov in primerjava rezultatov
+| Korak | Akcija | Pričakovani rezultat | Dejanski rezultat | Čas (s) | Status | Dokaz |
+|---|---|---|---|---:|---|---|
+| 6.1 | Odpri /about. | URL vsebuje /about; prikazan je neprazen glavni naslov. | Stran 'O nas' nalozena, naslov: 'Prilagodljiv razvoj digitalnih kompetenc.' | 2.39 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts06_01_o_nas_namizje.png) |
+| 6.2 | Zaporedoma klikni povezave za Domov, Iskanje, O nas in Registracijo; vrni se na /about. | Vsak klik vodi na pričakovano pot in prikazan je glavni naslov. | Zaznanih 9 povezav v navigaciji | 1.94 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts06_02_navigacija_glava.png) |
+| 6.3 | Nastavi viewport 375 × 812 in zajemi sliko. | Izmerjen notranji viewport je 375 × 812; ni vodoravnega preliva in glavni naslov je viden. Prekrivanja in berljivosti s tem ne potrjujemo v celoti. | Izmerjen viewport: {'contentWidth': 360, 'height': 812, 'width': 375}; brez vodoravnega preliva; vizualni pregled prekrivanja je locen | 2.65 | PASS | [Slika](assets/funkcionalno-testiranje/2026-10-29/ts06_03_o_nas_mobilni_pogled.png) |
 
-| # | Uporabniška akcija | Vhodni podatki | Pričakovani rezultat | Dejanski rezultat | Čas | Status | Posnetek zaslona |
-|:---:|---|---|---|---|:---:|:---:|---|
-| **2.1** | Klik na gumb »Odpri vprašalnik« | Klik na gumb z vprašalnikom | Preusmeritev na `/assessment?target_type=learning_path&target_id=up_001` in prikaz prvega vprašanja. | URL uspešno posodobljen, vprašanje: *»Razumem osnovni koncept umetne inteligence.«*. | 5.50 s | **PASS** | `assets/funkcionalno-testiranje/ts02_01_vprasalnik_vstop.png` |
-| **2.2** | Izbira odgovora »Da« na 1. vprašanje | Klik na gumb `"Da"` | Odgovor se označi, aktivira se gumb *»Naslednjo →«*. | Odgovor zabeležen v lokalno stanje, omogočen gumb *»Naslednjo →«*. | 1.44 s | **PASS** | `assets/funkcionalno-testiranje/ts02_02_vprasalnik_odgovor_da.png` |
-| **2.3** | Prehod na 2. diagnostično vprašanje | Klik na *»Naslednjo →«* | Prikaz drugega zaporednega vprašanja. | Prikazano vprašanje: *»Znam prepoznati primere umetne inteligence v vsakdanjem življenju.«*. | 2.35 s | **PASS** | `assets/funkcionalno-testiranje/ts02_03_vprasalnik_vprasanje_2.png` |
-| **2.4** | Izbira odgovora »Ne« na 2. vprašanje | Klik na gumb `"Ne"` | Zaznano manjkajoče predznanje za zaporedni modul; gumb se dinamično spremeni v *»Zaključi →«*. | Gumb se avtomatsko preklopi v *»Zaključi →«* skladno z logiko predpogojev. | 1.39 s | **PASS** | `assets/funkcionalno-testiranje/ts02_04_vprasalnik_odgovor_ne.png` |
-| **2.5** | Klik na gumb »Zaključi →« in oddaja | Klik na *»Zaključi →«* | Zaledni klic `/api/assessment/evaluate` ter prikaz kartice *Samoocena* na učni poti. | Uspešna preusmeritev na `/learning-paths/up_001`, prikazana kartica *Samoocena* s priporočilom. | 3.48 s | **PASS** | `assets/funkcionalno-testiranje/ts02_05_rezultat_samoocene.png` |
+## 5. Zbirni rezultati in odstopanja
 
-#### 5.2.3 Slikovni dokazi izvedbe (Scenarij 2)
+- Izvedenih korakov: **23**; **PASS 22**, **FAIL 1**.
+- Scenariji: **5/6 PASS**.
+- Seštevek trajanj korakov: **64.21 s**. Vključuje čakanja in zajem slik; ni meritev odzivnosti API. Celotno trajanje zagona vključuje še pripravo in čiščenje.
+- Dokazi: [izvorni JSON zapisnik](assets/funkcionalno-testiranje/2026-10-29/test_execution_summary.json) in 23 slik; poti v JSON so relativne na mapo zapisnika.
 
-| Korak 2.1: Začetek vprašalnika | Korak 2.2: Izbira odgovora Da |
-|---|---|
-| ![Vprašalnik vstop](assets/funkcionalno-testiranje/ts02_01_vprasalnik_vstop.png) | ![Vprašalnik odgovor Da](assets/funkcionalno-testiranje/ts02_02_vprasalnik_odgovor_da.png) |
+| ID | Scenarij / resnost | Opažanje in pričakovano vedenje | Stanje / nadaljnji korak |
+|---|---|---|---|
+| OBS-01 | TS-NIDIKO-03 / srednja | Ob napačnih podatkih je prikazana splošna napaka namesto prevoda »Napačen e-poštni naslov ali geslo.« iz LoginPage.tsx. Sama splošna napaka ne dokaže pravilne avtentikacijske zavrnitve. | Odprto: preveriti odgovor Supabase Auth, konfiguracijo okolja in preslikavo napak; nato ponoviti 3.3. Izvornega vzroka ne pripisujemo aplikaciji brez dodatne diagnostike. |
 
-| Korak 2.4: Odgovor Ne (Zaključi) | Korak 2.5: Kartica Samoocena |
-|---|---|
-| ![Vprašalnik odgovor Ne](assets/funkcionalno-testiranje/ts02_04_vprasalnik_odgovor_ne.png) | ![Rezultat samoocene](assets/funkcionalno-testiranje/ts02_05_rezultat_samoocene.png) |
+Začetni poskus dopolnjene avtomatizacije je odkril tudi težave s čakanjem na animacije in zastarelimi elementi ter razliko med velikostjo okna in viewporta. Poganjalnik je bil popravljen in ponovljen; ta dokument poroča zadnjo izvedbo.
 
----
+## 6. Primerjava z izvorno oddajo
 
-### 5.3 Testni scenarij 3 (TS-NIDIKO-03): Avtentikacija, zaščita profilnih funkcij in uporaba AI svetovalca
+Izvorni JSON z dne 27. 10. 2026 vsebuje 23 zapisov PASS, vendar ta rezultat velja le za takratna preverjanja. Filtri so bili zgolj prešteti; pri prijavi je manjkajoče opozorilo nadomestilo izmišljeno besedilo; zaključek modula, rezultat samoocene in mobilni prikaz niso bili ustrezno potrjeni. Zato prvotnih 100 % ni mogoče uporabiti kot dokaz vseh opisanih funkcionalnosti.
 
-#### 5.3.1 Specifikacija scenarija po ISO/IEC/IEEE 29119-3:2021
+Iz prvotnega JSON dobimo **74,14 s** in **23 slik**, medtem ko je poročilo navajalo 75,2 s in 16 slik. Različne so bile tudi posamezne meritve v tabelah. Nova izvedba ima lasten zapisnik in dokaze; stare slike in JSON so ohranjeni v prvotni mapi in niso prepisani.
 
-| Parameter | Vrednost |
-|---|---|
-| **Identifikator scenarija** | `TS-NIDIKO-03` |
-| **Naziv scenarija** | Avtentikacija, zaščita profilnih funkcij in uporaba AI svetovalca |
-| **Odgovorna oseba** | **Tilen Kek** |
-| **Cilj testiranja** | Preveriti varnostni mehanizem zaščite profilnih akcij (`AuthRequiredDialog`) za neprijavljene obiskovalce, prehod na prijavni obrazec `/login`, validacijski odziv sistema ob neveljavnih prijavnih podatkih ter odpiranje in vnos vprašanja v integrirani stranski panel AI svetovalca (`CollapsibleChatPanel`). |
-| **Sledljivost zahtev** | KF-05 (Varnost in avtentikacija), KF-06 (AI asistent), Uporabniški tokovi 3, 4 in 12 |
-| **Predpogoji** | Brskalnik teče v anonimni seji (neprijavljen uporabnik). Stran `/learning-paths/up_001` je dostopna. |
-| **Testni podatki** | Testna e-pošta: `neveljaven_uporabnik@test.si`; Geslo: `NepravilnoGeslo123!`; AI poizvedba: `"Kaj obsega ta učna pot?"` |
-| **Končni status** | **USPEŠNO (PASS)** – 4/4 korakov uspešnih (22.50 s) |
+Odpravljene so neutemeljene trditve o brezhibnosti celotnega sistema, pravilnosti vseh priporočil, hitrosti API ter o formalni skladnosti s standardom. Popravek dokumenta ne pomeni, da sta navedena člana osebno verificirala novo izvedbo.
 
-#### 5.3.2 Zapisnik izvedenih korakov in primerjava rezultatov
+## 7. Ponovitev in preverjanje poganjalnika
 
-| # | Uporabniška akcija | Vhodni podatki | Pričakovani rezultat | Dejanski rezultat | Čas | Status | Posnetek zaslona |
-|:---:|---|---|---|---|:---:|:---:|---|
-| **3.1** | Klik neprijavljenega uporabnika na ikono za shranjevanje vsebine | Klik na akcijski gumb `DetailActions` | Zaznana anonimna seja; prikaz varnostnega modala `AuthRequiredDialog` z obvestilom *»Za to dejanje se moraš prijaviti.«*. | Modal z zameglitvijo ozadja in možnostjo prijave se uspešno prikaže. | 11.02 s | **PASS** | `assets/funkcionalno-testiranje/ts03_01_auth_dialog.png` |
-| **3.2** | Klik na gumb »Prijavi se« znotraj modala | Klik na gumb *»Prijavi se«* | Preusmeritev na `/login` z ohranitvijo stanja ciljne poti (`state.from`). | Uspešna navigacija na `http://46.225.17.135/login`, prikazan prijavni obrazec. | 2.19 s | **PASS** | `assets/funkcionalno-testiranje/ts03_02_login_obrazec.png` |
-| **3.3** | Vnos neveljavnih podatkov in poskus prijave | E-pošta: `neveljaven_uporabnik@test.si`, Geslo: `NepravilnoGeslo123!` | Supabase Auth zavrne prijavo; prikaže se vizualno opozorilo o napaki. | Prijava zavrnjena, rdeče obvestilo: *»Prišlo je do napake. Poskusite znova.«*. | 3.89 s | **PASS** | `assets/funkcionalno-testiranje/ts03_03_login_napaka.png` |
-| **3.4** | Odpiranje stranskega AI svetovalca in vnos vprašanja | Klik na gumb z `aria-label='Odpri chat pomočnika'`, vnos: *»Kaj obsega ta učna pot?«* | Odpre se `CollapsibleChatPanel` (420 px širine), vnosno polje sprejme vprašanje. | Panel uspešno odprt, vnosno polje pripravljeno na vnos vprašanja. | 5.40 s | **PASS** | `assets/funkcionalno-testiranje/ts03_04_ai_pomocnik_odprt.png` |
+Iz korena repozitorija po namestitvi zalednih odvisnosti in Chroma:
 
-#### 5.3.3 Slikovni dokazi izvedbe (Scenarij 3)
-
-| Korak 3.1: Varnostni modal | Korak 3.2: Prijavni obrazec |
-|---|---|
-| ![Zahteva po prijavi](assets/funkcionalno-testiranje/ts03_01_auth_dialog.png) | ![Prijavni obrazec](assets/funkcionalno-testiranje/ts03_02_login_obrazec.png) |
-
-| Korak 3.3: Zavrnitev prijave | Korak 3.4: Odprt AI svetovalec |
-|---|---|
-| ![Napaka pri prijavi](assets/funkcionalno-testiranje/ts03_03_login_napaka.png) | ![AI pomočnik odprt](assets/funkcionalno-testiranje/ts03_04_ai_pomocnik_odprt.png) |
-
----
-
-### Sklop 2: Mihajlo Dejanović (Scenariji TS-04 do TS-06)
-
----
-
-### 5.4 Testni scenarij 4 (TS-NIDIKO-04): Hierarhična navigacija skozi module in raziskovanje učnih enot
-
-#### 5.4.1 Specifikacija scenarija po ISO/IEC/IEEE 29119-3:2021
-
-| Parameter | Vrednost |
-|---|---|
-| **Identifikator scenarija** | `TS-NIDIKO-04` |
-| **Naziv scenarija** | Hierarhična navigacija skozi module in raziskovanje posameznih učnih enot |
-| **Odgovorna oseba** | **Mihajlo Dejanović** |
-| **Cilj testiranja** | Preveriti pravilnost prikaza podrobnosti modula (`/modules/mod_014`), nalaganje vizualizatorja učnih enot (`LearningUnitVisualizer`) z vozlišči in vrstnim redom ter uspešno navigacijo na podrobnosti učne enote (`/learning-units/ue_036`) s prikazom kompetenc DigComp in ocenjenega trajanja. |
-| **Sledljivost zahtev** | KF-02 (Modularna zgradba in učne enote), Uporabniški tokovi 7 in 8 |
-| **Predpogoji** | Aplikacija NIDiKo je zagnana. Modul `mod_014` (Analiza in obdelava podatkov) ter učna enota `ue_036` (Uvod v podatkovno modeliranje) obstajata v bazi podatkov. |
-| **Testni podatki** | Modul ID: `mod_014`; Učna enota ID: `ue_036` |
-| **Končni status** | **USPEŠNO (PASS)** – 3/3 korakov uspešnih (6.63 s) |
-
-#### 5.4.2 Zapisnik izvedenih korakov in primerjava rezultatov
-
-| # | Uporabniška akcija | Vhodni podatki | Pričakovani rezultat | Dejanski rezultat | Čas | Status | Posnetek zaslona |
-|:---:|---|---|---|---|:---:|:---:|---|
-| **4.1** | Navigacija na stran podrobnosti modula `mod_014` | URL: `http://46.225.17.135/modules/mod_014` | Prikaz naslova modula, trajanja v urah, ključnih besed in gumbov za ocenjevanje. | Modul uspešno naložen, naslov: *»Analiza in obdelava podatkov«*, URL potrjen. | 2.49 s | **PASS** | `assets/funkcionalno-testiranje/ts04_01_modul_podrobnosti.png` |
-| **4.2** | Pregled vizualizatorja učnih enot modula | Pomik do komponente `LearningUnitVisualizer` | Prikaz interaktivnih vozlišč zaporedja učnih enot z označevalci napredka. | Zaznana vozlišča učnih enot za modul *»Analiza in obdelava podatkov«* (16 gradnikov). | 1.67 s | **PASS** | `assets/funkcionalno-testiranje/ts04_02_modul_ucne_enote.png` |
-| **4.3** | Navigacija na podrobnosti posamezne učne enote `ue_036` | URL: `http://46.225.17.135/learning-units/ue_036` | Naložena stran učne enote z naslovom, opisom, povezanimi temami in kompetencami DigComp. | Učna enota uspešno naložena, naslov: *»Uvod v podatkovno modeliranje«*. | 2.47 s | **PASS** | `assets/funkcionalno-testiranje/ts04_03_ucna_enota_podrobnosti.png` |
-
-#### 5.4.3 Slikovni dokazi izvedbe (Scenarij 4)
-
-| Korak 4.1: Podrobnosti modula mod_014 | Korak 4.2: Vizualizator učnih enot |
-|---|---|
-| ![Podrobnosti modula](assets/funkcionalno-testiranje/ts04_01_modul_podrobnosti.png) | ![Vizualizator enot](assets/funkcionalno-testiranje/ts04_02_modul_ucne_enote.png) |
-
-| Korak 4.3: Podrobnosti učne enote ue_036 |
-|---|
-| ![Podrobnosti učne enote](assets/funkcionalno-testiranje/ts04_03_ucna_enota_podrobnosti.png) |
-
----
-
-### 5.5 Testni scenarij 5 (TS-NIDIKO-05): Diagnostično samoocenjevanje na ravni posameznega modula
-
-#### 5.5.1 Specifikacija scenarija po ISO/IEC/IEEE 29119-3:2021
-
-| Parameter | Vrednost |
-|---|---|
-| **Identifikator scenarija** | `TS-NIDIKO-05` |
-| **Naziv scenarija** | Diagnostično samoocenjevanje na ravni posameznega modula (Module Assessment) |
-| **Odgovorna oseba** | **Mihajlo Dejanović** |
-| **Cilj testiranja** | Preveriti inicializacijo samoocenjevalnega vprašalnika neposredno na ravni modula (`target_type=module`), preveriti pravilen zajem odgovorov, zaključitev vprašalnika ter vrnitev uporabnika na podrobnosti modula z zabeleženim stanjem. |
-| **Sledljivost zahtev** | KF-03 (Vprašalnik), KF-04 (Priporočilni sistem na ravni modula), Uporabniški tok 9 |
-| **Predpogoji** | Modul `mod_014` vsebuje pripravljena vprašanja za povezane učne enote. |
-| **Testni podatki** | Cilj: `target_type=module`, `target_id=mod_014`; Odgovor: `"Da"` na vprašanje o podatkovnem modeliranju |
-| **Končni status** | **USPEŠNO (PASS)** – 3/3 korakov uspešnih (11.64 s) |
-
-#### 5.5.2 Zapisnik izvedenih korakov in primerjava rezultatov
-
-| # | Uporabniška akcija | Vhodni podatki | Pričakovani rezultat | Dejanski rezultat | Čas | Status | Posnetek zaslona |
-|:---:|---|---|---|---|:---:|:---:|---|
-| **5.1** | Zagon vprašalnika za modul `mod_014` | URL: `http://46.225.17.135/assessment?target_type=module&target_id=mod_014` | Naloži se vprašalnik s specifičnimi vprašanji za modul »Analiza in obdelava podatkov«. | Naloženo vprašanje: *»Razumem, kaj je podatkovni model in zakaj ga potrebujemo.«*. | 2.79 s | **PASS** | `assets/funkcionalno-testiranje/ts05_01_modul_vprasalnik_zacetek.png` |
-| **5.2** | Izbira odgovora »Da« na ravni modula | Klik na gumb `"Da"` | Izbira se označi, aktivira se navigacijski gumb *»Naslednjo →«*. | Odgovor zabeležen, aktiven gumb *»Naslednjo →«*. | 1.47 s | **PASS** | `assets/funkcionalno-testiranje/ts05_02_modul_vprasalnik_da.png` |
-| **5.3** | Zaključek vprašalnika in oddaja odgovorov | Klik na gumb *»Zaključi →«* | Zaledna obdelava odgovorov in uspešna preusmeritev nazaj na stran podrobnosti modula. | Uspešna oddaja in preusmeritev na `http://46.225.17.135/modules/mod_014`. | 7.38 s | **PASS** | `assets/funkcionalno-testiranje/ts05_03_modul_ocena_rezultat.png` |
-
-#### 5.5.3 Slikovni dokazi izvedbe (Scenarij 5)
-
-| Korak 5.1: Začetek vprašalnika modula | Korak 5.2: Odgovor Da na modulu |
-|---|---|
-| ![Vprašalnik modula vstop](assets/funkcionalno-testiranje/ts05_01_modul_vprasalnik_zacetek.png) | ![Vprašalnik modula Da](assets/funkcionalno-testiranje/ts05_02_modul_vprasalnik_da.png) |
-
-| Korak 5.3: Stanje po oddaji ocenjevanja modula |
-|---|
-| ![Modul ocena rezultat](assets/funkcionalno-testiranje/ts05_03_modul_ocena_rezultat.png) |
-
----
-
-### 5.6 Testni scenarij 6 (TS-NIDIKO-06): Pregled predstavitvene vsebine »O nas«, delovanje navigacije in odzivni dizajn
-
-#### 5.6.1 Specifikacija scenarija po ISO/IEC/IEEE 29119-3:2021
-
-| Parameter | Vrednost |
-|---|---|
-| **Identifikator scenarija** | `TS-NIDIKO-06` |
-| **Naziv scenarija** | Pregled predstavitvene vsebine »O nas«, delovanje navigacije in odzivni dizajn |
-| **Odgovorna oseba** | **Mihajlo Dejanović** |
-| **Cilj testiranja** | Preveriti dostopnost in pravilnost prikaza informativne strani »O nas« (`/about`), preizkusiti delovanje krovnih navigacijskih povezav v glavi ter empirično preveriti odzivni dizajn (odzivnost postavitve ob spremembi velikosti okna brskalnika na mobilno ločljivost 375×812). |
-| **Sledljivost zahtev** | KF-06 (Uporabniška izkušnja in odzivnost), Uporabniški tokovi 1 in 2 |
-| **Predpogoji** | Aplikacija NIDiKo je zagnana in dosegljiva v spletnem brskalniku. |
-| **Testni podatki** | Namizna ločljivost: 1920×1080; Mobilna ločljivost: 375×812 (iPhone X/12 viewport) |
-| **Končni status** | **USPEŠNO (PASS)** – 3/3 korakov uspešnih (5.70 s) |
-
-#### 5.6.2 Zapisnik izvedenih korakov in primerjava rezultatov
-
-| # | Uporabniška akcija | Vhodni podatki | Pričakovani rezultat | Dejanski rezultat | Čas | Status | Posnetek zaslona |
-|:---:|---|---|---|---|:---:|:---:|---|
-| **6.1** | Navigacija na stran »O nas« v namiznem pogledu | URL: `http://46.225.17.135/about` (1920×1080) | Prikaz vizije projekta, predstavitve rešitve in povezave z okvirom DigComp. | Stran naložena, naslov: *»Prilagodljiv razvoj digitalnih kompetenc.«*. | 2.41 s | **PASS** | `assets/funkcionalno-testiranje/ts06_01_o_nas_namizje.png` |
-| **6.2** | Preverjanje krovne navigacije v glavi strani | Elementi `<nav>` in `<header>` | Prikazane delujoče povezave: Domov, Iskanje, O nas ter Registracija/Prijava. | Zaznanih 9 navigacijskih povezav, vse povezave veljavne. | 0.29 s | **PASS** | `assets/funkcionalno-testiranje/ts06_02_navigacija_glava.png` |
-| **6.3** | Preizkus odzivnega prikaza na mobilni ločljivosti | Sprememba okna brskalnika na 375×812 | Elementi se prilagodijo manjšemu zaslonu brez vodoravnega zamika ali prekrivanja. | Odzivna postavitev potrjena, vsebina berljiva in prilagojena mobilnemu pogledu. | 3.00 s | **PASS** | `assets/funkcionalno-testiranje/ts06_03_o_nas_mobilni_pogled.png` |
-
-#### 5.6.3 Slikovni dokazi izvedbe (Scenarij 6)
-
-| Korak 6.1: Stran »O nas« (Namizje 1920×1080) | Korak 6.2: Glavna navigacija |
-|---|---|
-| ![O nas namizje](assets/funkcionalno-testiranje/ts06_01_o_nas_namizje.png) | ![Navigacija](assets/funkcionalno-testiranje/ts06_02_navigacija_glava.png) |
-
-| Korak 6.3: Stran »O nas« v mobilnem pogledu (375×812) |
-|---|
-| ![O nas mobilni pogled](assets/funkcionalno-testiranje/ts06_03_o_nas_mobilni_pogled.png) |
-
----
-
-## 6. Tehnični postopek avtomatizirane izvedbe testov z brskalnikom
-
-Avtomatizacija je bila izvedena z namenskim testnim poganjalnikom v Pythonu ([`backend/tests/functional/run_functional_tests.py`](../backend/tests/functional/run_functional_tests.py)), ki neposredno upravlja brskalnik Google Chrome prek Selenium WebDriverja:
-
-```
-        +-------------------------------------------------------------+
-        |      Avtomatizirani testni skript (Python 3.13)             |
-        |          backend/tests/functional/run_functional_tests.py  |
-        +------------------------------+------------------------------+
-                                       |
-                                       v  (Selenium WebDriver / Chrome DevTools)
-        +-------------------------------------------------------------+
-        |               Google Chrome (Brezglavi način)               |
-        |            Ločljivost: 1920x1080 & Mobilna 375x812          |
-        +------------------------------+------------------------------+
-                                       |
-                       +---------------+---------------+
-                       |                               |
-                       v                               v
-        +------------------------------+ +----------------------------+
-        |   Sklop 1: Tilen Kek         | | Sklop 2: Mihajlo Dejanović |
-        |   - TS-01: Iskanje in poti   | | - TS-04: Moduli in enote   |
-        |   - TS-02: Vprašalnik učne p.| | - TS-05: Vprašalnik modula |
-        |   - TS-03: Avtentikacija & AI| | - TS-06: O nas in odzivnost|
-        +------------------------------+ +----------------------------+
-                                       |
-                                       v
-        +-------------------------------------------------------------+
-        |      Staging strežnik: http://46.225.17.135 (React + API)   |
-        +-------------------------------------------------------------+
+```powershell
+python -m pip install -r backend/requirements.txt
+python backend/tests/functional/run_functional_tests.py --base-url http://46.225.17.135
 ```
 
-### Ključne tehnične rešitve v skripti:
-1. **Preprečevanje absolutnih lokalnih poti:**  
-   Vse poti za shranjevanje posnetkov in JSON poročila so definirane relativno glede na koren repozitorija (`docs/assets/funkcionalno-testiranje/`). Posledično koda in generirani JSON dokumenti delujejo identično na kateremkoli računalniku ali CI/CD strežniku.
-2. **Ravnanje z asinhronimi stanji in animacijami:**  
-   Uporabljeno je bilo kombinirano dinamično čakanje (`WebDriverWait`) ter JavaScript osredotočanje (`scrollIntoView({block: 'center'})`), kar zagotavlja visoko stabilnost brez lažnih napak zaradi animacij knjižnice *Framer Motion*.
-3. **Avtomatski izvoz meritev v JSON:**  
-   Ob vsakem zagonu se generira strojno berljiva datoteka [`docs/assets/funkcionalno-testiranje/test_execution_summary.json`](assets/funkcionalno-testiranje/test_execution_summary.json).
+Privzeti izhod je nova mapa `test-results/<run-id>/`. Z `--output-dir` lahko določimo drugo **še neobstoječo** mapo. S tem preprečimo prepis dokazov. Izhodna koda je 0 samo ob šestih uspešnih scenarijih; pri neuspehu ali napaki zagona je 1. Ne uporabljamo `python -O`, ker izklopi preverjanja assert. Testov nad zunanjim okoljem ne vključujemo samodejno v vsak PR brez nadzora testnih podatkov in razpoložljivosti storitev.
 
----
+Lokalno preverjanje samega poganjalnika brez omrežja in brskalnika:
 
-## 7. Zbirni rezultati testiranja, metrika in analiza odstopanj (Defect Log)
+```powershell
+python -m pytest backend/tests/functional/test_runner_regressions.py --confcutdir=backend/tests/functional -q
+```
 
-### 7.1 Zbirna statistika izvedenih testov
+Izvedeno je bilo **5/5 uspešnih regresijskih testov**: manjkajoči koraki preprečijo PASS; obstoječi dokazi se ne prepišejo; napaka zagona ustvari zapisnik in izhod 1; napaka slike ne prekrije prvotne napake; en neuspešen korak povzroči neuspešen scenarij.
 
-| Metrika | Vrednost | Opomba |
-|---|:---:|---|
-| **Število preizkušenih scenarijev** | **6** | 3 za Tilna Keka (TS-01 do TS-03) + 3 za Mihajla Dejanovića (TS-04 do TS-06) |
-| **Skupno število izvedenih korakov** | **23** | Vsi koraki so bili neposredno izvedeni z brskalnikom Google Chrome |
-| **Uspešno zaključenih korakov (PASS)** | **23** | **100 % stopnja uspešnosti** |
-| **Neuspešnih korakov (FAIL)** | **0** | Ni bilo zrušitev, prekinitev ali napak |
-| **Skupni čas izvajanja vseh 6 scenarijev** | **75.2 sekunde** | Vključno z zajemom 16 posnetkov zaslona in omrežnimi klici |
-| **Povprečni čas izvedbe posameznega koraka** | **3.27 sekunde** | Hitra odzivnost spletnega odjemalca in zalednega FastAPI strežnika |
+## 8. Sklep in uporaba AI
 
-### 7.2 Analiza opažanj in priporočila za izboljšave (Observation & Defect Log)
+Dokument vsebuje šest specificiranih in dejansko ponovno izvedenih scenarijev. Doseženih je 5/6 PASS; merilo 6/6 ni izpolnjeno zaradi OBS-01. Odstopanje ostaja del poročila in ga je treba po odpravi ponovno preizkusiti. Uspeh omejenega nabora ne pomeni potrditve celotne rešitve.
 
-1. **Opažanje 1 (UX prijava): Generično sporočilo o napaki**  
-   - *Ugotovitev:* Ob napačnem geslu ali neobstoječem uporabniku prijavni obrazec prikaže splošno sporočilo *»Prišlo je do napake. Poskusite znova.«*.  
-   - *Priporočilo:* Prikaz bolj specifičnega opozorila (npr. *»Napačno geslo ali neveljaven e-poštni naslov«*), kar izboljša uporabniško izkušnjo.
-2. **Opažanje 2 (Dostopnost - A11y): Uporaba `<article>` namesto `<a>` pri karticah**  
-   - *Ugotovitev:* Kartice zadetkov v iskalniku uporabljajo element `<article onClick={...}>`.  
-   - *Priporočilo:* Za boljšo podporo bralnikom zaslona ter možnost odpiranja zadetkov v novem zavihku (srednji klik z miško) je priporočljivo kartice oviti v standardno povezavo `<a href="...">`.
-3. **Pozitivna ugotovitev (Arhitekturna robustnost):**  
-   - Logika predpogojev vprašalnika tako na ravni učne poti kot modula deluje brezhibno – ob odgovoru »Ne« sistem uporabniku nemudoma ponudi gumb *»Zaključi →«*, zaledni servis `/api/assessment/evaluate` pa v nekaj stotinkah sekunde vrne strukturirano priporočilo.
-
----
-
-## 8. Sklep in priporočila za nadaljnje zagotavljanje kakovosti
-
-Funkcionalno testiranje je potrdilo, da je rešitev **NIDiKo** stabilna, visoko odzivna in primerna za uporabo:
-- Vseh **6 testnih scenarijev** (TS-NIDIKO-01 do TS-NIDIKO-06), ki sva jih pripravila **Tilen Kek** in **Mihajlo Dejanović**, je v celoti prestalo avtomatizirano verifikacijo v brskalniku Google Chrome s **100 % uspešnostjo**.
-- Uporabniški tokovi iskanja, hierarhične navigacije skozi module in enote, diagnostičnega vprašalnika ter zaščite uporabniških funkcij delujejo skladno s specifikacijami.
-
-### Priporočilo za CI/CD integracijo:
-Predlagava, da se skripta `backend/tests/functional/run_functional_tests.py` doda kot opcijski korak v obstoječi GitHub Actions delotok ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)) za samodejno izvajanje ob vsakem *pull requestu*.
-
----
-
-## 9. Izjava o uporabi orodij umetne inteligence (AI Declaration)
-
-V skladu z navodili predmeta Zagotavljanje kakovosti izjavljava:
-
-Pri analizi projektne dokumentacije, oblikovanju strukturiranih tabel testnih scenarijev po mednarodnem standardu **ISO/IEC/IEEE 29119-3:2021** ter pripravi Python skripte za Selenium WebDriver sva si pomagala z naprednimi orodji umetne inteligence (Google Antigravity / Gemini).
-
-Vsi testni scenariji so bili v celoti empirično izvedeni z brskalnikom nad delujočo platformo NIDiKo, vsi rezultati, meritve in zajeti zaslonski posnetki pa so bili s strani obeh avtorjev (Tilen Kek, Mihajlo Dejanović) skrbno pregledani in verificirani.
+Pri prvotni oddaji je bila navedena pomoč Google Antigravity / Gemini. Pri tem pregledu so bili analiza, popravki, avtomatiziran zagon in priprava dopolnjenega poročila izvedeni s pomočjo OpenAI Codex. Pred oddajo naj člana preverita odgovornosti, podatke o ekipi in rezultate; izjava o njunem osebnem pregledu ni dodana brez potrditve.

@@ -243,6 +243,7 @@ Dodatna projektna dokumentacija je razdeljena po posameznih tematskih sklopih:
 - [Pravila poimenovanja in pisanja kode](docs/10-pravila-poimenovanja-in-pisanje-kode.md)
 - [AI strategija](docs/11-ai-strategija.md)
 - [Testiranje](docs/12-testiranje.md)
+- [Funkcionalni testni primeri in poročilo izvedbe](docs/16-porocilo-funkcionalno-testiranje.md)
 - [Nadaljnji razvoj](docs/13-nadaljnji-razvoj.md)
 
 
