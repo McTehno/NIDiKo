@@ -347,3 +347,11 @@ Pred commitom preverimo tudi:
 Testiranje v projektu NIDiKo vključuje tehnično preverjanje frontenda in backenda ter ročno preverjanje glavnih uporabniških tokov.
 
 Najpomembnejše je, da aplikacija po spremembah še vedno omogoča iskanje vsebin, pregled učnih poti, reševanje vprašalnika, prikaz rezultata, uporabo AI in glasovne pomoči ter spremljanje uporabniškega napredka.
+
+## Sistemsko testiranje
+
+- [Načrt vzdržljivostnega testa](17-nacrt-sistemskega-testiranja.md)
+- [Poročilo sistemskega testiranja](18-porocilo-sistemskega-testiranja.md)
+- [Orodja in navodila](../tests/performance/README.md)
+
+Staging meritve še niso izvedene; poročilo je predloga.
