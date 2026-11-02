@@ -46,3 +46,8 @@ frontend/.env
 
 # Dokazi lokalnih funkcionalnih zagonov; izbrane rezultate hranimo v docs/assets.
 /test-results/
+
+# Zasebne nastavitve in okolje obremenitvenih testov
+tests/performance/.venv/
+tests/performance/.env
+tests/performance/**/__pycache__/
