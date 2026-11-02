@@ -57,7 +57,7 @@ Pred izvedbo preveri dejanski staging commit, odsotnost tekoče namestitve,
 sinhronizacijo ur, porabo in kvote zunanjih storitev. Med testom velja premor namestitev.
 
 ```powershell
-tests/performance/.venv/Scripts/python.exe tests/performance/scripts/run_endurance.py --data test-results/performance/pool.json --app-commit DEJANSKI-COMMIT --environment-note 'CX22; dopolni procese, bazo, kvote in stanje predpomnilnika'
+tests/performance/.venv/Scripts/python.exe tests/performance/scripts/run_endurance.py --data test-results/performance/pool.json --app-commit DEJANSKI-COMMIT --environment-note 'CX23; dopolni procese, bazo, kvote in stanje predpomnilnika'
 ```
 
 Ukaz brez `--execute` samo lokalno preveri konfiguracijo in izpiše oceno, brez zahtev.

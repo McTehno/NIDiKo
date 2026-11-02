@@ -6,7 +6,7 @@
 
 | Podatek | Vrednost |
 |---|---|
-| Staging in konfiguracija CX22 | dopolni po preverjanju |
+| Staging in konfiguracija CX23 | dopolni po preverjanju |
 | Aplikacijski commit | ni določeno |
 | Testni commit in orodje | dopolni; načrtovan Locust 2.47.0 |
 | Baza in zunanje storitve | dopolni brez poverilnic |

@@ -4,7 +4,7 @@ Status: pripravljena izvedba, **meritve na stagingu še niso bile opravljene**.
 
 ## Namen in obseg
 
-Preveriti stabilnost obstoječe postavitve NIDiKo na CX22 pri večurnem reševanju
+Preveriti stabilnost obstoječe postavitve NIDiKo na CX23 pri večurnem reševanju
 vprašalnikov. Gre za vzdržljivostni test, ne iskanje meje zmogljivosti.
 Kolegov stresni test bo ločen preizkus v drugem terminu, s skupnim poročilom.
 Rezultat velja za zabeleženo različico in okolje, ne za še neizvedene mikropotrdilne funkcije.
