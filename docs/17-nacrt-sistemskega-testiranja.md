@@ -1,6 +1,6 @@
 # Načrt vzdržljivostnega testiranja
 
-Status: pripravljena izvedba, **meritve na stagingu še niso bile opravljene**.
+Status: pilot izveden 2. 11. 2026; osemurni zagon poteka. Dejanski rezultati in odstopanja so v poročilu.
 
 ## Namen in obseg
 

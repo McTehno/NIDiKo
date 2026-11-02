@@ -354,4 +354,4 @@ Najpomembnejše je, da aplikacija po spremembah še vedno omogoča iskanje vsebi
 - [Poročilo sistemskega testiranja](18-porocilo-sistemskega-testiranja.md)
 - [Orodja in navodila](../tests/performance/README.md)
 
-Staging meritve še niso izvedene; poročilo je predloga.
+Pilot na stagingu je izveden; osemurni zagon poteka. Trenutno stanje je v poročilu sistemskega testiranja.
