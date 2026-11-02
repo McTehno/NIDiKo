@@ -1,6 +1,8 @@
 # Načrt vzdržljivostnega testiranja
 
-Status: pilot izveden 2. 11. 2026; osemurni zagon poteka. Dejanski rezultati in odstopanja so v poročilu.
+Status: pilot izveden 2. 11. 2026; glavni zagon poteka s prekinitvijo generatorja. Prvotni načrt osmih neprekinjenih ur ni dosežen; zagon se nadaljuje brez ponovitve. Dejanska izvedba in omejitve so v poročilu.
+
+Spodnji scenarij ohranja prvotni načrt, ne trditve o doseženem trajanju. Ob končni presoji ločimo pretečeni čas, dokumentirano neaktivnost in intervale izmerjene obremenitve.
 
 ## Namen in obseg
 
