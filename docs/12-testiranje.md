@@ -354,4 +354,4 @@ Najpomembnejše je, da aplikacija po spremembah še vedno omogoča iskanje vsebi
 - [Poročilo sistemskega testiranja](18-porocilo-sistemskega-testiranja.md)
 - [Orodja in navodila](../tests/performance/README.md)
 
-Pilot na stagingu je izveden; vzdržljivostni zagon poteka z dokumentirano prekinitvijo generatorja in brez ponovitve. Izvedbe ne obravnavamo kot osmih neprekinjenih ur obremenitve. Dejanske meritve in omejitve so v poročilu sistemskega testiranja.
+Pilot na stagingu je izveden. Prvi vzdržljivostni zagon je po prekinitvah in izklopu prenosnika arhiviran kot INVALID. Po naknadnem naročilu uporabnika poteka ločena nova osemurna izvedba; podatki se ne združujejo. Dejanske meritve in omejitve so v poročilu sistemskega testiranja.

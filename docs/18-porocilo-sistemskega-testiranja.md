@@ -1,6 +1,6 @@
 # Poročilo sistemskega testiranja NIDiKo
 
-**Status: pilot izveden; vzdržljivostni preizkus s prekinitvijo generatorja poteka.** Zagon se nadaljuje brez ponovitve. Ne predstavlja osmih neprekinjenih ur obremenitve.
+**Status: pilot izveden; prvi glavni zagon je prekinjen, nova osemurna izvedba poteka.** Rezultata obeh zagonov sta ločena; prvotni zagon ni dokaz osmih neprekinjenih ur obremenitve.
 
 
 ## Izvedeni pilot — 2. 11. 2026
@@ -35,7 +35,7 @@ Vzorci, zlasti glasovni, so majhni; pilot ni dokaz osemurne stabilnosti.
 Opazovani backend je porabljal približno 112 MB RAM in imel 0 ponovnih zagonov.
 To je posnetek stanja, ne končna presoja razvoja porabe skozi čas.
 
-## Glavni vzdržljivostni zagon s prekinitvijo — poteka
+## Prvi glavni zagon — prekinjen
 
 Identifikator: `20261102T104244Z`; začetek 10:42:44 UTC oziroma 11:42:44 lokalno.
 100 aktivnih mest, 40 z AI in 5 z glasovno pomočjo; izvirni profil s premori
@@ -48,7 +48,7 @@ staginga v `/var/tmp/nidiko-perf/main-20261102`. Vključena sta preprečevanje
 samodejnega spanja generatorja in nadzornik, ki po koncu poskusi prenesti meritve,
 obnoviti prvotno bazo ter odstraniti premor namestitev. Uspeh obnove je treba
 potrditi iz nadzornega dnevnika. Sintetični profili ostanejo za pregled do čiščenja.
-Končne čase, kriterije in sklep dopolnimo po dejanskem zaključku.
+Ta prvi zagon se je končal 2. 11. 2026 ob približno 13:05:40 UTC oziroma 14:05:40 lokalno ob izklopu prenosnika. Analiza ohranjenih dogodkov daje INVALID; polno trajanje in neprekinjena populacija nista dosežena. Obnova okolja se ob izklopu ni zaključila; pred novo izvedbo so bili stari dokazi arhivirani in stari zbiralnik ustavljen.
 
 ## Odstopanje izvedbe: neaktivnost generatorja
 
@@ -71,8 +71,8 @@ dodatnih dokazov ne pripisujemo aplikaciji ali Azure storitvam. Podatki so
 vmesni, ne končna statistika. Približno 197 MB RAM in 0 ponovnih zagonov
 backenda sta prav tako posnetek ob pregledu, ne meritev celotnega obdobja.
 
-**Odločitev ekipe:** isti zagon nadaljujemo do njegovega predvidenega konca.
-Testa ne začenjamo znova, ne ponastavljamo statistike in ne podaljšujemo režima
+**Prvotna odločitev ekipe po prvi vrzeli:** isti zagon nadaljujemo do njegovega predvidenega konca. Ta odločitev je bila pozneje spremenjena po nenapovedanem izklopu prenosnika; glej razdelek o ponovitvi.
+Takrat je bilo dogovorjeno, da testa ne začnemo znova, ne ponastavimo statistike in ne podaljšujemo režima
 z namenom, da bi vrzel prikazali kot neprekinjeno osemurno obremenitev. Prvotni
 načrt in kriteriji ostanejo ohranjeni kot izhodišče; odstopanje je izrecno priznano.
 
@@ -99,8 +99,36 @@ načrt in kriteriji ostanejo ohranjeni kot izhodišče; odstopanje je izrecno pr
 
 **Omejitev sklepa:** izvedbo opišemo kot vzdržljivostni preizkus s prekinitvijo
 generatorja. Ne trdimo, da je sistem prestal osem neprekinjenih ur ciljne obremenitve
-ali da neaktivnost dokazuje stabilnost sistema pod obremenitvijo. Ponovitve v
-okviru te izvedbe ne načrtujemo. Končni sklep temelji na dejansko zbranih dokazih.
+ali da neaktivnost dokazuje stabilnost sistema pod obremenitvijo. Ob prvi obravnavi vrzeli ponovitve nismo načrtovali. Po poznejšem izklopu je uporabnik izrecno naročil nov zagon; prvotni podatki ostanejo arhivirani in ločeni. Končni sklep temelji na dejansko zbranih dokazih.
+
+## Ponovitev po izklopu prenosnika — poteka
+
+Uporabnik je po nenapovedanem izklopu 2. 11. 2026 izrecno naročil ponovitev in
+izbral isti prenosnik, ki bo ostal priključen ter vključen. Ob preverjanju je bilo
+napajanje AC priključeno, baterija pa se je polnila pri približno 9 %.
+
+Nov identifikator: `20261102T131105Z`. Začetek 13:11:05 UTC oziroma **14:11:05
+lokalno**. Prvotni profil: 100 aktivnih mest, 40 z AI in 5 tudi z glasom, 15–35 s
+premora na vprašanje, postopno dodajanje, 5 minut ogrevanja in **novih osem ur
+ciljne obremenitve**. Predviden konec z okrevanjem je okoli 22:20 lokalno;
+dejanski konec se potrdi po dogodkih. Ponovitev se ne združuje z aktivnim časom
+prve izvedbe.
+
+Nova baza `psi_up_staging_perf_retry_20261102`, novih 15.000 sintetičnih profilov.
+Učne vsebine in 21 zapisov glasovnega predpomnilnika so kopirani iz prejšnje testne
+baze; začetno stanje glasu zato ni enako kot pri prvi izvedbi. Izbrana pot ostaja
+`up_001` s 14 vprašanji DA/NE. Aplikacijski commit je še vedno `6853f9d`,
+testni commit ob začetku `9040255`; infrastruktura CX23 in način zagona ostajata enaka.
+
+Prejšnja baza in izvorne meritve so ohranjene. Meritve novega strežniškega zagona
+so v `/var/tmp/nidiko-perf/retry-20261102`, novi lokalni rezultati pa v ločeni mapi
+`endurance-retry/runs/20261102T131105Z`. Stanje nadzornika se osvežuje vsakih
+10 sekund in je ločeno od starega, ob izklopu zastarelega zapisa stanja.
+
+Nadzornik preprečuje samodejno spanje sistema in zaslona med delovanjem. Po koncu
+poskusi prenesti meritve, obnoviti prvotno konfiguracijo in z dejanskim preverjanjem
+potrditi bazo `psi_up`; šele po tej potrditvi odstrani premor CI/CD. Izklopa naprave
+tak mehanizem ne more preprečiti. Končne rezultate in stanje obnove še preverimo.
 
 ## Skupno okolje
 
@@ -115,11 +143,11 @@ okviru te izvedbe ne načrtujemo. Končni sklep temelji na dejansko zbranih doka
 ## Vzdržljivostni test — odgovorni za infrastrukturo
 
 Načrt: [scenarij in kriteriji](17-nacrt-sistemskega-testiranja.md).
-Načrt: 100 aktivnih uporabnikov, 40 % z AI in 5 % z glasovno pomočjo, 8 ur ciljne obremenitve. Izvedba vključuje dokumentirano prekinitev generatorja in se ne ponovi.
+Načrt: 100 aktivnih uporabnikov, 40 % z AI in 5 % z glasovno pomočjo, 8 ur ciljne obremenitve. Prva izvedba je dokumentirano prekinjena; po naknadnem naročilu uporabnika je nova izvedba v teku.
 
 | Podatek | Rezultat |
 |---|---|
-| Identifikator in UTC interval | `20261102T104244Z`; začetek 10:42:44 UTC, konec še ni potrjen |
+| Identifikator in UTC interval | prvi `20261102T104244Z`: 10:42:44–13:05:40 UTC; ponovitev `20261102T131105Z`: od 13:11:05 UTC, še poteka |
 | Dejansko dosežena obremenitev in trajanje | 100 aktivnih mest v opaženih aktivnih intervalih; prekinitev približno 51 minut in dodatna krajša vrzel; končni časovni obseg se še določi |
 | Število začetih in uspešno zaključenih reševanj | ni izvedeno |
 | Uspešnost in p99 običajnih zahtev | ni izmerjeno |
