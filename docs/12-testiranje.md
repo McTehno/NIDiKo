@@ -354,4 +354,4 @@ Najpomembnejše je, da aplikacija po spremembah še vedno omogoča iskanje vsebi
 - [Poročilo sistemskega testiranja](18-porocilo-sistemskega-testiranja.md)
 - [Orodja in navodila](../tests/performance/README.md)
 
-Pilot na stagingu je izveden. Prvi vzdržljivostni zagon je po prekinitvah in izklopu prenosnika arhiviran kot INVALID. Po naknadnem naročilu uporabnika poteka ločena nova osemurna izvedba; podatki se ne združujejo. Dejanske meritve in omejitve so v poročilu sistemskega testiranja.
+Vzdržljivostni del je zaključen: veljavna ponovitev je dosegla osem ur ciljne obremenitve s 100 aktivnimi mesti. Ocena je FAIL zaradi časovnih kriterijev; staging je obnovljen. Pilot in prekinjeni zagon sta ločena. Rezultati in izbrani dokazi so v poročilu; stresni del drugega člana še ni izveden.

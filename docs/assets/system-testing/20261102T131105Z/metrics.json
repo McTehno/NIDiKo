@@ -1,0 +1,762 @@
+{
+  "run_id": "20261102T131105Z",
+  "steady_start_utc": "2026-11-02T13:17:46.634634+00:00",
+  "steady_end_utc": "2026-11-02T21:17:46.634634+00:00",
+  "steady_duration_seconds": 28800.0,
+  "all_request_count": 26865,
+  "steady_request_count": 26583,
+  "all_success_percent": 99.98511073887958,
+  "steady_success_percent": 99.98495278937666,
+  "steady_rps": 0.9230208333333333,
+  "max_population_gap_seconds": 1.7059383392333984,
+  "population_values": [
+    100
+  ],
+  "all_groups": {
+    "ordinary/questionnaire": {
+      "count": 7750,
+      "failed": 0,
+      "success_percent": 100.0,
+      "fast_percent": 92.07741935483871,
+      "slow_successes": 614,
+      "mean_ms": 171.10496131612504,
+      "median_ms": 111.06049999943934,
+      "p95_ms": 506.80149999971036,
+      "p99_ms": 860.9821000027296,
+      "max_ms": 1936.4848999998685
+    },
+    "ai": {
+      "count": 10821,
+      "failed": 4,
+      "success_percent": 99.96303483966362,
+      "fast_percent": 99.17752518251548,
+      "slow_successes": 85,
+      "mean_ms": 1884.3688891876882,
+      "median_ms": 1757.9458000000159,
+      "p95_ms": 2662.4632999992173,
+      "p99_ms": 6883.872599999449,
+      "max_ms": 12257.034800000838
+    },
+    "voice_api": {
+      "count": 322,
+      "failed": 0,
+      "success_percent": 100.0,
+      "fast_percent": 100.0,
+      "slow_successes": 0,
+      "mean_ms": 233.20813012427058,
+      "median_ms": 201.3465999989421,
+      "p95_ms": 445.4350999999406,
+      "p99_ms": 825.0932000009925,
+      "max_ms": 1043.3890000003885
+    },
+    "voice_audio": {
+      "count": 322,
+      "failed": 0,
+      "success_percent": 100.0,
+      "fast_percent": 100.0,
+      "slow_successes": 0,
+      "mean_ms": 506.275484161568,
+      "median_ms": 484.98359999939566,
+      "p95_ms": 672.9539999996632,
+      "p99_ms": 876.0899000008067,
+      "max_ms": 1819.7205999967991
+    },
+    "ordinary/evaluate": {
+      "count": 7650,
+      "failed": 0,
+      "success_percent": 100.0,
+      "fast_percent": 91.6732026143791,
+      "slow_successes": 637,
+      "mean_ms": 335.42741424835816,
+      "median_ms": 314.76649999967776,
+      "p95_ms": 493.0903999993461,
+      "p99_ms": 728.7691999990784,
+      "max_ms": 1438.0359999995562
+    }
+  },
+  "steady_groups": {
+    "ordinary/evaluate": {
+      "count": 7617,
+      "failed": 0,
+      "success_percent": 100.0,
+      "fast_percent": 91.72902717605356,
+      "slow_successes": 630,
+      "mean_ms": 335.2074774057949,
+      "median_ms": 314.6881999964535,
+      "p95_ms": 491.4174000005005,
+      "p99_ms": 725.7979999994859,
+      "max_ms": 1438.0359999995562
+    },
+    "ordinary/questionnaire": {
+      "count": 7617,
+      "failed": 0,
+      "success_percent": 100.0,
+      "fast_percent": 92.01785479847709,
+      "slow_successes": 608,
+      "mean_ms": 171.18183987133634,
+      "median_ms": 110.8669999994163,
+      "p95_ms": 508.50310000168975,
+      "p99_ms": 852.5574999998753,
+      "max_ms": 1936.4848999998685
+    },
+    "ai": {
+      "count": 10713,
+      "failed": 4,
+      "success_percent": 99.96266218612901,
+      "fast_percent": 99.1879025483058,
+      "slow_successes": 83,
+      "mean_ms": 1883.3048096704913,
+      "median_ms": 1757.9458000000159,
+      "p95_ms": 2658.5577000005287,
+      "p99_ms": 6881.295699997281,
+      "max_ms": 12257.034800000838
+    },
+    "voice_api": {
+      "count": 318,
+      "failed": 0,
+      "success_percent": 100.0,
+      "fast_percent": 100.0,
+      "slow_successes": 0,
+      "mean_ms": 233.12289968558187,
+      "median_ms": 201.0802999993757,
+      "p95_ms": 446.1792999991303,
+      "p99_ms": 825.0932000009925,
+      "max_ms": 1043.3890000003885
+    },
+    "voice_audio": {
+      "count": 318,
+      "failed": 0,
+      "success_percent": 100.0,
+      "fast_percent": 100.0,
+      "slow_successes": 0,
+      "mean_ms": 505.3482893082546,
+      "median_ms": 484.98359999939566,
+      "p95_ms": 672.9539999996632,
+      "p99_ms": 841.8974999985949,
+      "max_ms": 1819.7205999967991
+    }
+  },
+  "hours": [
+    {
+      "hour": 1,
+      "count": 3291,
+      "failures": 0,
+      "groups": {
+        "ordinary/evaluate": {
+          "count": 969,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 89.2672858617131,
+          "slow_successes": 104,
+          "mean_ms": 339.6657688338426,
+          "median_ms": 312.7954999999929,
+          "p95_ms": 544.9232000000848,
+          "p99_ms": 816.6652000002159,
+          "max_ms": 1153.8900000000467
+        },
+        "ordinary/questionnaire": {
+          "count": 969,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 89.3704850361197,
+          "slow_successes": 103,
+          "mean_ms": 189.8580006192075,
+          "median_ms": 110.31290000005356,
+          "p95_ms": 539.4627000000582,
+          "p99_ms": 1059.3383999998878,
+          "max_ms": 1936.4848999998685
+        },
+        "ai": {
+          "count": 1275,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 99.68627450980392,
+          "slow_successes": 4,
+          "mean_ms": 1976.1270589019584,
+          "median_ms": 1834.4472000001133,
+          "p95_ms": 2944.394199999806,
+          "p99_ms": 5194.429600000149,
+          "max_ms": 9515.176500000052
+        },
+        "voice_api": {
+          "count": 39,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 202.89979743589672,
+          "median_ms": 196.38789999999062,
+          "p95_ms": 237.22479999923962,
+          "p99_ms": 445.4350999999406,
+          "max_ms": 445.4350999999406
+        },
+        "voice_audio": {
+          "count": 39,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 484.9985512820555,
+          "median_ms": 476.5772000000652,
+          "p95_ms": 598.5774000000674,
+          "p99_ms": 836.9100999998409,
+          "max_ms": 836.9100999998409
+        }
+      }
+    },
+    {
+      "hour": 2,
+      "count": 3329,
+      "failures": 0,
+      "groups": {
+        "ordinary/evaluate": {
+          "count": 939,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 92.54526091586794,
+          "slow_successes": 70,
+          "mean_ms": 329.2013858359928,
+          "median_ms": 312.0098000008511,
+          "p95_ms": 448.7552999999025,
+          "p99_ms": 648.388700000396,
+          "max_ms": 834.808399999929
+        },
+        "ai": {
+          "count": 1369,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 99.05040175310445,
+          "slow_successes": 13,
+          "mean_ms": 1990.0642100073028,
+          "median_ms": 1823.8975000003848,
+          "p95_ms": 2856.63409999961,
+          "p99_ms": 6929.629500000374,
+          "max_ms": 9959.769400000368
+        },
+        "ordinary/questionnaire": {
+          "count": 939,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 93.07774227902024,
+          "slow_successes": 65,
+          "mean_ms": 162.02178498401054,
+          "median_ms": 109.84350000035192,
+          "p95_ms": 491.7304000000513,
+          "p99_ms": 758.6020999997345,
+          "max_ms": 1085.5964000002132
+        },
+        "voice_api": {
+          "count": 41,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 261.0117439024002,
+          "median_ms": 205.43460000044433,
+          "p95_ms": 474.05869999965944,
+          "p99_ms": 763.2217999998829,
+          "max_ms": 763.2217999998829
+        },
+        "voice_audio": {
+          "count": 41,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 510.4281585366086,
+          "median_ms": 493.5001000003467,
+          "p95_ms": 673.6052999995081,
+          "p99_ms": 693.7240000006568,
+          "max_ms": 693.7240000006568
+        }
+      }
+    },
+    {
+      "hour": 3,
+      "count": 3325,
+      "failures": 0,
+      "groups": {
+        "ordinary/evaluate": {
+          "count": 956,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 92.46861924686193,
+          "slow_successes": 72,
+          "mean_ms": 334.4274520920101,
+          "median_ms": 315.263499998764,
+          "p95_ms": 472.9637000000366,
+          "p99_ms": 725.7979999994859,
+          "max_ms": 1069.877900001302
+        },
+        "ordinary/questionnaire": {
+          "count": 956,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 92.15481171548117,
+          "slow_successes": 75,
+          "mean_ms": 170.67433661085485,
+          "median_ms": 111.2940000002709,
+          "p95_ms": 506.80149999971036,
+          "p99_ms": 814.5523000002868,
+          "max_ms": 1041.7004999999335
+        },
+        "ai": {
+          "count": 1335,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 99.625468164794,
+          "slow_successes": 5,
+          "mean_ms": 1981.368649213481,
+          "median_ms": 1897.9945999999472,
+          "p95_ms": 2741.4291000004596,
+          "p99_ms": 3891.9069999992644,
+          "max_ms": 8251.789800000552
+        },
+        "voice_api": {
+          "count": 39,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 248.36106666675616,
+          "median_ms": 204.53710000037972,
+          "p95_ms": 469.751599999654,
+          "p99_ms": 988.4966000008717,
+          "max_ms": 988.4966000008717
+        },
+        "voice_audio": {
+          "count": 39,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 487.10399230782434,
+          "median_ms": 474.0656999983912,
+          "p95_ms": 646.3827000006859,
+          "p99_ms": 672.9539999996632,
+          "max_ms": 672.9539999996632
+        }
+      }
+    },
+    {
+      "hour": 4,
+      "count": 3361,
+      "failures": 0,
+      "groups": {
+        "ai": {
+          "count": 1395,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 99.21146953405018,
+          "slow_successes": 11,
+          "mean_ms": 1837.51034272401,
+          "median_ms": 1732.0581000003585,
+          "p95_ms": 2505.2203000013833,
+          "p99_ms": 5136.139899999762,
+          "max_ms": 7778.886500000226
+        },
+        "ordinary/evaluate": {
+          "count": 946,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 91.86046511627907,
+          "slow_successes": 77,
+          "mean_ms": 335.2302516913355,
+          "median_ms": 315.3158999994048,
+          "p95_ms": 480.4564999994909,
+          "p99_ms": 713.424000001396,
+          "max_ms": 1366.7828000016016
+        },
+        "ordinary/questionnaire": {
+          "count": 946,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 91.64904862579282,
+          "slow_successes": 79,
+          "mean_ms": 170.3104310782013,
+          "median_ms": 110.96790000010515,
+          "p95_ms": 484.43049999877985,
+          "p99_ms": 832.6792999996542,
+          "max_ms": 1469.8644000000058
+        },
+        "voice_api": {
+          "count": 37,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 236.2118162164316,
+          "median_ms": 196.7289999993227,
+          "p95_ms": 544.6200000005774,
+          "p99_ms": 1043.3890000003885,
+          "max_ms": 1043.3890000003885
+        },
+        "voice_audio": {
+          "count": 37,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 500.30250810817273,
+          "median_ms": 485.4255000009289,
+          "p95_ms": 685.5558999995992,
+          "p99_ms": 798.4800999984145,
+          "max_ms": 798.4800999984145
+        }
+      }
+    },
+    {
+      "hour": 5,
+      "count": 3355,
+      "failures": 1,
+      "groups": {
+        "ai": {
+          "count": 1367,
+          "failed": 1,
+          "success_percent": 99.92684711046086,
+          "fast_percent": 98.97585954645209,
+          "slow_successes": 13,
+          "mean_ms": 1893.1449866129194,
+          "median_ms": 1769.486199998937,
+          "p95_ms": 2557.6517000008607,
+          "p99_ms": 6995.372100000168,
+          "max_ms": 8433.459800000492
+        },
+        "ordinary/evaluate": {
+          "count": 952,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 91.17647058823529,
+          "slow_successes": 84,
+          "mean_ms": 335.8201669117641,
+          "median_ms": 314.6161000004213,
+          "p95_ms": 502.5294999977632,
+          "p99_ms": 728.538599998501,
+          "max_ms": 1058.9476999994076
+        },
+        "ordinary/questionnaire": {
+          "count": 952,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 93.80252100840336,
+          "slow_successes": 59,
+          "mean_ms": 163.0949002100573,
+          "median_ms": 111.65450000044075,
+          "p95_ms": 469.01160000015807,
+          "p99_ms": 766.6688999997859,
+          "max_ms": 1042.2421000002942
+        },
+        "voice_api": {
+          "count": 42,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 233.83757380984858,
+          "median_ms": 197.6279999998951,
+          "p95_ms": 438.0189000003156,
+          "p99_ms": 657.7667000019574,
+          "max_ms": 657.7667000019574
+        },
+        "voice_audio": {
+          "count": 42,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 534.320611904626,
+          "median_ms": 484.9826999998186,
+          "p95_ms": 754.710500001238,
+          "p99_ms": 1819.7205999967991,
+          "max_ms": 1819.7205999967991
+        }
+      }
+    },
+    {
+      "hour": 6,
+      "count": 3259,
+      "failures": 0,
+      "groups": {
+        "voice_api": {
+          "count": 43,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 220.57345581400347,
+          "median_ms": 204.74950000061654,
+          "p95_ms": 292.36369999853196,
+          "p99_ms": 477.05779999887454,
+          "max_ms": 477.05779999887454
+        },
+        "voice_audio": {
+          "count": 43,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 499.3439395351066,
+          "median_ms": 488.41430000175023,
+          "p95_ms": 638.2817000012437,
+          "p99_ms": 786.455700002989,
+          "max_ms": 786.455700002989
+        },
+        "ai": {
+          "count": 1287,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 98.83449883449883,
+          "slow_successes": 15,
+          "mean_ms": 1804.1826547009123,
+          "median_ms": 1670.762099998683,
+          "p95_ms": 2418.5108999990916,
+          "p99_ms": 7085.852299998805,
+          "max_ms": 11085.702399999718
+        },
+        "ordinary/evaluate": {
+          "count": 943,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 91.72852598091198,
+          "slow_successes": 78,
+          "mean_ms": 337.81517348885933,
+          "median_ms": 316.76119999974617,
+          "p95_ms": 499.55270000282326,
+          "p99_ms": 704.8472999995283,
+          "max_ms": 1438.0359999995562
+        },
+        "ordinary/questionnaire": {
+          "count": 943,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 91.9406150583245,
+          "slow_successes": 76,
+          "mean_ms": 173.33687550381734,
+          "median_ms": 110.92120000103023,
+          "p95_ms": 515.1175999999396,
+          "p99_ms": 896.0573000003933,
+          "max_ms": 1617.1364999972866
+        }
+      }
+    },
+    {
+      "hour": 7,
+      "count": 3333,
+      "failures": 1,
+      "groups": {
+        "ordinary/evaluate": {
+          "count": 956,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 91.84100418410041,
+          "slow_successes": 78,
+          "mean_ms": 336.1030913179759,
+          "median_ms": 315.67030000223895,
+          "p95_ms": 515.052900002047,
+          "p99_ms": 745.2690999998595,
+          "max_ms": 1121.0482999995293
+        },
+        "ordinary/questionnaire": {
+          "count": 956,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 91.52719665271967,
+          "slow_successes": 81,
+          "mean_ms": 179.32616234308577,
+          "median_ms": 111.29090000031283,
+          "p95_ms": 523.5189999984868,
+          "p99_ms": 933.9209999998275,
+          "max_ms": 1643.8834000000497
+        },
+        "ai": {
+          "count": 1345,
+          "failed": 1,
+          "success_percent": 99.92565055762081,
+          "fast_percent": 99.25650557620817,
+          "slow_successes": 9,
+          "mean_ms": 1761.9890194796185,
+          "median_ms": 1648.4020999996574,
+          "p95_ms": 2402.5355000012496,
+          "p99_ms": 6813.214699999662,
+          "max_ms": 7787.873699999182
+        },
+        "voice_api": {
+          "count": 38,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 218.46307631561726,
+          "median_ms": 200.96969999940484,
+          "p95_ms": 437.9756999987876,
+          "p99_ms": 475.72280000167666,
+          "max_ms": 475.72280000167666
+        },
+        "voice_audio": {
+          "count": 38,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 527.1588526317685,
+          "median_ms": 497.85590000101365,
+          "p95_ms": 876.0899000008067,
+          "p99_ms": 1001.2739000012516,
+          "max_ms": 1001.2739000012516
+        }
+      }
+    },
+    {
+      "hour": 8,
+      "count": 3330,
+      "failures": 2,
+      "groups": {
+        "ordinary/evaluate": {
+          "count": 956,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 92.99163179916317,
+          "slow_successes": 67,
+          "mean_ms": 333.26736297071704,
+          "median_ms": 315.68960000004154,
+          "p95_ms": 487.548400000378,
+          "p99_ms": 676.7977000017709,
+          "max_ms": 1000.2095999989251
+        },
+        "ordinary/questionnaire": {
+          "count": 956,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 92.67782426778243,
+          "slow_successes": 70,
+          "mean_ms": 160.40172824262655,
+          "median_ms": 110.65099999905215,
+          "p95_ms": 482.3681999987457,
+          "p99_ms": 759.209899999405,
+          "max_ms": 1048.369799998909
+        },
+        "ai": {
+          "count": 1340,
+          "failed": 2,
+          "success_percent": 99.85074626865672,
+          "fast_percent": 98.88059701492537,
+          "slow_successes": 13,
+          "mean_ms": 1823.6141366417664,
+          "median_ms": 1706.209599997237,
+          "p95_ms": 2467.0365000019956,
+          "p99_ms": 6998.849200001132,
+          "max_ms": 12257.034800000838
+        },
+        "voice_api": {
+          "count": 39,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 243.20913076912686,
+          "median_ms": 199.182500000461,
+          "p95_ms": 825.0932000009925,
+          "p99_ms": 1034.6676999979536,
+          "max_ms": 1034.6676999979536
+        },
+        "voice_audio": {
+          "count": 39,
+          "failed": 0,
+          "success_percent": 100.0,
+          "fast_percent": 100.0,
+          "slow_successes": 0,
+          "mean_ms": 497.556871795006,
+          "median_ms": 482.74270000183606,
+          "p95_ms": 713.9013000014529,
+          "p99_ms": 736.5943000004336,
+          "max_ms": 736.5943000004336
+        }
+      }
+    }
+  ],
+  "failures": [
+    {
+      "utc": "2026-11-02T17:18:12.918257+00:00",
+      "group": "ai",
+      "ms": 5.28180000037537
+    },
+    {
+      "utc": "2026-11-02T20:04:12.966821+00:00",
+      "group": "ai",
+      "ms": 10.279699999955483
+    },
+    {
+      "utc": "2026-11-02T20:40:08.742664+00:00",
+      "group": "ai",
+      "ms": 14.951900000596652
+    },
+    {
+      "utc": "2026-11-02T21:08:51.175506+00:00",
+      "group": "ai",
+      "ms": 20.06670000264421
+    }
+  ],
+  "backend_memory_mib": {
+    "min": 127.9,
+    "max": 262.7,
+    "mean": 239.99691516709512,
+    "p95": 260.5
+  },
+  "backend_cpu_docker_percent": {
+    "min": 0.45,
+    "max": 30.12,
+    "mean": 5.778894601542416,
+    "p95": 17.51
+  },
+  "backend_first10min_mean_mib": 149.88163265306122,
+  "backend_last10min_mean_mib": 259.76326530612243,
+  "backend_recovery_memory_mib": [
+    262.3,
+    262.3,
+    262.3,
+    262.3,
+    262.3,
+    261.8,
+    261.8,
+    261.8,
+    261.9,
+    261.9
+  ],
+  "host_available_gib": {
+    "min": 2.3149261474609375,
+    "max": 2.4796371459960938,
+    "mean": 2.3523508903810684,
+    "p95": 2.425457000732422
+  },
+  "host_load1": {
+    "min": 0.0,
+    "max": 0.65,
+    "mean": 0.13691945158526136,
+    "p95": 0.33
+  },
+  "host_disk_available_gib": {
+    "min": 6.956035614013672,
+    "max": 6.982585906982422,
+    "mean": 6.965695171143729,
+    "p95": 6.973991394042969
+  },
+  "backend_container_ids": [
+    "f721858f6989"
+  ],
+  "backend_state_values": {
+    "running": 2377
+  },
+  "generator_cpu_percent": {
+    "min": 0.5,
+    "max": 29.4,
+    "mean": 4.850238907849829,
+    "p95": 10.3
+  },
+  "generator_max_gap_seconds": 10.141624212265015,
+  "generator_memory_percent": {
+    "min": 35.5,
+    "max": 52.0,
+    "mean": 45.773242320819115,
+    "p95": 49.7
+  }
+}

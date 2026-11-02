@@ -1,0 +1,11 @@
+original_users_before 29
+database psi_up_staging_perf_20261102 profiles_before 5000
+Profili v evidenci: 5000, AI seje: 31, izvedba: True
+profiles_after 0
+database psi_up_staging_perf_20261102 profiles_before 15000
+Profili v evidenci: 15000, AI seje: 516, izvedba: True
+profiles_after 0
+database psi_up_staging_perf_retry_20261102 profiles_before 15000
+Profili v evidenci: 15000, AI seje: 2721, izvedba: True
+profiles_after 0
+original_users_after 29

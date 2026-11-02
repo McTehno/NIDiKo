@@ -1,0 +1,44 @@
+{
+  "users": 100,
+  "spawn_rate": 1,
+  "warmup_seconds": 300,
+  "steady_seconds": 28800,
+  "recovery_seconds": 120,
+  "think_seconds": [
+    15,
+    35
+  ],
+  "assistant_read_seconds": [
+    10,
+    25
+  ],
+  "ai_counts": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    12,
+    20
+  ],
+  "ai_weights": [
+    20,
+    20,
+    20,
+    15,
+    10,
+    7,
+    5,
+    3
+  ],
+  "timeout_seconds": 60,
+  "window_seconds": 300,
+  "success_fraction": 0.999,
+  "ordinary_fast_fraction": 0.99,
+  "ordinary_ms": 400,
+  "ai_ms": 7000,
+  "voice_ms": 3000,
+  "minimum_samples_per_group": 1000,
+  "seed": 20261102
+}

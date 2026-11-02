@@ -1,8 +1,8 @@
 # Načrt vzdržljivostnega testiranja
 
-Status: pilot izveden 2. 11. 2026; prvi glavni zagon je po vrzelih in izklopu prenosnika prekinjen. Uporabnik je pozneje naročil ponovitev; nov zagon `20261102T131105Z` poteka od 14:11 lokalno. Dokazi obeh izvedb ostajajo ločeni; podrobnosti so v poročilu.
+Status: izvedba zaključena 2. 11. 2026. Pilot in prekinjeni prvi zagon sta ločena od veljavne ponovitve `20261102T131105Z`. Ponovitev je dosegla osem ur ciljne obremenitve; končna ocena je FAIL zaradi časovnih kriterijev. Končni rezultati, omejitve in dokazi so v [poročilu](18-porocilo-sistemskega-testiranja.md).
 
-Spodnji scenarij ohranja prvotni načrt, ne trditve o doseženem trajanju. Ob končni presoji ločimo pretečeni čas, dokumentirano neaktivnost in intervale izmerjene obremenitve.
+Spodnji scenarij ohranja pogoje in kriterije pred izvedbo. Odstopanja prvega zagona ne spreminjajo teh kriterijev in niso združena s ponovitvijo.
 
 ## Namen in obseg
 

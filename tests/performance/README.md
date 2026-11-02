@@ -118,3 +118,25 @@ in skupni predpomnilnik ostanejo. Ne zaganjaj čiščenja med meritvijo.
 
 Referenci orodja: [uporabniški poteki](https://docs.locust.io/en/stable/writing-a-locustfile.html),
 [zagon brez vmesnika](https://docs.locust.io/en/stable/running-without-web-ui.html).
+
+## Zaključena izvedba in grafični dokazi
+
+Končni rezultati 2. 11. 2026 so v [poročilu](../../docs/18-porocilo-sistemskega-testiranja.md).
+Ponovitev `20261102T131105Z` je časovno veljavna, vendar ima oceno FAIL zaradi
+odzivnih časov. Prvotni prekinjeni zagon ostaja ločen kot INVALID. Obnova staginga
+in čiščenje evidentiranih profilov sta dokumentirana. Kolegov stresni test še ni izveden.
+
+Za dodatne grafe in infrastrukturo uporabi izvorno mapo zaključenega zagona ter
+pripadajoči `generator.jsonl`. Odvisnosti za grafe so ločene od Locusta:
+
+```powershell
+tests/performance/.venv/Scripts/python.exe -m pip install -r tests/performance/report-requirements.txt
+tests/performance/.venv/Scripts/python.exe tests/performance/scripts/finalize_evidence.py --run POT-DO-ZAGONA --generator POT-DO-generator.jsonl --output test-results/obdelani-dokazi
+```
+
+Skripta za zaključeni vzdržljivostni format preveri ujemanje števila zahtev/napak
+z Locust CSV ter ustvari `assets/metrics.json`, dve sliki in kontrolne vsote izvorne
+mape. Potrebuje `summary.json` iz `analyze_results.py`, infrastrukturne meritve
+zbiralnika in meritve generatorja. Ni namenjena nepopolnim ali stresnim zagonom.
+Ne spreminja izvornih dogodkov ali kriterijev. Približni percentili Locusta se lahko
+razlikujejo od točnih percentilov iz posameznih vzorcev.

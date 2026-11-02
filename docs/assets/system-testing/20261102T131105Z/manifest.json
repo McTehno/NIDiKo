@@ -1,0 +1,63 @@
+{
+  "run_id": "20261102T131105Z",
+  "app_commit": "6853f9d77d04477745943885cc6c08e5dd5ab3e6",
+  "test_commit": "9040255757f74cfaa8cc8840dd2442a7cbf66fde",
+  "test_worktree_dirty": false,
+  "base_url": "http://46.225.17.135",
+  "environment_note": "RETRY after laptop shutdown; CX23 2vCPU 4GB; 1 uvicorn; isolated psi_up_staging_perf_retry_20261102; cached voice copied from prior run; 14 yes_no questions up_001; external Windows generator; deployment paused",
+  "profile": {
+    "users": 100,
+    "spawn_rate": 1,
+    "warmup_seconds": 300,
+    "steady_seconds": 28800,
+    "recovery_seconds": 120,
+    "think_seconds": [
+      15,
+      35
+    ],
+    "assistant_read_seconds": [
+      10,
+      25
+    ],
+    "ai_counts": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      12,
+      20
+    ],
+    "ai_weights": [
+      20,
+      20,
+      20,
+      15,
+      10,
+      7,
+      5,
+      3
+    ],
+    "timeout_seconds": 60,
+    "window_seconds": 300,
+    "success_fraction": 0.999,
+    "ordinary_fast_fraction": 0.99,
+    "ordinary_ms": 400,
+    "ai_ms": 7000,
+    "voice_ms": 3000,
+    "minimum_samples_per_group": 1000,
+    "seed": 20261102
+  },
+  "targets": [
+    {
+      "target_type": "learning_path",
+      "target_id": "up_001"
+    }
+  ],
+  "user_pool_size": 15000,
+  "started_at": "2026-11-02T13:11:05.173465+00:00",
+  "command_completed": true,
+  "exit_code": 1,
+  "ended_at": "2026-11-02T21:19:47.634847+00:00"
+}
