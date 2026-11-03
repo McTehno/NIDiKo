@@ -125,3 +125,4 @@ python tests/performance/scripts/run_stress.py --data test-results/performance/s
 3. Odstrani `STAGING_DEPLOY_PAUSED` spremenljivko v GitHub repozitoriju.
 4. Po arhiviranju dokazov pobriši sintetične profile iz testne baze s `cleanup_test_data.py`.
 5. Preveri dosegljivost aplikacije in delovanje za običajne uporabnike.
+

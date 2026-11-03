@@ -13,6 +13,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
 
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 # Vključimo pot do skupnih modulov
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from common import ROOT, load_stress_profile, stress_duration
@@ -200,3 +207,4 @@ def main():
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

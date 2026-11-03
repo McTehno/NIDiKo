@@ -9,8 +9,16 @@ import html
 import json
 import math
 import statistics
+import sys
 from collections import defaultdict
 from pathlib import Path
+
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 
 def percentile(values, q):
@@ -363,3 +371,4 @@ if __name__ == "__main__":
     print(f"Status: {summary['status']}")
     print(f"Najvišja stopnja: {summary['highest_tested_stage']}")
     print(f"Meja tehnične preobremenitve: {summary['technical_breaking_stage']}")
+

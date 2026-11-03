@@ -1,0 +1,1320 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<title>Poročilo stresnega testiranja NIDiKo</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 1050px; margin: 40px auto; padding: 0 20px; color: #1f2937; line-height: 1.5; }
+h1, h2, h3 { color: #111827; }
+table { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 14px; }
+th, td { border: 1px solid #d1d5db; padding: 8px 12px; text-align: left; }
+th { background: #f3f4f6; }
+.badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 13px; }
+.status-pass { color: #047857; font-weight: bold; }
+.status-fail { color: #b91c1c; font-weight: bold; }
+.status-skipped { color: #6b7280; }
+.status-observed { color: #4338ca; }
+pre { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+</style>
+</head>
+<body>
+<h1>Poročilo stresnega testiranja NIDiKo</h1>
+<p><strong>Izid:</strong> <span class="badge status-fail">FAIL</span></p>
+<p><strong>Najvišja preizkušena stopnja:</strong> stage_7 | 
+<strong>Meja merjenih kriterijev:</strong> stage_1 | 
+<strong>Meja tehnične preobremenitve:</strong> Meja tehnične preobremenitve ni bila dosežena</p>
+<p><em>Kriteriji kakovosti (400 ms za običajne API-je, 7 s za AI) niso enaki meji preobremenitve. Meja tehnične preobremenitve je določena z znatnim porastom napak (&gt; 5 % v dveh oknih ali &gt; 10 % v enem), sesutjem ali izčrpanjem virov. Primerjava okrevanja z začetno stopnjo 20 uporabnikov temelji na neposrednih meritvah odzivnih časov in napak.</em></p>
+
+<h2>Pregled po stopnjah obremenitve</h2>
+<table>
+<thead>
+<tr>
+<th>Stopnja</th><th>Mesta</th><th>Trajanje</th><th>Zahtev</th><th>Napake</th><th>RPS</th>
+<th>Vprašalnik p99</th><th>Oddaja p99</th><th>AI p99</th><th>Ocena</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong>warmup</strong></td><td>20</td><td>300.9 s</td><td>16</td><td>0 (0.00 %)</td><td>0.05</td><td>-</td><td>-</td><td>2147.31</td><td class='status-pass'>PASS</td></tr><tr><td><strong>stage_1</strong></td><td>20</td><td>600.6 s</td><td>116</td><td>0 (0.00 %)</td><td>0.19</td><td>384.26</td><td>566.59</td><td>6707.58</td><td class='status-fail'>FAIL</td></tr><tr><td><strong>stage_2</strong></td><td>40</td><td>600.3 s</td><td>199</td><td>0 (0.00 %)</td><td>0.33</td><td>339.45</td><td>555.03</td><td>7238.67</td><td class='status-fail'>FAIL</td></tr><tr><td><strong>stage_3</strong></td><td>60</td><td>600.8 s</td><td>307</td><td>0 (0.00 %)</td><td>0.51</td><td>389.89</td><td>500.89</td><td>3885.23</td><td class='status-fail'>FAIL</td></tr><tr><td><strong>stage_4</strong></td><td>100</td><td>600.3 s</td><td>489</td><td>0 (0.00 %)</td><td>0.81</td><td>918.57</td><td>867.13</td><td>3900.92</td><td class='status-fail'>FAIL</td></tr><tr><td><strong>stage_5</strong></td><td>140</td><td>600.3 s</td><td>707</td><td>0 (0.00 %)</td><td>1.18</td><td>658.89</td><td>667.95</td><td>2866.1</td><td class='status-fail'>FAIL</td></tr><tr><td><strong>stage_6</strong></td><td>180</td><td>600.3 s</td><td>963</td><td>0 (0.00 %)</td><td>1.6</td><td>1589.81</td><td>1150.0</td><td>3395.44</td><td class='status-fail'>FAIL</td></tr><tr><td><strong>stage_7</strong></td><td>220</td><td>600.7 s</td><td>1199</td><td>0 (0.00 %)</td><td>2.0</td><td>929.4</td><td>919.54</td><td>4696.52</td><td class='status-fail'>FAIL</td></tr><tr><td><strong>recovery</strong></td><td>20</td><td>600.1 s</td><td>106</td><td>0 (0.00 %)</td><td>0.18</td><td>170.08</td><td>430.75</td><td>5453.57</td><td class='status-fail'>FAIL</td></tr><tr><td><strong>cooldown</strong></td><td>0</td><td>120.9 s</td><td>0</td><td>0 (0.00 %)</td><td>0.0</td><td>-</td><td>-</td><td>-</td><td class='status-no_requests'>NO_REQUESTS</td></tr>
+</tbody>
+</table>
+
+
+        <h3>Aktivna mesta in RPS skozi stopnje stresnega testa</h3>
+        <svg viewBox="0 0 800 220" style="width:100%;background:#fafafa;border:1px solid #e5e7eb;border-radius:6px;margin:16px 0;">
+            <polyline points="50.0,176.4 137.5,176.4 225.0,162.7 312.5,149.1 400.0,121.8 487.5,94.5 575.0,67.3 662.5,40.0 750.0,176.4" fill="none" stroke="#2563eb" stroke-width="3" />
+            <polyline points="50.0,186.2 137.5,175.8 225.0,165.2 312.5,151.8 400.0,129.2 487.5,101.5 575.0,70.0 662.5,40.0 750.0,176.5" fill="none" stroke="#059669" stroke-width="2" stroke-dasharray="4" />
+            <line x1="50" y1="190" x2="750" y2="190" stroke="#9ca3af" stroke-width="1" />
+            <text x="50" y="20" fill="#2563eb" font-size="12">■ Uporabniki (vrh: 220)</text>
+            <text x="230" y="20" fill="#059669" font-size="12">--- RPS (vrh: 2.0)</text>
+        </svg>
+        
+
+<h2>Primerjava okrevanja (Stage 1 vs. Recovery)</h2>
+<pre>{
+  &quot;stage_1_users&quot;: 20,
+  &quot;recovery_users&quot;: 20,
+  &quot;stage_1_requests&quot;: 116,
+  &quot;recovery_requests&quot;: 106,
+  &quot;stage_1_failure_rate&quot;: 0.0,
+  &quot;recovery_failure_rate&quot;: 0.0,
+  &quot;stage_1_rps&quot;: 0.19,
+  &quot;recovery_rps&quot;: 0.18,
+  &quot;ordinary/questionnaire_stage1_p99_ms&quot;: 384.26,
+  &quot;ordinary/questionnaire_recovery_p99_ms&quot;: 170.08,
+  &quot;ordinary/evaluate_stage1_p99_ms&quot;: 566.59,
+  &quot;ordinary/evaluate_recovery_p99_ms&quot;: 430.75,
+  &quot;ai_stage1_p99_ms&quot;: 6707.58,
+  &quot;ai_recovery_p99_ms&quot;: 5453.57
+}</pre>
+
+<h2>Podrobne metrike v JSON</h2>
+<pre>{
+  &quot;status&quot;: &quot;FAIL&quot;,
+  &quot;test_type&quot;: &quot;stress&quot;,
+  &quot;run_id&quot;: &quot;20261103T110430Z&quot;,
+  &quot;total_requests&quot;: 4448,
+  &quot;total_failures&quot;: 0,
+  &quot;highest_tested_stage&quot;: &quot;stage_7&quot;,
+  &quot;criteria_breaking_stage&quot;: &quot;stage_1&quot;,
+  &quot;technical_breaking_stage&quot;: &quot;Meja tehnične preobremenitve ni bila dosežena&quot;,
+  &quot;early_stop&quot;: {
+    &quot;triggered&quot;: false,
+    &quot;events&quot;: []
+  },
+  &quot;fatal_errors&quot;: [],
+  &quot;truncated_events&quot;: false,
+  &quot;recovery_comparison&quot;: {
+    &quot;stage_1_users&quot;: 20,
+    &quot;recovery_users&quot;: 20,
+    &quot;stage_1_requests&quot;: 116,
+    &quot;recovery_requests&quot;: 106,
+    &quot;stage_1_failure_rate&quot;: 0.0,
+    &quot;recovery_failure_rate&quot;: 0.0,
+    &quot;stage_1_rps&quot;: 0.19,
+    &quot;recovery_rps&quot;: 0.18,
+    &quot;ordinary/questionnaire_stage1_p99_ms&quot;: 384.26,
+    &quot;ordinary/questionnaire_recovery_p99_ms&quot;: 170.08,
+    &quot;ordinary/evaluate_stage1_p99_ms&quot;: 566.59,
+    &quot;ordinary/evaluate_recovery_p99_ms&quot;: 430.75,
+    &quot;ai_stage1_p99_ms&quot;: 6707.58,
+    &quot;ai_recovery_p99_ms&quot;: 5453.57
+  },
+  &quot;stages&quot;: [
+    {
+      &quot;name&quot;: &quot;warmup&quot;,
+      &quot;target_users&quot;: 20,
+      &quot;is_warmup&quot;: true,
+      &quot;is_recovery&quot;: false,
+      &quot;is_cooldown&quot;: false,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;duration_measured_seconds&quot;: 300.9,
+      &quot;total_requests&quot;: 16,
+      &quot;failed_requests&quot;: 0,
+      &quot;failure_rate&quot;: 0.0,
+      &quot;rps&quot;: 0.05,
+      &quot;population&quot;: {
+        &quot;min&quot;: 20,
+        &quot;max&quot;: 20,
+        &quot;mean&quot;: 20,
+        &quot;last_ordinary&quot;: 12,
+        &quot;last_ai&quot;: 8,
+        &quot;last_voice&quot;: 1
+      },
+      &quot;groups&quot;: {
+        &quot;ai&quot;: {
+          &quot;count&quot;: 14,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1672.91,
+          &quot;median_ms&quot;: 1592.62,
+          &quot;p95_ms&quot;: 2147.31,
+          &quot;p99_ms&quot;: 2147.31,
+          &quot;max_ms&quot;: 2147.31,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_cold&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 2328.49,
+          &quot;median_ms&quot;: 2328.49,
+          &quot;p95_ms&quot;: 2328.49,
+          &quot;p99_ms&quot;: 2328.49,
+          &quot;max_ms&quot;: 2328.49,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;OBSERVED&quot;
+        },
+        &quot;voice_audio&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 1015.07,
+          &quot;median_ms&quot;: 1015.07,
+          &quot;p95_ms&quot;: 1015.07,
+          &quot;p99_ms&quot;: 1015.07,
+          &quot;max_ms&quot;: 1015.07,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      },
+      &quot;ramp_groups&quot;: {
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 20,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 246.61,
+          &quot;median_ms&quot;: 247.53,
+          &quot;p95_ms&quot;: 304.17,
+          &quot;p99_ms&quot;: 326.52,
+          &quot;max_ms&quot;: 326.52,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      }
+    },
+    {
+      &quot;name&quot;: &quot;stage_1&quot;,
+      &quot;target_users&quot;: 20,
+      &quot;is_warmup&quot;: false,
+      &quot;is_recovery&quot;: false,
+      &quot;is_cooldown&quot;: false,
+      &quot;status&quot;: &quot;FAIL&quot;,
+      &quot;duration_measured_seconds&quot;: 600.6,
+      &quot;total_requests&quot;: 116,
+      &quot;failed_requests&quot;: 0,
+      &quot;failure_rate&quot;: 0.0,
+      &quot;rps&quot;: 0.19,
+      &quot;population&quot;: {
+        &quot;min&quot;: 20,
+        &quot;max&quot;: 20,
+        &quot;mean&quot;: 20,
+        &quot;last_ordinary&quot;: 12,
+        &quot;last_ai&quot;: 8,
+        &quot;last_voice&quot;: 1
+      },
+      &quot;groups&quot;: {
+        &quot;ai&quot;: {
+          &quot;count&quot;: 36,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1771.46,
+          &quot;median_ms&quot;: 1593.81,
+          &quot;p95_ms&quot;: 2412.01,
+          &quot;p99_ms&quot;: 6707.58,
+          &quot;max_ms&quot;: 6707.58,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 39,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.871795,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 343.78,
+          &quot;median_ms&quot;: 332.61,
+          &quot;p95_ms&quot;: 483.12,
+          &quot;p99_ms&quot;: 566.59,
+          &quot;max_ms&quot;: 566.59,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 39,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 150.58,
+          &quot;median_ms&quot;: 135.07,
+          &quot;p95_ms&quot;: 305.9,
+          &quot;p99_ms&quot;: 384.26,
+          &quot;max_ms&quot;: 384.26,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_cached&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 315.59,
+          &quot;median_ms&quot;: 315.59,
+          &quot;p95_ms&quot;: 315.59,
+          &quot;p99_ms&quot;: 315.59,
+          &quot;max_ms&quot;: 315.59,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_audio&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 901.8,
+          &quot;median_ms&quot;: 901.8,
+          &quot;p95_ms&quot;: 901.8,
+          &quot;p99_ms&quot;: 901.8,
+          &quot;max_ms&quot;: 901.8,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      },
+      &quot;ramp_groups&quot;: {}
+    },
+    {
+      &quot;name&quot;: &quot;stage_2&quot;,
+      &quot;target_users&quot;: 40,
+      &quot;is_warmup&quot;: false,
+      &quot;is_recovery&quot;: false,
+      &quot;is_cooldown&quot;: false,
+      &quot;status&quot;: &quot;FAIL&quot;,
+      &quot;duration_measured_seconds&quot;: 600.3,
+      &quot;total_requests&quot;: 199,
+      &quot;failed_requests&quot;: 0,
+      &quot;failure_rate&quot;: 0.0,
+      &quot;rps&quot;: 0.33,
+      &quot;population&quot;: {
+        &quot;min&quot;: 40,
+        &quot;max&quot;: 40,
+        &quot;mean&quot;: 40,
+        &quot;last_ordinary&quot;: 24,
+        &quot;last_ai&quot;: 16,
+        &quot;last_voice&quot;: 2
+      },
+      &quot;groups&quot;: {
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 55,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 156.11,
+          &quot;median_ms&quot;: 148.81,
+          &quot;p95_ms&quot;: 278.21,
+          &quot;p99_ms&quot;: 339.45,
+          &quot;max_ms&quot;: 339.45,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 85,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.976471,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1822.52,
+          &quot;median_ms&quot;: 1620.3,
+          &quot;p95_ms&quot;: 2623.22,
+          &quot;p99_ms&quot;: 7238.67,
+          &quot;max_ms&quot;: 7238.67,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 53,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.962264,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 341.95,
+          &quot;median_ms&quot;: 336.88,
+          &quot;p95_ms&quot;: 384.3,
+          &quot;p99_ms&quot;: 555.03,
+          &quot;max_ms&quot;: 555.03,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;voice_cached&quot;: {
+          &quot;count&quot;: 2,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 277.86,
+          &quot;median_ms&quot;: 237.67,
+          &quot;p95_ms&quot;: 318.05,
+          &quot;p99_ms&quot;: 318.05,
+          &quot;max_ms&quot;: 318.05,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_audio&quot;: {
+          &quot;count&quot;: 3,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 915.87,
+          &quot;median_ms&quot;: 935.98,
+          &quot;p95_ms&quot;: 956.01,
+          &quot;p99_ms&quot;: 956.01,
+          &quot;max_ms&quot;: 956.01,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_cold&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 2910.51,
+          &quot;median_ms&quot;: 2910.51,
+          &quot;p95_ms&quot;: 2910.51,
+          &quot;p99_ms&quot;: 2910.51,
+          &quot;max_ms&quot;: 2910.51,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;OBSERVED&quot;
+        }
+      },
+      &quot;ramp_groups&quot;: {
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 18,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.944444,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 239.75,
+          &quot;median_ms&quot;: 203.88,
+          &quot;p95_ms&quot;: 449.97,
+          &quot;p99_ms&quot;: 449.97,
+          &quot;max_ms&quot;: 449.97,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;FAIL&quot;
+        }
+      }
+    },
+    {
+      &quot;name&quot;: &quot;stage_3&quot;,
+      &quot;target_users&quot;: 60,
+      &quot;is_warmup&quot;: false,
+      &quot;is_recovery&quot;: false,
+      &quot;is_cooldown&quot;: false,
+      &quot;status&quot;: &quot;FAIL&quot;,
+      &quot;duration_measured_seconds&quot;: 600.8,
+      &quot;total_requests&quot;: 307,
+      &quot;failed_requests&quot;: 0,
+      &quot;failure_rate&quot;: 0.0,
+      &quot;rps&quot;: 0.51,
+      &quot;population&quot;: {
+        &quot;min&quot;: 60,
+        &quot;max&quot;: 60,
+        &quot;mean&quot;: 60,
+        &quot;last_ordinary&quot;: 36,
+        &quot;last_ai&quot;: 24,
+        &quot;last_voice&quot;: 3
+      },
+      &quot;groups&quot;: {
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 89,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 166.45,
+          &quot;median_ms&quot;: 149.73,
+          &quot;p95_ms&quot;: 339.75,
+          &quot;p99_ms&quot;: 389.89,
+          &quot;max_ms&quot;: 389.89,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 123,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1735.72,
+          &quot;median_ms&quot;: 1633.2,
+          &quot;p95_ms&quot;: 2314.89,
+          &quot;p99_ms&quot;: 3885.23,
+          &quot;max_ms&quot;: 6073.41,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 87,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.908046,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 337.93,
+          &quot;median_ms&quot;: 333.8,
+          &quot;p95_ms&quot;: 435.01,
+          &quot;p99_ms&quot;: 500.89,
+          &quot;max_ms&quot;: 500.89,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;voice_cached&quot;: {
+          &quot;count&quot;: 4,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 293.48,
+          &quot;median_ms&quot;: 275.85,
+          &quot;p95_ms&quot;: 357.19,
+          &quot;p99_ms&quot;: 357.19,
+          &quot;max_ms&quot;: 357.19,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_audio&quot;: {
+          &quot;count&quot;: 4,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 958.82,
+          &quot;median_ms&quot;: 967.03,
+          &quot;p95_ms&quot;: 986.76,
+          &quot;p99_ms&quot;: 986.76,
+          &quot;max_ms&quot;: 986.76,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      },
+      &quot;ramp_groups&quot;: {
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 18,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 238.18,
+          &quot;median_ms&quot;: 231.85,
+          &quot;p95_ms&quot;: 312.66,
+          &quot;p99_ms&quot;: 312.66,
+          &quot;max_ms&quot;: 312.66,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1548.28,
+          &quot;median_ms&quot;: 1548.28,
+          &quot;p95_ms&quot;: 1548.28,
+          &quot;p99_ms&quot;: 1548.28,
+          &quot;max_ms&quot;: 1548.28,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      }
+    },
+    {
+      &quot;name&quot;: &quot;stage_4&quot;,
+      &quot;target_users&quot;: 100,
+      &quot;is_warmup&quot;: false,
+      &quot;is_recovery&quot;: false,
+      &quot;is_cooldown&quot;: false,
+      &quot;status&quot;: &quot;FAIL&quot;,
+      &quot;duration_measured_seconds&quot;: 600.3,
+      &quot;total_requests&quot;: 489,
+      &quot;failed_requests&quot;: 0,
+      &quot;failure_rate&quot;: 0.0,
+      &quot;rps&quot;: 0.81,
+      &quot;population&quot;: {
+        &quot;min&quot;: 100,
+        &quot;max&quot;: 100,
+        &quot;mean&quot;: 100,
+        &quot;last_ordinary&quot;: 60,
+        &quot;last_ai&quot;: 40,
+        &quot;last_voice&quot;: 5
+      },
+      &quot;groups&quot;: {
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 139,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.971223,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 173.8,
+          &quot;median_ms&quot;: 149.32,
+          &quot;p95_ms&quot;: 323.42,
+          &quot;p99_ms&quot;: 918.57,
+          &quot;max_ms&quot;: 920.66,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 201,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.99005,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1877.85,
+          &quot;median_ms&quot;: 1711.77,
+          &quot;p95_ms&quot;: 2767.59,
+          &quot;p99_ms&quot;: 3900.92,
+          &quot;max_ms&quot;: 7322.38,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 137,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.905109,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 351.53,
+          &quot;median_ms&quot;: 333.8,
+          &quot;p95_ms&quot;: 482.07,
+          &quot;p99_ms&quot;: 867.13,
+          &quot;max_ms&quot;: 921.13,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;voice_cold&quot;: {
+          &quot;count&quot;: 3,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 2482.87,
+          &quot;median_ms&quot;: 2537.78,
+          &quot;p95_ms&quot;: 2882.19,
+          &quot;p99_ms&quot;: 2882.19,
+          &quot;max_ms&quot;: 2882.19,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;OBSERVED&quot;
+        },
+        &quot;voice_audio&quot;: {
+          &quot;count&quot;: 6,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 940.87,
+          &quot;median_ms&quot;: 946.01,
+          &quot;p95_ms&quot;: 1006.02,
+          &quot;p99_ms&quot;: 1006.02,
+          &quot;max_ms&quot;: 1006.02,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_cached&quot;: {
+          &quot;count&quot;: 3,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 295.71,
+          &quot;median_ms&quot;: 268.21,
+          &quot;p95_ms&quot;: 351.63,
+          &quot;p99_ms&quot;: 351.63,
+          &quot;max_ms&quot;: 351.63,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      },
+      &quot;ramp_groups&quot;: {
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 41,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.95122,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 252.24,
+          &quot;median_ms&quot;: 260.76,
+          &quot;p95_ms&quot;: 369.4,
+          &quot;p99_ms&quot;: 486.2,
+          &quot;max_ms&quot;: 486.2,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 4,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1658.24,
+          &quot;median_ms&quot;: 1576.38,
+          &quot;p95_ms&quot;: 1861.51,
+          &quot;p99_ms&quot;: 1861.51,
+          &quot;max_ms&quot;: 1861.51,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 3,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 338.42,
+          &quot;median_ms&quot;: 343.33,
+          &quot;p95_ms&quot;: 354.15,
+          &quot;p99_ms&quot;: 354.15,
+          &quot;max_ms&quot;: 354.15,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      }
+    },
+    {
+      &quot;name&quot;: &quot;stage_5&quot;,
+      &quot;target_users&quot;: 140,
+      &quot;is_warmup&quot;: false,
+      &quot;is_recovery&quot;: false,
+      &quot;is_cooldown&quot;: false,
+      &quot;status&quot;: &quot;FAIL&quot;,
+      &quot;duration_measured_seconds&quot;: 600.3,
+      &quot;total_requests&quot;: 707,
+      &quot;failed_requests&quot;: 0,
+      &quot;failure_rate&quot;: 0.0,
+      &quot;rps&quot;: 1.18,
+      &quot;population&quot;: {
+        &quot;min&quot;: 140,
+        &quot;max&quot;: 140,
+        &quot;mean&quot;: 140,
+        &quot;last_ordinary&quot;: 84,
+        &quot;last_ai&quot;: 56,
+        &quot;last_voice&quot;: 7
+      },
+      &quot;groups&quot;: {
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 216,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.976852,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 173.42,
+          &quot;median_ms&quot;: 149.33,
+          &quot;p95_ms&quot;: 327.74,
+          &quot;p99_ms&quot;: 658.89,
+          &quot;max_ms&quot;: 899.61,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 254,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1844.12,
+          &quot;median_ms&quot;: 1739.9,
+          &quot;p95_ms&quot;: 2633.3,
+          &quot;p99_ms&quot;: 2866.1,
+          &quot;max_ms&quot;: 3090.82,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 214,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.901869,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 348.22,
+          &quot;median_ms&quot;: 336.91,
+          &quot;p95_ms&quot;: 432.19,
+          &quot;p99_ms&quot;: 667.95,
+          &quot;max_ms&quot;: 770.96,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;voice_cached&quot;: {
+          &quot;count&quot;: 11,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 225.0,
+          &quot;median_ms&quot;: 234.69,
+          &quot;p95_ms&quot;: 256.35,
+          &quot;p99_ms&quot;: 256.35,
+          &quot;max_ms&quot;: 256.35,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_audio&quot;: {
+          &quot;count&quot;: 11,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 912.22,
+          &quot;median_ms&quot;: 886.65,
+          &quot;p95_ms&quot;: 995.6,
+          &quot;p99_ms&quot;: 995.6,
+          &quot;max_ms&quot;: 995.6,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_cold&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 2192.97,
+          &quot;median_ms&quot;: 2192.97,
+          &quot;p95_ms&quot;: 2192.97,
+          &quot;p99_ms&quot;: 2192.97,
+          &quot;max_ms&quot;: 2192.97,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;OBSERVED&quot;
+        }
+      },
+      &quot;ramp_groups&quot;: {
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 39,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 242.36,
+          &quot;median_ms&quot;: 258.12,
+          &quot;p95_ms&quot;: 325.44,
+          &quot;p99_ms&quot;: 350.96,
+          &quot;max_ms&quot;: 350.96,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 6,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1760.59,
+          &quot;median_ms&quot;: 1654.24,
+          &quot;p95_ms&quot;: 2037.15,
+          &quot;p99_ms&quot;: 2037.15,
+          &quot;max_ms&quot;: 2037.15,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_cached&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 184.6,
+          &quot;median_ms&quot;: 184.6,
+          &quot;p95_ms&quot;: 184.6,
+          &quot;p99_ms&quot;: 184.6,
+          &quot;max_ms&quot;: 184.6,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_audio&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 950.74,
+          &quot;median_ms&quot;: 950.74,
+          &quot;p95_ms&quot;: 950.74,
+          &quot;p99_ms&quot;: 950.74,
+          &quot;max_ms&quot;: 950.74,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 318.36,
+          &quot;median_ms&quot;: 318.36,
+          &quot;p95_ms&quot;: 318.36,
+          &quot;p99_ms&quot;: 318.36,
+          &quot;max_ms&quot;: 318.36,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      }
+    },
+    {
+      &quot;name&quot;: &quot;stage_6&quot;,
+      &quot;target_users&quot;: 180,
+      &quot;is_warmup&quot;: false,
+      &quot;is_recovery&quot;: false,
+      &quot;is_cooldown&quot;: false,
+      &quot;status&quot;: &quot;FAIL&quot;,
+      &quot;duration_measured_seconds&quot;: 600.3,
+      &quot;total_requests&quot;: 963,
+      &quot;failed_requests&quot;: 0,
+      &quot;failure_rate&quot;: 0.0,
+      &quot;rps&quot;: 1.6,
+      &quot;population&quot;: {
+        &quot;min&quot;: 180,
+        &quot;max&quot;: 180,
+        &quot;mean&quot;: 180,
+        &quot;last_ordinary&quot;: 108,
+        &quot;last_ai&quot;: 72,
+        &quot;last_voice&quot;: 9
+      },
+      &quot;groups&quot;: {
+        &quot;voice_audio&quot;: {
+          &quot;count&quot;: 12,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 931.82,
+          &quot;median_ms&quot;: 916.29,
+          &quot;p95_ms&quot;: 996.89,
+          &quot;p99_ms&quot;: 996.89,
+          &quot;max_ms&quot;: 996.89,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 273,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.809524,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 386.9,
+          &quot;median_ms&quot;: 339.5,
+          &quot;p95_ms&quot;: 738.15,
+          &quot;p99_ms&quot;: 1150.0,
+          &quot;max_ms&quot;: 1740.19,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 277,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.895307,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 248.89,
+          &quot;median_ms&quot;: 149.85,
+          &quot;p95_ms&quot;: 837.75,
+          &quot;p99_ms&quot;: 1589.81,
+          &quot;max_ms&quot;: 1898.88,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 390,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1952.04,
+          &quot;median_ms&quot;: 1846.84,
+          &quot;p95_ms&quot;: 2874.69,
+          &quot;p99_ms&quot;: 3395.44,
+          &quot;max_ms&quot;: 5145.78,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_cached&quot;: {
+          &quot;count&quot;: 11,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 270.67,
+          &quot;median_ms&quot;: 260.5,
+          &quot;p95_ms&quot;: 399.63,
+          &quot;p99_ms&quot;: 399.63,
+          &quot;max_ms&quot;: 399.63,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      },
+      &quot;ramp_groups&quot;: {
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 40,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 237.86,
+          &quot;median_ms&quot;: 236.07,
+          &quot;p95_ms&quot;: 304.7,
+          &quot;p99_ms&quot;: 355.77,
+          &quot;max_ms&quot;: 355.77,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 7,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1686.07,
+          &quot;median_ms&quot;: 1719.97,
+          &quot;p95_ms&quot;: 2014.28,
+          &quot;p99_ms&quot;: 2014.28,
+          &quot;max_ms&quot;: 2014.28,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 4,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.75,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 332.22,
+          &quot;median_ms&quot;: 289.83,
+          &quot;p95_ms&quot;: 414.85,
+          &quot;p99_ms&quot;: 414.85,
+          &quot;max_ms&quot;: 414.85,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;FAIL&quot;
+        }
+      }
+    },
+    {
+      &quot;name&quot;: &quot;stage_7&quot;,
+      &quot;target_users&quot;: 220,
+      &quot;is_warmup&quot;: false,
+      &quot;is_recovery&quot;: false,
+      &quot;is_cooldown&quot;: false,
+      &quot;status&quot;: &quot;FAIL&quot;,
+      &quot;duration_measured_seconds&quot;: 600.7,
+      &quot;total_requests&quot;: 1199,
+      &quot;failed_requests&quot;: 0,
+      &quot;failure_rate&quot;: 0.0,
+      &quot;rps&quot;: 2.0,
+      &quot;population&quot;: {
+        &quot;min&quot;: 220,
+        &quot;max&quot;: 220,
+        &quot;mean&quot;: 220,
+        &quot;last_ordinary&quot;: 132,
+        &quot;last_ai&quot;: 88,
+        &quot;last_voice&quot;: 11
+      },
+      &quot;groups&quot;: {
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 340,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.835294,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 371.68,
+          &quot;median_ms&quot;: 339.43,
+          &quot;p95_ms&quot;: 644.29,
+          &quot;p99_ms&quot;: 919.54,
+          &quot;max_ms&quot;: 1070.25,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 342,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.921053,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 216.59,
+          &quot;median_ms&quot;: 149.91,
+          &quot;p95_ms&quot;: 623.38,
+          &quot;p99_ms&quot;: 929.4,
+          &quot;max_ms&quot;: 1191.56,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 489,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.99591,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 2013.33,
+          &quot;median_ms&quot;: 1897.3,
+          &quot;p95_ms&quot;: 2938.29,
+          &quot;p99_ms&quot;: 4696.52,
+          &quot;max_ms&quot;: 8181.87,
+          &quot;small_sample&quot;: false,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;voice_cached&quot;: {
+          &quot;count&quot;: 14,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 284.72,
+          &quot;median_ms&quot;: 251.14,
+          &quot;p95_ms&quot;: 470.69,
+          &quot;p99_ms&quot;: 470.69,
+          &quot;max_ms&quot;: 470.69,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_audio&quot;: {
+          &quot;count&quot;: 14,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 904.11,
+          &quot;median_ms&quot;: 905.17,
+          &quot;p95_ms&quot;: 978.13,
+          &quot;p99_ms&quot;: 978.13,
+          &quot;max_ms&quot;: 978.13,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      },
+      &quot;ramp_groups&quot;: {
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 42,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.928571,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 279.34,
+          &quot;median_ms&quot;: 259.92,
+          &quot;p95_ms&quot;: 587.65,
+          &quot;p99_ms&quot;: 893.04,
+          &quot;max_ms&quot;: 893.04,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 14,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1879.86,
+          &quot;median_ms&quot;: 1661.99,
+          &quot;p95_ms&quot;: 2691.92,
+          &quot;p99_ms&quot;: 2691.92,
+          &quot;max_ms&quot;: 2691.92,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 4,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 349.94,
+          &quot;median_ms&quot;: 337.09,
+          &quot;p95_ms&quot;: 377.89,
+          &quot;p99_ms&quot;: 377.89,
+          &quot;max_ms&quot;: 377.89,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      }
+    },
+    {
+      &quot;name&quot;: &quot;recovery&quot;,
+      &quot;target_users&quot;: 20,
+      &quot;is_warmup&quot;: false,
+      &quot;is_recovery&quot;: true,
+      &quot;is_cooldown&quot;: false,
+      &quot;status&quot;: &quot;FAIL&quot;,
+      &quot;duration_measured_seconds&quot;: 600.1,
+      &quot;total_requests&quot;: 106,
+      &quot;failed_requests&quot;: 0,
+      &quot;failure_rate&quot;: 0.0,
+      &quot;rps&quot;: 0.18,
+      &quot;population&quot;: {
+        &quot;min&quot;: 20,
+        &quot;max&quot;: 20,
+        &quot;mean&quot;: 20,
+        &quot;last_ordinary&quot;: 12,
+        &quot;last_ai&quot;: 8,
+        &quot;last_voice&quot;: 1
+      },
+      &quot;groups&quot;: {
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 35,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.971429,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 339.71,
+          &quot;median_ms&quot;: 334.48,
+          &quot;p95_ms&quot;: 390.82,
+          &quot;p99_ms&quot;: 430.75,
+          &quot;max_ms&quot;: 430.75,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 35,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 141.23,
+          &quot;median_ms&quot;: 139.93,
+          &quot;p95_ms&quot;: 162.84,
+          &quot;p99_ms&quot;: 170.08,
+          &quot;max_ms&quot;: 170.08,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ai&quot;: {
+          &quot;count&quot;: 34,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1822.0,
+          &quot;median_ms&quot;: 1607.23,
+          &quot;p95_ms&quot;: 2610.18,
+          &quot;p99_ms&quot;: 5453.57,
+          &quot;max_ms&quot;: 5453.57,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_cached&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 283.67,
+          &quot;median_ms&quot;: 283.67,
+          &quot;p95_ms&quot;: 283.67,
+          &quot;p99_ms&quot;: 283.67,
+          &quot;max_ms&quot;: 283.67,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_audio&quot;: {
+          &quot;count&quot;: 1,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 895.53,
+          &quot;median_ms&quot;: 895.53,
+          &quot;p95_ms&quot;: 895.53,
+          &quot;p99_ms&quot;: 895.53,
+          &quot;max_ms&quot;: 895.53,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      },
+      &quot;ramp_groups&quot;: {
+        &quot;ai&quot;: {
+          &quot;count&quot;: 30,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 7000,
+          &quot;mean_ms&quot;: 1980.44,
+          &quot;median_ms&quot;: 1971.08,
+          &quot;p95_ms&quot;: 2759.67,
+          &quot;p99_ms&quot;: 3144.96,
+          &quot;max_ms&quot;: 3144.96,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;ordinary/evaluate&quot;: {
+          &quot;count&quot;: 22,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 0.909091,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 339.2,
+          &quot;median_ms&quot;: 327.5,
+          &quot;p95_ms&quot;: 434.51,
+          &quot;p99_ms&quot;: 659.86,
+          &quot;max_ms&quot;: 659.86,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;FAIL&quot;
+        },
+        &quot;ordinary/questionnaire&quot;: {
+          &quot;count&quot;: 22,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 400,
+          &quot;mean_ms&quot;: 154.38,
+          &quot;median_ms&quot;: 148.42,
+          &quot;p95_ms&quot;: 187.55,
+          &quot;p99_ms&quot;: 330.02,
+          &quot;max_ms&quot;: 330.02,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_cached&quot;: {
+          &quot;count&quot;: 4,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 376.97,
+          &quot;median_ms&quot;: 243.25,
+          &quot;p95_ms&quot;: 758.45,
+          &quot;p99_ms&quot;: 758.45,
+          &quot;max_ms&quot;: 758.45,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        },
+        &quot;voice_audio&quot;: {
+          &quot;count&quot;: 4,
+          &quot;failed&quot;: 0,
+          &quot;success_fraction&quot;: 1.0,
+          &quot;fast_fraction&quot;: 1.0,
+          &quot;threshold_ms&quot;: 3000,
+          &quot;mean_ms&quot;: 1007.16,
+          &quot;median_ms&quot;: 850.33,
+          &quot;p95_ms&quot;: 1405.98,
+          &quot;p99_ms&quot;: 1405.98,
+          &quot;max_ms&quot;: 1405.98,
+          &quot;small_sample&quot;: true,
+          &quot;status&quot;: &quot;PASS&quot;
+        }
+      }
+    },
+    {
+      &quot;name&quot;: &quot;cooldown&quot;,
+      &quot;target_users&quot;: 0,
+      &quot;is_warmup&quot;: false,
+      &quot;is_recovery&quot;: false,
+      &quot;is_cooldown&quot;: true,
+      &quot;status&quot;: &quot;NO_REQUESTS&quot;,
+      &quot;duration_measured_seconds&quot;: 120.9,
+      &quot;total_requests&quot;: 0,
+      &quot;failed_requests&quot;: 0,
+      &quot;failure_rate&quot;: 0.0,
+      &quot;rps&quot;: 0.0,
+      &quot;population&quot;: {
+        &quot;min&quot;: 0,
+        &quot;max&quot;: 0,
+        &quot;mean&quot;: 0,
+        &quot;last_ordinary&quot;: 0,
+        &quot;last_ai&quot;: 0,
+        &quot;last_voice&quot;: 0
+      },
+      &quot;groups&quot;: {},
+      &quot;ramp_groups&quot;: {}
+    }
+  ],
+  &quot;note&quot;: &quot;Kriteriji kakovosti (400 ms za običajne API-je, 7 s za AI) niso enaki meji preobremenitve. Meja tehnične preobremenitve je določena z znatnim porastom napak (&gt; 5 % v dveh oknih ali &gt; 10 % v enem), sesutjem ali izčrpanjem virov. Primerjava okrevanja z začetno stopnjo 20 uporabnikov temelji na neposrednih meritvah odzivnih časov in napak.&quot;
+}</pre>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "spawn_rate": 2,
+  "stages": [
+    {
+      "name": "warmup",
+      "users": 20,
+      "duration_seconds": 15,
+      "is_warmup": true
+    },
+    {
+      "name": "stage_1",
+      "users": 20,
+      "duration_seconds": 30
+    },
+    {
+      "name": "recovery",
+      "users": 20,
+      "duration_seconds": 15,
+      "is_recovery": true
+    },
+    {
+      "name": "cooldown",
+      "users": 0,
+      "duration_seconds": 5,
+      "is_cooldown": true
+    }
+  ],
+  "think_seconds": [1, 2],
+  "assistant_read_seconds": [1, 2],
+  "ai_counts": [1, 2],
+  "ai_weights": [10, 10],
+  "timeout_seconds": 60,
+  "window_seconds": 30,
+  "window_min_requests": 5,
+  "stop_failure_rate_consecutive": 0.50,
+  "stop_consecutive_windows": 2,
+  "stop_failure_rate_immediate": 0.80,
+  "success_fraction": 0.999,
+  "ordinary_fast_fraction": 0.99,
+  "ordinary_ms": 400,
+  "ai_ms": 7000,
+  "voice_ms": 3000,
+  "minimum_samples_per_group": 5,
+  "seed": 20261103
+}
+

@@ -147,3 +147,4 @@ class OverloadMonitor:
                     self.on_trigger(self.stop_reason, stage)
         else:
             self.consecutive_bad_windows = 0
+

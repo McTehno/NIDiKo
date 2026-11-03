@@ -1,0 +1,212 @@
+{
+  "run_id": "20261103T110430Z",
+  "test_type": "stress",
+  "app_commit": "6853f9d",
+  "test_commit": "7ea6da6e19243020c81e8b65e4d08db926ac115f",
+  "test_worktree_dirty": true,
+  "base_url": "http://46.225.17.135",
+  "environment_note": "Staging VPS CX23, 2 vCPU, 4GB RAM; Docker Uvicorn 1 worker; target DB psi_up_staging_perf_stress_20261103; 14 questions up_001",
+  "profile": {
+    "spawn_rate": 2,
+    "stages": [
+      {
+        "name": "warmup",
+        "users": 20,
+        "duration_seconds": 300,
+        "is_warmup": true
+      },
+      {
+        "name": "stage_1",
+        "users": 20,
+        "duration_seconds": 600
+      },
+      {
+        "name": "stage_2",
+        "users": 40,
+        "duration_seconds": 600
+      },
+      {
+        "name": "stage_3",
+        "users": 60,
+        "duration_seconds": 600
+      },
+      {
+        "name": "stage_4",
+        "users": 100,
+        "duration_seconds": 600
+      },
+      {
+        "name": "stage_5",
+        "users": 140,
+        "duration_seconds": 600
+      },
+      {
+        "name": "stage_6",
+        "users": 180,
+        "duration_seconds": 600
+      },
+      {
+        "name": "stage_7",
+        "users": 220,
+        "duration_seconds": 600
+      },
+      {
+        "name": "recovery",
+        "users": 20,
+        "duration_seconds": 600,
+        "is_recovery": true
+      },
+      {
+        "name": "cooldown",
+        "users": 0,
+        "duration_seconds": 120,
+        "is_cooldown": true
+      }
+    ],
+    "think_seconds": [
+      15,
+      35
+    ],
+    "assistant_read_seconds": [
+      10,
+      25
+    ],
+    "ai_counts": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      12,
+      20
+    ],
+    "ai_weights": [
+      20,
+      20,
+      20,
+      15,
+      10,
+      7,
+      5,
+      3
+    ],
+    "timeout_seconds": 60,
+    "window_seconds": 60,
+    "window_min_requests": 20,
+    "stop_failure_rate_consecutive": 0.05,
+    "stop_consecutive_windows": 2,
+    "stop_failure_rate_immediate": 0.1,
+    "success_fraction": 0.999,
+    "ordinary_fast_fraction": 0.99,
+    "ordinary_ms": 400,
+    "ai_ms": 7000,
+    "voice_ms": 3000,
+    "minimum_samples_per_group": 100,
+    "seed": 20261103
+  },
+  "targets": [
+    {
+      "target_type": "learning_path",
+      "target_id": "up_001"
+    }
+  ],
+  "user_pool_size": 5000,
+  "estimates": {
+    "total_duration_seconds": 5440,
+    "total_duration_minutes": 90.7,
+    "available_user_pool": 5000,
+    "estimated_total_journeys": 1315,
+    "estimated_ai_journeys": 526,
+    "mean_ai_messages_per_ai_journey": 4.06,
+    "estimated_ai_assistant_messages": 2136,
+    "estimated_voice_calls": 66,
+    "pool_sufficient": true,
+    "stages": [
+      {
+        "stage": "warmup",
+        "target_users": 20,
+        "ramp_seconds": 10,
+        "steady_seconds": 300,
+        "stage_total_seconds": 310,
+        "estimated_journeys": 16
+      },
+      {
+        "stage": "stage_1",
+        "target_users": 20,
+        "ramp_seconds": 0,
+        "steady_seconds": 600,
+        "stage_total_seconds": 600,
+        "estimated_journeys": 32
+      },
+      {
+        "stage": "stage_2",
+        "target_users": 40,
+        "ramp_seconds": 10,
+        "steady_seconds": 600,
+        "stage_total_seconds": 610,
+        "estimated_journeys": 64
+      },
+      {
+        "stage": "stage_3",
+        "target_users": 60,
+        "ramp_seconds": 10,
+        "steady_seconds": 600,
+        "stage_total_seconds": 610,
+        "estimated_journeys": 96
+      },
+      {
+        "stage": "stage_4",
+        "target_users": 100,
+        "ramp_seconds": 20,
+        "steady_seconds": 600,
+        "stage_total_seconds": 620,
+        "estimated_journeys": 163
+      },
+      {
+        "stage": "stage_5",
+        "target_users": 140,
+        "ramp_seconds": 20,
+        "steady_seconds": 600,
+        "stage_total_seconds": 620,
+        "estimated_journeys": 228
+      },
+      {
+        "stage": "stage_6",
+        "target_users": 180,
+        "ramp_seconds": 20,
+        "steady_seconds": 600,
+        "stage_total_seconds": 620,
+        "estimated_journeys": 294
+      },
+      {
+        "stage": "stage_7",
+        "target_users": 220,
+        "ramp_seconds": 20,
+        "steady_seconds": 600,
+        "stage_total_seconds": 620,
+        "estimated_journeys": 359
+      },
+      {
+        "stage": "recovery",
+        "target_users": 20,
+        "ramp_seconds": 100,
+        "steady_seconds": 600,
+        "stage_total_seconds": 700,
+        "estimated_journeys": 63
+      },
+      {
+        "stage": "cooldown",
+        "target_users": 0,
+        "ramp_seconds": 10,
+        "steady_seconds": 120,
+        "stage_total_seconds": 130,
+        "estimated_journeys": 0
+      }
+    ]
+  },
+  "started_at": "2026-11-03T11:04:30.531980+00:00",
+  "command_completed": true,
+  "exit_code": 0,
+  "ended_at": "2026-11-03T12:35:22.887172+00:00"
+}
