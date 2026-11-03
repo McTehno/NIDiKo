@@ -1,0 +1,75 @@
+{
+  "spawn_rate": 2,
+  "stages": [
+    {
+      "name": "warmup",
+      "users": 20,
+      "duration_seconds": 300,
+      "is_warmup": true
+    },
+    {
+      "name": "stage_1",
+      "users": 20,
+      "duration_seconds": 600
+    },
+    {
+      "name": "stage_2",
+      "users": 40,
+      "duration_seconds": 600
+    },
+    {
+      "name": "stage_3",
+      "users": 60,
+      "duration_seconds": 600
+    },
+    {
+      "name": "stage_4",
+      "users": 100,
+      "duration_seconds": 600
+    },
+    {
+      "name": "stage_5",
+      "users": 140,
+      "duration_seconds": 600
+    },
+    {
+      "name": "stage_6",
+      "users": 180,
+      "duration_seconds": 600
+    },
+    {
+      "name": "stage_7",
+      "users": 220,
+      "duration_seconds": 600
+    },
+    {
+      "name": "recovery",
+      "users": 20,
+      "duration_seconds": 600,
+      "is_recovery": true
+    },
+    {
+      "name": "cooldown",
+      "users": 0,
+      "duration_seconds": 120,
+      "is_cooldown": true
+    }
+  ],
+  "think_seconds": [15, 35],
+  "assistant_read_seconds": [10, 25],
+  "ai_counts": [1, 2, 3, 4, 5, 8, 12, 20],
+  "ai_weights": [20, 20, 20, 15, 10, 7, 5, 3],
+  "timeout_seconds": 60,
+  "window_seconds": 60,
+  "window_min_requests": 20,
+  "stop_failure_rate_consecutive": 0.05,
+  "stop_consecutive_windows": 2,
+  "stop_failure_rate_immediate": 0.10,
+  "success_fraction": 0.999,
+  "ordinary_fast_fraction": 0.99,
+  "ordinary_ms": 400,
+  "ai_ms": 7000,
+  "voice_ms": 3000,
+  "minimum_samples_per_group": 100,
+  "seed": 20261103
+}
