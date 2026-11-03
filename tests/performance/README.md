@@ -140,3 +140,31 @@ mape. Potrebuje `summary.json` iz `analyze_results.py`, infrastrukturne meritve
 zbiralnika in meritve generatorja. Ni namenjena nepopolnim ali stresnim zagonom.
 Ne spreminja izvornih dogodkov ali kriterijev. Približni percentili Locusta se lahko
 razlikujejo od točnih percentilov iz posameznih vzorcev.
+
+
+## Večstopenjski stresni test (drugi del skupne naloge)
+
+Stresni test preverja obnašanje sistema ob postopnem naraščanju obremenitve,
+išče točko preloma (bottleneck) in meri sposobnost okrevanja (recovery).
+Podroben scenarij, kriteriji in operativni pogoji so v [načrtu](../../docs/19-nacrt-stresnega-testiranja.md).
+
+### Značilnosti in arhitektura
+- **Profil (`profiles/stress.json`):** stopnje 20 (ogrevanje 5 min), 20 (stopnja 1), 40, 60, 100, 140, 180, 220 aktivnih mest (po 10 min stabilne faze vsaka), nato okrevanje na 20 mest (10 min) in opazovanje na 0 mest (2 min). Skupaj ~90 min.
+- **Dinamični razporejevalnik (`stress_components.py: SlotManager`):** ker Locust ob zmanjšanju obremenitve ustavlja naključna mesta, `SlotManager` zagotavlja, da je med preostalimi aktivnimi mesti na vsaki stopnji (večkratniki 20) natanko 40 % AI mest in 5 % glasovnih mest.
+- **Nadzornik preobremenitve (`stress_components.py: OverloadMonitor`):** spremlja stopnjo napak v 1-minutnih oknih. Če napake presežejo 10 % v enem oknu ali 5 % v dveh zaporednih oknih (z vsaj 20 zahtevami), se obremenitev samodejno ustavi in test takoj preide v fazo okrevanja.
+
+### Zagon in analiza stresnega testa
+
+```powershell
+# 1. Zagon lokalnih preverjanj (brez povezave s strežnikom)
+tests/performance/.venv/Scripts/python.exe -m unittest tests/performance/checks/test_stress.py -v
+
+# 2. Predogled načrta in ocene klicev AI (suhi tek)
+tests/performance/.venv/Scripts/python.exe tests/performance/scripts/run_stress.py --data test-results/performance/pool.json --app-commit DEJANSKI-COMMIT --environment-note 'CX23; Docker Uvicorn, namenska baza'
+
+# 3. Dejanski zagon (ko je potrjen termin z odgovornim za infrastrukturo)
+tests/performance/.venv/Scripts/python.exe tests/performance/scripts/run_stress.py --data test-results/performance/pool.json --app-commit DEJANSKI-COMMIT --environment-note 'CX23; Docker Uvicorn, namenska baza' --execute
+
+# 4. Ponovna analiza zaključenega ali ustavljenega zagona
+tests/performance/.venv/Scripts/python.exe tests/performance/scripts/analyze_stress.py test-results/performance/stress/OZNAKA-ZAGONA
+```
