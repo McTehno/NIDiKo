@@ -1,0 +1,8 @@
+{
+  "scenario": "TS-NIDIKO-03.3",
+  "mode": "controlled-auth-response",
+  "timestamp": "2026-11-05T12:17:33.964081+00:00",
+  "status": "PASS",
+  "browser_version": "157.0.8103.38",
+  "actual": "Napačen e-poštni naslov ali geslo."
+}

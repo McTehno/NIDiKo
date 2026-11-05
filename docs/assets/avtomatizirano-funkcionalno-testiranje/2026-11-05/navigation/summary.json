@@ -1,0 +1,44 @@
+{
+  "scenario": "TS-NIDIKO-06",
+  "target": "http://127.0.0.1:5179",
+  "browser_version": "157.0.8103.38",
+  "status": "PASS",
+  "steps": [
+    {
+      "scenario_id": "TS-NIDIKO-06",
+      "timestamp": "2026-11-05T13:19:28.407302+01:00",
+      "author": "Mihajlo Dejanović",
+      "step_no": 1,
+      "action": "Navigacija na informativno stran 'O nas'",
+      "expected": "Prikaz vizije projekta, namena ter informacij o digitalnih kompetencah",
+      "actual": "Stran 'O nas' nalozena, naslov: 'Prilagodljiv razvoj digitalnih kompetenc.'",
+      "status": "PASS",
+      "duration_sec": 3.96,
+      "screenshot": "ts06_01_o_nas_namizje.png"
+    },
+    {
+      "scenario_id": "TS-NIDIKO-06",
+      "timestamp": "2026-11-05T13:19:39.611237+01:00",
+      "author": "Mihajlo Dejanović",
+      "step_no": 2,
+      "action": "Preverjanje delovanja zgornje navigacije",
+      "expected": "Prisotne povezave Domov, Iskanje, O nas in Prijava/Registracija",
+      "actual": "Zaznanih 9 povezav v navigaciji",
+      "status": "PASS",
+      "duration_sec": 11.2,
+      "screenshot": "ts06_02_navigacija_glava.png"
+    },
+    {
+      "scenario_id": "TS-NIDIKO-06",
+      "timestamp": "2026-11-05T13:19:42.520987+01:00",
+      "author": "Mihajlo Dejanović",
+      "step_no": 3,
+      "action": "Preizkus odzivnega prikaza na mobilni locljivosti (375x812)",
+      "expected": "Uporabniski vmesnik se prilagodi manjsi sirini zaslona brez prekrivanja",
+      "actual": "Izmerjen viewport: {'contentWidth': 360, 'height': 812, 'width': 375}; brez vodoravnega preliva; vizualni pregled prekrivanja je locen",
+      "status": "PASS",
+      "duration_sec": 2.91,
+      "screenshot": "ts06_03_o_nas_mobilni_pogled.png"
+    }
+  ]
+}

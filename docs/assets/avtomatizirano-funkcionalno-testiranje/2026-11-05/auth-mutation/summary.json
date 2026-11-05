@@ -1,0 +1,9 @@
+{
+  "scenario": "TS-NIDIKO-03.3",
+  "mode": "controlled-auth-response",
+  "timestamp": "2026-11-05T12:18:06.861429+00:00",
+  "status": "FAIL",
+  "browser_version": "157.0.8103.38",
+  "actual": "NAPAKA MUTACIJE",
+  "error": "AssertionError: Napacno obvestilo: NAPAKA MUTACIJE"
+}

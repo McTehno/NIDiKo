@@ -157,6 +157,7 @@ jobs:
     name: Run functional E2E tests (Selenium)
     runs-on: ubuntu-latest
     needs: deploy-staging
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
@@ -175,15 +176,19 @@ jobs:
 
       - name: Wait for staging deployment to become responsive
         run: |
-          echo "Preverjanje dosegljivosti staging streznika na http://46.225.17.135/ ..."
+          set -euo pipefail
+          echo "Preverjanje staging uporabniskega vmesnika in API ..."
           for i in {1..30}; do
-            if curl -fsS http://46.225.17.135/ > /dev/null; then
+            if curl --connect-timeout 3 --max-time 5 -fsS http://46.225.17.135/ > /dev/null &&
+               curl --connect-timeout 3 --max-time 5 -fsS http://46.225.17.135/api/learning-paths/up_001 > /dev/null; then
               echo "Staging okolje je pripravljeno!"
-              break
+              exit 0
             fi
             echo "Cakam na odziv streznika ($i/30)..."
             sleep 2
           done
+          echo "::error::Staging UI ali API ni pripravljen po 30 poskusih."
+          exit 1
 
       - name: Run Selenium functional tests (TS-01 to TS-06)
         run: |
@@ -203,6 +208,8 @@ jobs:
             echo "| Skupaj korakov | Uspešno (PASS) | Neuspešno (FAIL) |" >> $GITHUB_STEP_SUMMARY
             echo "|---|---|---|" >> $GITHUB_STEP_SUMMARY
             echo "| $TOTAL | $PASSED | $FAILED |" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            jq -r '["| Scenarij | Status |", "|---|---|"], (.scenario_statuses | to_entries[] | ["| \(.key) | \(.value) |"] ) | .[]' "$SUMMARY_FILE" >> $GITHUB_STEP_SUMMARY
           fi
 
       - name: Upload Functional Test Artifacts (Screenshots & Summary)

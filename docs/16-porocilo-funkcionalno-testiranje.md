@@ -197,3 +197,8 @@ Izvedeno je bilo **5/5 uspešnih regresijskih testov**: manjkajoči koraki prepr
 Dokument vsebuje šest specificiranih in dejansko ponovno izvedenih scenarijev. Doseženih je 5/6 PASS; merilo 6/6 ni izpolnjeno zaradi OBS-01. Odstopanje ostaja del poročila in ga je treba po odpravi ponovno preizkusiti. Uspeh omejenega nabora ne pomeni potrditve celotne rešitve.
 
 Pri prvotni oddaji je bila navedena pomoč Google Antigravity / Gemini. Pri tem pregledu so bili analiza, popravki, avtomatiziran zagon in priprava dopolnjenega poročila izvedeni s pomočjo OpenAI Codex. Pred oddajo naj člana preverita odgovornosti, podatke o ekipi in rezultate; izjava o njunem osebnem pregledu ni dodana brez potrditve.
+
+
+## Dopolnitev: avtomatizacija v CI in preverjanje namerne napake
+
+Pregled CI zagona revizije `873ca89`, popravki avtomatizacije, kontrolirani prijavni preizkus in dokazi zaznave namerne napake so v [poročilu avtomatiziranega testiranja](20-avtomatizirano-funkcionalno-testiranje.md). Zgornji rezultati z dne 29. 10. 2026 ostajajo zgodovinski zapis.

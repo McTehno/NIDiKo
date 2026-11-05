@@ -500,19 +500,7 @@ class FunctionalTestRunner:
         t0 = time.time()
         try:
             for path in ('/', '/search', '/about', '/register'):
-                def click_link(driver):
-                    try:
-                        link = driver.find_element(By.CSS_SELECTOR, f"header a[href='{path}']")
-                        if not link.is_displayed() or not link.is_enabled():
-                            return False
-                        link.click()
-                        return True
-                    except StaleElementReferenceException:
-                        return False
-                self.wait.until(click_link)
-                self.wait.until(lambda d: urlparse(d.current_url).path == path)
-                self.wait.until(lambda d: any(h.is_displayed() and h.text.strip()
-                    for h in d.find_elements(By.TAG_NAME, 'h1')))
+                self.navigate_from_header(path)
             self.driver.get(f"{BASE_URL}/about")
             self.wait.until(EC.visibility_of_element_located((By.TAG_NAME, 'h1')))
             nav_links = self.driver.find_elements(By.CSS_SELECTOR, 'header a')
@@ -545,6 +533,29 @@ class FunctionalTestRunner:
             self.driver.execute_cdp_cmd('Emulation.clearDeviceMetricsOverride', {})
             self.driver.set_window_size(1920, 1080)
             self.record_step(scenario_id, author, 3, "Preizkus mobilnega pogleda", "Prilagoditev postavitve", str(e), "FAIL", time.time() - t0)
+
+    def navigate_from_header(self, path):
+        """Ponovno poisci elemente ob React izrisu; napacna pot se vedno pade."""
+        def click_link(driver):
+            try:
+                link = driver.find_element(By.CSS_SELECTOR, f"header a[href='{path}']")
+                if not link.is_displayed() or not link.is_enabled():
+                    return False
+                link.click()
+                return True
+            except StaleElementReferenceException:
+                return False
+
+        def page_ready(driver):
+            try:
+                return urlparse(driver.current_url).path == path and any(
+                    h.is_displayed() and h.text.strip()
+                    for h in driver.find_elements(By.TAG_NAME, 'h1'))
+            except StaleElementReferenceException:
+                return False
+
+        self.wait.until(click_link)
+        self.wait.until(page_ready)
 
     def generate_json_summary(self):
         """Izvoz rezultatov testiranja v JSON format z izkljucno relativnimi potmi."""

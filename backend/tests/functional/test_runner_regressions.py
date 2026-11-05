@@ -66,3 +66,32 @@ def test_all_steps_required_and_one_failure_fails_scenario(module, tmp_path):
     assert sum(s == 'PASS' for s in summary['scenario_statuses'].values()) == 5
     assert summary['passed_steps'] == 22
     assert summary['failed_steps'] == 1
+
+
+def test_navigation_retries_stale_heading_and_link(module, tmp_path):
+    runner = module.FunctionalTestRunner(output_dir=tmp_path / 'run')
+    runner.driver = Mock()
+    runner.wait = module.WebDriverWait(runner.driver, 0.2, poll_frequency=0.001)
+    link = Mock()
+    runner.driver.find_element.side_effect = [module.StaleElementReferenceException(), link]
+    heading = Mock()
+    heading.is_displayed.side_effect = [module.StaleElementReferenceException(), True]
+    heading.text = 'Prijava'
+    runner.driver.find_elements.return_value = [heading]
+    runner.driver.current_url = 'http://example.test/login'
+    runner.navigate_from_header('/login')
+    assert runner.driver.find_element.call_count == 2
+    assert heading.is_displayed.call_count == 2
+    link.click.assert_called_once()
+
+
+@pytest.mark.parametrize('url,heading_text', [('/wrong', 'Naslov'), ('/login', '')])
+def test_navigation_still_rejects_wrong_page(module, tmp_path, url, heading_text):
+    from selenium.common.exceptions import TimeoutException
+    runner = module.FunctionalTestRunner(output_dir=tmp_path / 'run')
+    runner.driver = Mock()
+    runner.wait = module.WebDriverWait(runner.driver, 0.01, poll_frequency=0.001)
+    runner.driver.current_url = 'http://example.test' + url
+    runner.driver.find_elements.return_value = [Mock(text=heading_text)]
+    with pytest.raises(TimeoutException):
+        runner.navigate_from_header('/login')
