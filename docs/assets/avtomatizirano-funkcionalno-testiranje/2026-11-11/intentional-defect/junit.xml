@@ -1,0 +1,3 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="NIDiKo functional" tests="1" failures="1"><testcase classname="functional" name="TS-NIDIKO-01" time="29.28"><failure message="Failed or missing steps">Step 1: TimeoutException: Message: Expected NIDiKo in document title
+</failure></testcase></testsuite>

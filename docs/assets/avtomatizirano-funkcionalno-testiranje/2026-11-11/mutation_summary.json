@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "database": "nidiko_functional_1794400433797252920",
+  "auth_mode": "local Supabase protocol stub; no real Supabase verification",
+  "rejected_login_requests": 1,
+  "defect": "Changed home page title in index.html and PageTitleManager.tsx to NAMERNA NAPAKA",
+  "detected_by": "TS-NIDIKO-01.1",
+  "exit_codes": [
+    0,
+    1,
+    0
+  ],
+  "source_restored": true
+}

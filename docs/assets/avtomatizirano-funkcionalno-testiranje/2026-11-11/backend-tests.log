@@ -1,0 +1,150 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.0.2, pluggy-1.7.0
+rootdir: /var/www/psi-up/backend
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.13.0, asyncio-1.3.0, cov-7.1.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 651 items
+
+tests/api/test_assessments_api.py .........                              [  1%]
+tests/api/test_learning_paths_api.py .............                       [  3%]
+tests/api/test_learning_units_api.py .......                             [  4%]
+tests/api/test_modules_api.py ..........                                 [  5%]
+tests/api/test_questionnaires_api.py ........                            [  7%]
+tests/api/test_search_api.py .................                           [  9%]
+tests/api/test_user_progress_api.py ...............                      [ 12%]
+tests/api/test_users_api.py ............                                 [ 13%]
+tests/data/test_learning_paths_json.py ...............                   [ 16%]
+tests/data/test_learning_units_json.py .....................             [ 19%]
+tests/data/test_modules_json.py ................                         [ 21%]
+tests/data/test_users_json.py ..................                         [ 24%]
+tests/functional/test_runner_regressions.py .................            [ 27%]
+tests/repositories/test_completed_content_repository.py ........         [ 28%]
+tests/repositories/test_current_position_repository.py ........          [ 29%]
+tests/repositories/test_learning_path_repository.py ...................  [ 32%]
+tests/repositories/test_learning_unit_repository.py ................     [ 35%]
+tests/repositories/test_module_repository.py ..........................  [ 39%]
+tests/repositories/test_questionnaire_answers_repository.py ........     [ 40%]
+tests/repositories/test_user_progress_repository.py ..........           [ 41%]
+tests/repositories/test_user_repository.py ..............                [ 44%]
+tests/schemas/test_assessment_schema.py ..................               [ 46%]
+tests/schemas/test_learning_path_schema.py ..............                [ 49%]
+tests/schemas/test_learning_unit_schema.py ........................      [ 52%]
+tests/schemas/test_module_schema.py ................                     [ 55%]
+tests/schemas/test_questionnaire_schema.py .........................     [ 58%]
+tests/schemas/test_search_schema.py ......................               [ 62%]
+tests/schemas/test_user_progress_schema.py ............................. [ 66%]
+......                                                                   [ 67%]
+tests/schemas/test_user_schema.py .................................      [ 72%]
+tests/services/test_assessment_progress_service.py .......               [ 73%]
+tests/services/test_assessment_service.py .............................. [ 78%]
+......                                                                   [ 79%]
+tests/services/test_learning_path_service.py ................            [ 81%]
+tests/services/test_learning_unit_service.py ..........................  [ 85%]
+tests/services/test_module_service.py ................                   [ 88%]
+tests/services/test_questionnaire_answers_prefill_service.py ....        [ 88%]
+tests/services/test_questionnaire_prefill_service.py ...                 [ 89%]
+tests/services/test_questionnaire_service.py ........................... [ 93%]
+...                                                                      [ 94%]
+tests/services/test_search_service.py ................                   [ 96%]
+tests/services/test_user_progress_service.py .....                       [ 97%]
+tests/services/test_user_service.py .............                        [ 99%]
+tests/test_main.py .....                                                 [100%]
+
+- generated xml file: /var/www/psi-up/docs/assets/avtomatizirano-funkcionalno-testiranje/2026-11-11/backend-junit.xml -
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.3-final-0 ________________
+
+Name                                                                      Stmts   Miss  Cover
+---------------------------------------------------------------------------------------------
+app/api/__init__.py                                                           0      0   100%
+app/api/assessment_assistant.py                                              22     12    45%
+app/api/assessments.py                                                       61     27    56%
+app/api/competencies.py                                                      13     13     0%
+app/api/competency_groups.py                                                  7      7     0%
+app/api/learning_path_assistant.py                                           23     13    43%
+app/api/learning_paths.py                                                    68     15    78%
+app/api/learning_unit_assistant.py                                           23     13    43%
+app/api/learning_units.py                                                    49     12    76%
+app/api/module_assistant.py                                                  23     13    43%
+app/api/modules.py                                                           59     14    76%
+app/api/questionnaires.py                                                    36      9    75%
+app/api/recommendations.py                                                   10     10     0%
+app/api/search.py                                                            42      5    88%
+app/api/user_progress.py                                                    137     45    67%
+app/api/users.py                                                             39      4    90%
+app/api/voice_help.py                                                        21     12    43%
+app/config.py                                                                35      1    97%
+app/core/__init__.py                                                          0      0   100%
+app/core/error_handlers.py                                                   23      2    91%
+app/core/security.py                                                         17     11    35%
+app/database/mongodb.py                                                       6      0   100%
+app/main.py                                                                  38      0   100%
+app/repositories/assessment_assistant_repository.py                          27     18    33%
+app/repositories/learning_path_assistant_repository.py                       91     72    21%
+app/repositories/learning_path_repository.py                                 50      0   100%
+app/repositories/learning_unit_assistant_repository.py                       57     42    26%
+app/repositories/learning_unit_repository.py                                 32      0   100%
+app/repositories/module_assistant_repository.py                              84     66    21%
+app/repositories/module_repository.py                                        62      1    98%
+app/repositories/user_progress/__init__.py                                    0      0   100%
+app/repositories/user_progress/completed_content_repository.py               53      7    87%
+app/repositories/user_progress/current_position_repository.py                63      5    92%
+app/repositories/user_progress/favorite_content_repository.py                53     42    21%
+app/repositories/user_progress/questionnaire_answers_repository.py           84     22    74%
+app/repositories/user_progress/saved_content_repository.py                   53     42    21%
+app/repositories/user_progress/user_progress_repository.py                   31      0   100%
+app/repositories/user_repository.py                                          33      0   100%
+app/repositories/voice_help_repository.py                                    23     15    35%
+app/schemas/assessment_assistant_schema.py                                   20      3    85%
+app/schemas/assessment_schema.py                                             51      0   100%
+app/schemas/learning_path_assistant_schema.py                                10      0   100%
+app/schemas/learning_path_schema.py                                          17      0   100%
+app/schemas/learning_unit_assistant_schema.py                                10      0   100%
+app/schemas/learning_unit_schema.py                                          50      0   100%
+app/schemas/module_assistant_schema.py                                       10      0   100%
+app/schemas/module_schema.py                                                 28      0   100%
+app/schemas/questionnaire_schema.py                                          57      0   100%
+app/schemas/search_schema.py                                                 48      0   100%
+app/schemas/user_progress_schema.py                                          59      0   100%
+app/schemas/user_schema.py                                                   52      0   100%
+app/schemas/voice_help_schema.py                                             15      0   100%
+app/services/assessment_assistant/assessment_assistant_prompt.py              2      0   100%
+app/services/assessment_assistant/assessment_assistant_service.py            46     32    30%
+app/services/assessments/__init__.py                                          0      0   100%
+app/services/assessments/assessment_progress_service.py                     444    286    36%
+app/services/assessments/assessment_service.py                              295     15    95%
+app/services/learning_path_assistant/__init__.py                              0      0   100%
+app/services/learning_path_assistant/learning_path_assistant_prompt.py        2      0   100%
+app/services/learning_path_assistant/learning_path_assistant_service.py     359    326     9%
+app/services/learning_paths/__init__.py                                       0      0   100%
+app/services/learning_paths/learning_path_service.py                        142     14    90%
+app/services/learning_unit_assistant/__init__.py                              0      0   100%
+app/services/learning_unit_assistant/learning_unit_assistant_prompt.py        1      0   100%
+app/services/learning_unit_assistant/learning_unit_assistant_service.py     284    257    10%
+app/services/learning_units/__init__.py                                       0      0   100%
+app/services/learning_units/learning_unit_service.py                        132      2    98%
+app/services/module_assistant/__init__.py                                     0      0   100%
+app/services/module_assistant/module_assistant_prompt.py                      1      0   100%
+app/services/module_assistant/module_assistant_service.py                   346    312    10%
+app/services/modules/__init__.py                                              0      0   100%
+app/services/modules/module_service.py                                      104      2    98%
+app/services/questionnaires/__init__.py                                       0      0   100%
+app/services/questionnaires/questionnaire_service.py                        142     12    92%
+app/services/search/search_service.py                                        36      0   100%
+app/services/user_progress/__init__.py                                        0      0   100%
+app/services/user_progress/completed_content_service.py                      41     33    20%
+app/services/user_progress/current_position_service.py                        8      3    62%
+app/services/user_progress/favorite_content_service.py                       24     17    29%
+app/services/user_progress/questionnaire_answers_service.py                 143     82    43%
+app/services/user_progress/saved_content_service.py                          24     17    29%
+app/services/user_progress/user_progress_service.py                          10      0   100%
+app/services/users/user_service.py                                           21      0   100%
+app/services/validation/content_validation_service.py                        54     40    26%
+app/services/voice_help/voice_help_prompt.py                                  2      0   100%
+app/services/voice_help/voice_help_service.py                               117     89    24%
+---------------------------------------------------------------------------------------------
+TOTAL                                                                      4755   2112    56%
+Coverage XML written to file coverage.xml
+============================= 651 passed in 9.57s ==============================
