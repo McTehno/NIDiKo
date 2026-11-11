@@ -7,7 +7,10 @@ on:
 
 concurrency:
   group: staging-deploy
-  cancel-in-progress: true
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 permissions:
   contents: read
@@ -16,14 +19,17 @@ permissions:
 jobs:
   ci:
     name: Run CI checks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    env:
+      MONGODB_URI: mongodb://127.0.0.1:27017
+      DATABASE_NAME: nidiko_functional_unit
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm
@@ -42,7 +48,7 @@ jobs:
         run: npm run build
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
@@ -61,8 +67,8 @@ jobs:
     # Med dolgotrajnim testom preskoči nove namestitve.
     if: ${{ vars.STAGING_DEPLOY_PAUSED != 'true' }}
     name: Deploy to staging VPS
-    runs-on: ubuntu-latest
-    needs: ci
+    runs-on: ubuntu-24.04
+    needs: [ci, functional-tests]
 
     environment:
       name: staging
@@ -154,61 +160,29 @@ jobs:
                   > /dev/null
               done
   functional-tests:
-    name: Run functional E2E tests (Selenium)
-    runs-on: ubuntu-latest
+    name: Functional tests before deployment
+    uses: ./.github/workflows/functional-tests.yml
+
+  staging-smoke:
+    name: Verify deployed frontend and API
+    runs-on: ubuntu-24.04
     needs: deploy-staging
-
+    timeout-minutes: 3
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-
-      - name: Install backend dependencies
-        working-directory: backend
+      - name: Wait for frontend and required test data
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Wait for staging deployment to become responsive
-        run: |
-          echo "Preverjanje dosegljivosti staging streznika na http://46.225.17.135/ ..."
-          for i in {1..30}; do
-            if curl -fsS http://46.225.17.135/ > /dev/null; then
-              echo "Staging okolje je pripravljeno!"
-              break
+          set -euo pipefail
+          for attempt in {1..30}; do
+            if curl --fail --silent --show-error --connect-timeout 3 --max-time 5 \
+                http://46.225.17.135/ | grep -q '<title>NIDiKo</title>' && \
+               curl --fail --silent --show-error --connect-timeout 3 --max-time 5 \
+                http://46.225.17.135/api/learning-paths/up_001 | \
+                jq -e '._id == "up_001" and (.steps | length > 0)' > /dev/null; then
+              echo "Staging frontend and API are ready."
+              exit 0
             fi
-            echo "Cakam na odziv streznika ($i/30)..."
+            echo "Waiting for staging ($attempt/30)..."
             sleep 2
           done
-
-      - name: Run Selenium functional tests (TS-01 to TS-06)
-        run: |
-          python backend/tests/functional/run_functional_tests.py \
-            --base-url http://46.225.17.135 \
-            --output-dir test-results/functional
-
-      - name: Publish Functional Test Summary
-        if: always()
-        run: |
-          SUMMARY_FILE="test-results/functional/test_execution_summary.json"
-          if [ -f "$SUMMARY_FILE" ]; then
-            echo "### Rezultati Selenium funkcionalnega testiranja" >> $GITHUB_STEP_SUMMARY
-            TOTAL=$(jq -r '.total_steps' "$SUMMARY_FILE")
-            PASSED=$(jq -r '.passed_steps' "$SUMMARY_FILE")
-            FAILED=$(jq -r '.failed_steps' "$SUMMARY_FILE")
-            echo "| Skupaj korakov | Uspešno (PASS) | Neuspešno (FAIL) |" >> $GITHUB_STEP_SUMMARY
-            echo "|---|---|---|" >> $GITHUB_STEP_SUMMARY
-            echo "| $TOTAL | $PASSED | $FAILED |" >> $GITHUB_STEP_SUMMARY
-          fi
-
-      - name: Upload Functional Test Artifacts (Screenshots & Summary)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: selenium-functional-test-results
-          path: test-results/functional/
-          retention-days: 14
+          echo "::error::Staging frontend/API did not become ready."
+          exit 1

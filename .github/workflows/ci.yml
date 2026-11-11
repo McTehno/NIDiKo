@@ -11,7 +11,7 @@ on:
 jobs:
   frontend-build:
     name: Frontend build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     defaults:
       run:
@@ -39,7 +39,7 @@ jobs:
 
   backend-build:
     name: Backend build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     defaults:
       run:
@@ -47,6 +47,8 @@ jobs:
 
     env:
       PYTHONPATH: .
+      MONGODB_URI: mongodb://127.0.0.1:27017
+      DATABASE_NAME: nidiko_functional_unit
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
@@ -68,7 +70,7 @@ jobs:
 
   backend-tests:
     name: Backend tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: backend-build
 
     defaults:
@@ -77,6 +79,8 @@ jobs:
 
     env:
       PYTHONPATH: .
+      MONGODB_URI: mongodb://127.0.0.1:27017
+      DATABASE_NAME: nidiko_functional_unit
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
@@ -114,3 +118,7 @@ jobs:
             backend/coverage.xml
             backend/htmlcov
           retention-days: 14
+
+  functional-tests:
+    name: Functional tests
+    uses: ./.github/workflows/functional-tests.yml
