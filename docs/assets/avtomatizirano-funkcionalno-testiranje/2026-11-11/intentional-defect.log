@@ -1,0 +1,7 @@
+[TS-01.1] FAIL: TimeoutException: Message: Expected NIDiKo in document title
+
+[TS-01.2] PASS: Iskalnik na /search je viden
+[TS-01.3] PASS: 6 results
+[TS-01.4] PASS: Izbran filter; samo učne poti, vključno z up_001
+[TS-01.5] PASS: Pot /learning-paths/up_001 in pravilen naslov
+PASS: 4; FAIL: 1

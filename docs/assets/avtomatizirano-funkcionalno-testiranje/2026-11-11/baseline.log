@@ -1,0 +1,24 @@
+[TS-01.1] PASS: NIDiKo
+[TS-01.2] PASS: Iskalnik na /search je viden
+[TS-01.3] PASS: 6 results
+[TS-01.4] PASS: Izbran filter; samo učne poti, vključno z up_001
+[TS-01.5] PASS: Pot /learning-paths/up_001 in pravilen naslov
+[TS-02.1] PASS: Razumem osnovni koncept umetne inteligence.
+[TS-02.2] PASS: Naslednjo →
+[TS-02.3] PASS: Znam prepoznati primere umetne inteligence v vsakdanjem življenju.
+[TS-02.4] PASS: Zaključi →
+[TS-02.5] PASS: Result stored; URL: http://localhost:5173/learning-paths/up_001
+[TS-03.1] PASS: Prikazan je poziv k prijavi
+[TS-03.2] PASS: Prijavni obrazec na /login
+[TS-03.3] PASS: Napačen e-poštni naslov ali geslo.
+[TS-03.4] PASS: Vnos sprejet, Pošlji omogočen
+[TS-04.1] PASS: Pravilen naslov modula
+[TS-04.2] PASS: Prvo vozlišče je vidno
+[TS-04.3] PASS: Pot ue_036 in pravilen naslov
+[TS-05.1] PASS: Razumem, kaj je podatkovni model in zakaj ga potrebujemo.
+[TS-05.2] PASS: Naslednjo →
+[TS-05.3] PASS: Result stored; URL: http://localhost:5173/modules/mod_014
+[TS-06.1] PASS: Prilagodljiv razvoj digitalnih kompetenc.
+[TS-06.2] PASS: Vsaka odpre pravo pot z glavnim naslovom
+[TS-06.3] PASS: {'contentWidth': 360, 'height': 812, 'width': 375}
+PASS: 23; FAIL: 0

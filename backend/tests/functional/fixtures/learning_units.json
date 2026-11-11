@@ -1,0 +1,393 @@
+[
+  {
+    "_id": "ue_036",
+    "title": "Uvod v podatkovno modeliranje",
+    "short_description": "Pojem podatkovnega modela, vrste podatkovnih modelov ter pomen pravilnega modeliranja za kakovost podatkov.",
+    "duration_hours": 2.5,
+    "keywords": [
+      "podatkovno modeliranje",
+      "konceptualni model",
+      "logični model",
+      "fizični model",
+      "podatkovne strukture"
+    ],
+    "content_topics": [
+      {
+        "id": "topic_ue_036_001",
+        "title": "Pojem podatkovnega modela in njegov namen",
+        "related_competency_codes": [
+          "1.3",
+          "5.2"
+        ]
+      },
+      {
+        "id": "topic_ue_036_002",
+        "title": "Vrste podatkovnih modelov (konceptualni, logični, fizični)",
+        "related_competency_codes": [
+          "1.3",
+          "5.2"
+        ]
+      },
+      {
+        "id": "topic_ue_036_003",
+        "title": "Pomen pravilnega modeliranja za kakovost in uporabnost podatkov",
+        "related_competency_codes": [
+          "5.2"
+        ]
+      }
+    ],
+    "acquired_competencies": [
+      "Udeleženec razume pojem podatkovnega modela in zakaj ga potrebujemo",
+      "Udeleženec pozna osnovne vrste podatkovnih modelov (konceptualni, logični, fizični)",
+      "Udeleženec zavedanje pomena pravilnega modeliranja za kakovost in uporabnost podatkov"
+    ],
+    "digcomp_competencies": [
+      {
+        "code": "1.3",
+        "title": "Upravljanje podatkov, informacij in digitalnih vsebin",
+        "description": "Razume strukturo podatkov in pomen podatkovnega modeliranja za učinkovito upravljanje"
+      },
+      {
+        "code": "5.2",
+        "title": "Prepoznavanje potreb in tehnoloških rešitev",
+        "description": "Prepozna ustrezno vrsto podatkovnega modela glede na potrebe in kontekst organizacije"
+      }
+    ],
+    "delivery_mode": null,
+    "provider": null,
+    "target_audience": null,
+    "prerequisites": [
+      "Iskanje in pridobivanje podatkov"
+    ],
+    "knowledge_assessment": null,
+    "certificate": null,
+    "self_assessment_questions": [
+      {
+        "id": "q_ue_036_001",
+        "question": "Razumem, kaj je podatkovni model in zakaj ga potrebujemo.",
+        "type": "yes_no",
+        "related_topic": "Pojem podatkovnega modela in njegov namen",
+        "related_topic_id": "topic_ue_036_001",
+        "related_competency_codes": [
+          "1.3",
+          "5.2"
+        ]
+      },
+      {
+        "id": "q_ue_036_002",
+        "question": "Poznam razlike med konceptualnim, logičnim in fizičnim podatkovnim modelom.",
+        "type": "yes_no",
+        "related_topic": "Vrste podatkovnih modelov",
+        "related_topic_id": "topic_ue_036_002",
+        "related_competency_codes": [
+          "1.3",
+          "5.2"
+        ]
+      },
+      {
+        "id": "q_ue_036_003",
+        "question": "Zavedam se, kako pravilno modeliranje vpliva na kakovost in uporabnost podatkov.",
+        "type": "yes_no",
+        "related_topic": "Pomen pravilnega modeliranja",
+        "related_topic_id": "topic_ue_036_003",
+        "related_competency_codes": [
+          "5.2"
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "ue_031",
+    "title": "Osnove statistike za analizo podatkov",
+    "short_description": "Temeljni statistični pojmi, razlika med opisno in sklepno statistiko ter pomen statistične interpretacije pri odločanju.",
+    "duration_hours": 2.5,
+    "keywords": [
+      "statistika",
+      "povprečje",
+      "mediana",
+      "opisna statistika",
+      "sklepna statistika"
+    ],
+    "content_topics": [
+      {
+        "id": "topic_ue_031_001",
+        "title": "Temeljni statistični pojmi",
+        "related_competency_codes": [
+          "1.3"
+        ]
+      },
+      {
+        "id": "topic_ue_031_002",
+        "title": "Razlika med opisno in sklepno statistiko",
+        "related_competency_codes": [
+          "1.3",
+          "5.2"
+        ]
+      },
+      {
+        "id": "topic_ue_031_003",
+        "title": "Pomen statistične interpretacije pri odločanju",
+        "related_competency_codes": [
+          "5.2"
+        ]
+      }
+    ],
+    "acquired_competencies": [
+      "Udeleženec razume temeljne statistične pojme (povprečje, mediana, standardni odklon)",
+      "Udeleženec pozna razliko med opisno in sklepno statistiko",
+      "Udeleženec zavedanje pomena pravilne statistične interpretacije pri odločanju na podlagi podatkov"
+    ],
+    "digcomp_competencies": [
+      {
+        "code": "1.3",
+        "title": "Upravljanje podatkov, informacij in digitalnih vsebin",
+        "description": "Razume in interpretira podatke z uporabo statističnih pojmov za podporo pri odločanju"
+      },
+      {
+        "code": "5.2",
+        "title": "Prepoznavanje potreb in tehnoloških rešitev",
+        "description": "Prepozna ustrezne statistične metode za analizo podatkov glede na konkretne potrebe"
+      }
+    ],
+    "delivery_mode": null,
+    "provider": null,
+    "target_audience": null,
+    "prerequisites": [
+      "Osnovno razumevanje matematike in dela s podatki"
+    ],
+    "knowledge_assessment": null,
+    "certificate": null,
+    "self_assessment_questions": [
+      {
+        "id": "q_ue_031_001",
+        "question": "Razumem temeljne statistične pojme, kot so povprečje, mediana in standardni odklon.",
+        "type": "yes_no",
+        "related_topic": "Temeljni statistični pojmi",
+        "related_topic_id": "topic_ue_031_001",
+        "related_competency_codes": [
+          "1.3"
+        ]
+      },
+      {
+        "id": "q_ue_031_002",
+        "question": "Poznam razliko med opisno in sklepno statistiko.",
+        "type": "yes_no",
+        "related_topic": "Razlika med opisno in sklepno statistiko",
+        "related_topic_id": "topic_ue_031_002",
+        "related_competency_codes": [
+          "1.3",
+          "5.2"
+        ]
+      },
+      {
+        "id": "q_ue_031_003",
+        "question": "Zavedam se pomena pravilne statistične interpretacije pri odločanju na podlagi podatkov.",
+        "type": "yes_no",
+        "related_topic": "Pomen statistične interpretacije pri odločanju",
+        "related_topic_id": "topic_ue_031_003",
+        "related_competency_codes": [
+          "5.2"
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "ue_032",
+    "title": "Tehnike čiščenja in transformacije podatkov",
+    "short_description": "Pomen čiščenja podatkov kot predpogoja za analizo, pogoste napake v podatkih ter tehnike transformacije in normalizacije.",
+    "duration_hours": 2.5,
+    "keywords": [
+      "čiščenje podatkov",
+      "transformacija",
+      "normalizacija",
+      "napake",
+      "kakovost podatkov"
+    ],
+    "content_topics": [
+      {
+        "id": "topic_ue_032_001",
+        "title": "Pomen čiščenja podatkov kot predpogoja za analizo",
+        "related_competency_codes": [
+          "1.3"
+        ]
+      },
+      {
+        "id": "topic_ue_032_002",
+        "title": "Pogoste napake v podatkih",
+        "related_competency_codes": [
+          "1.3",
+          "5.1"
+        ]
+      },
+      {
+        "id": "topic_ue_032_003",
+        "title": "Tehnike transformacije in normalizacije podatkov",
+        "related_competency_codes": [
+          "1.3",
+          "5.1"
+        ]
+      }
+    ],
+    "acquired_competencies": [
+      "Udeleženec razume pomen čiščenja podatkov kot predpogoja za kakovostno analizo",
+      "Udeleženec pozna pogoste napake v podatkih in kako jih odkriti",
+      "Udeleženec pozna osnovne tehnike transformacije in normalizacije podatkov"
+    ],
+    "digcomp_competencies": [
+      {
+        "code": "1.3",
+        "title": "Upravljanje podatkov, informacij in digitalnih vsebin",
+        "description": "Prepozna in odpravlja napake v podatkih ter izvaja transformacije za pripravo podatkov na analizo"
+      },
+      {
+        "code": "5.1",
+        "title": "Reševanje tehničnih problemov",
+        "description": "Diagnosticira in rešuje težave z nepravilnimi ali nepopolnimi podatki z uporabo tehnik čiščenja"
+      }
+    ],
+    "delivery_mode": null,
+    "provider": null,
+    "target_audience": null,
+    "prerequisites": [
+      "Osnove statistike za analizo podatkov"
+    ],
+    "knowledge_assessment": null,
+    "certificate": null,
+    "self_assessment_questions": [
+      {
+        "id": "q_ue_032_001",
+        "question": "Razumem, zakaj je čiščenje podatkov nujno pred začetkom analize.",
+        "type": "yes_no",
+        "related_topic": "Pomen čiščenja podatkov",
+        "related_topic_id": "topic_ue_032_001",
+        "related_competency_codes": [
+          "1.3"
+        ]
+      },
+      {
+        "id": "q_ue_032_002",
+        "question": "Poznam pogoste napake v podatkih in vem, kako jih odkriti.",
+        "type": "yes_no",
+        "related_topic": "Pogoste napake v podatkih",
+        "related_topic_id": "topic_ue_032_002",
+        "related_competency_codes": [
+          "1.3",
+          "5.1"
+        ]
+      },
+      {
+        "id": "q_ue_032_003",
+        "question": "Poznam osnovne tehnike transformacije in normalizacije podatkov.",
+        "type": "yes_no",
+        "related_topic": "Tehnike transformacije in normalizacije podatkov",
+        "related_topic_id": "topic_ue_032_003",
+        "related_competency_codes": [
+          "1.3",
+          "5.1"
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "ue_033",
+    "title": "Analiza podatkov v preglednicah",
+    "short_description": "Možnosti analize podatkov v Excelu, napredne funkcije za analizo ter omejitve preglednic pri velikih količinah podatkov.",
+    "duration_hours": 2.5,
+    "keywords": [
+      "Excel",
+      "analiza podatkov",
+      "napredne funkcije",
+      "preglednice",
+      "omejitve"
+    ],
+    "content_topics": [
+      {
+        "id": "topic_ue_033_001",
+        "title": "Možnosti analize podatkov v Excelu",
+        "related_competency_codes": [
+          "1.3",
+          "5.3"
+        ]
+      },
+      {
+        "id": "topic_ue_033_002",
+        "title": "Napredne funkcije za analizo",
+        "related_competency_codes": [
+          "1.3",
+          "5.3"
+        ]
+      },
+      {
+        "id": "topic_ue_033_003",
+        "title": "Omejitve preglednic pri delu z velikimi količinami podatkov",
+        "related_competency_codes": [
+          "5.2"
+        ]
+      }
+    ],
+    "acquired_competencies": [
+      "Udeleženec razume možnosti analize podatkov v orodjih, kot je Excel",
+      "Udeleženec pozna napredne funkcije za analizo (pogojne funkcije, vrtilne tabele, združevanje)",
+      "Udeleženec zavedanje omejitev preglednic pri delu z velikimi ali kompleksnimi podatki"
+    ],
+    "digcomp_competencies": [
+      {
+        "code": "1.3",
+        "title": "Upravljanje podatkov, informacij in digitalnih vsebin",
+        "description": "Analizira podatke z naprednimi funkcijami preglednic za pridobivanje vpogledov"
+      },
+      {
+        "code": "5.2",
+        "title": "Prepoznavanje potreb in tehnoloških rešitev",
+        "description": "Prepozna, kdaj preglednice niso dovolj zmogljive in kakšna orodja bi bile boljša alternativa"
+      },
+      {
+        "code": "5.3",
+        "title": "Ustvarjalna uporaba digitalnih tehnologij",
+        "description": "Ustvarjalno uporablja napredne funkcije preglednic za reševanje analitičnih izzivov"
+      }
+    ],
+    "delivery_mode": null,
+    "provider": null,
+    "target_audience": null,
+    "prerequisites": [
+      "Tehnike čiščenja in transformacije podatkov"
+    ],
+    "knowledge_assessment": null,
+    "certificate": null,
+    "self_assessment_questions": [
+      {
+        "id": "q_ue_033_001",
+        "question": "Razumem možnosti analize podatkov, ki jih ponuja Excel.",
+        "type": "yes_no",
+        "related_topic": "Možnosti analize podatkov v Excelu",
+        "related_topic_id": "topic_ue_033_001",
+        "related_competency_codes": [
+          "1.3",
+          "5.3"
+        ]
+      },
+      {
+        "id": "q_ue_033_002",
+        "question": "Poznam napredne funkcije za analizo podatkov v preglednicah.",
+        "type": "yes_no",
+        "related_topic": "Napredne funkcije za analizo",
+        "related_topic_id": "topic_ue_033_002",
+        "related_competency_codes": [
+          "1.3",
+          "5.3"
+        ]
+      },
+      {
+        "id": "q_ue_033_003",
+        "question": "Zavedam se omejitev preglednic pri delu z velikimi količinami podatkov.",
+        "type": "yes_no",
+        "related_topic": "Omejitve preglednic pri velikih podatkih",
+        "related_topic_id": "topic_ue_033_003",
+        "related_competency_codes": [
+          "5.2"
+        ]
+      }
+    ]
+  }
+]

@@ -244,6 +244,7 @@ Dodatna projektna dokumentacija je razdeljena po posameznih tematskih sklopih:
 - [AI strategija](docs/11-ai-strategija.md)
 - [Testiranje](docs/12-testiranje.md)
 - [Funkcionalni testni primeri in poročilo izvedbe](docs/16-porocilo-funkcionalno-testiranje.md)
+- [Avtomatizirano funkcionalno testiranje in CI/CD](docs/20-avtomatizirano-funkcionalno-testiranje-ci.md)
 - [Nadaljnji razvoj](docs/13-nadaljnji-razvoj.md)
 
 

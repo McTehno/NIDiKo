@@ -1,0 +1,16 @@
+{
+  "base_commit": "873ca8933ca3f9848c043beb2a4396508a0a814e",
+  "verification": "Local working-tree run, not a new GitHub Actions execution",
+  "backend_tests": 651,
+  "runner_regressions": 17,
+  "frontend_lint_errors": 0,
+  "frontend_lint_existing_warnings": 21,
+  "actionlint": "1.7.12: passed",
+  "supabase_dns": {
+    "hostname": "slkxdrljuhxmesrhwsoc.supabase.co",
+    "status": 3,
+    "meaning": "NXDOMAIN",
+    "checked_on": "2026-11-11",
+    "source": "https://dns.google/resolve?name=slkxdrljuhxmesrhwsoc.supabase.co&type=A"
+  }
+}

@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="NIDiKo functional" tests="6" failures="0"><testcase classname="functional" name="TS-NIDIKO-01" time="12.33" /><testcase classname="functional" name="TS-NIDIKO-02" time="6.84" /><testcase classname="functional" name="TS-NIDIKO-03" time="7.69" /><testcase classname="functional" name="TS-NIDIKO-04" time="6.98" /><testcase classname="functional" name="TS-NIDIKO-05" time="4.28" /><testcase classname="functional" name="TS-NIDIKO-06" time="7.62" /></testsuite>

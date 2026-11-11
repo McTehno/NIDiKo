@@ -1,0 +1,8 @@
+--- frontend/index.html
++++ frontend/index.html (temporary)
+-<title>NIDiKo</title>
++<title>NAMERNA NAPAKA</title>
+--- frontend/src/app/PageTitleManager.tsx
++++ frontend/src/app/PageTitleManager.tsx (temporary)
+-  '/': 'NIDiKo',
++  '/': 'NAMERNA NAPAKA',

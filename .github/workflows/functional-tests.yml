@@ -1,0 +1,101 @@
+name: Functional tests
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  selenium:
+    name: Selenium scenarios and intentional defect
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27028:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.adminCommand({ping: 1})'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - name: Checkout tested revision
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: |
+            backend/requirements.txt
+            backend/tests/functional/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -r backend/requirements.txt
+          npm ci --prefix frontend
+
+      - name: Prepare Chrome and matching driver
+        run: |
+          python - <<'PY'
+          import os
+          from selenium.webdriver.common.selenium_manager import SeleniumManager
+          paths = SeleniumManager().binary_paths(['--browser', 'chrome'])
+          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as output:
+              output.write(f"CHROME_BINARY={paths['browser_path']}\n")
+              output.write(f"CHROMEDRIVER={paths['driver_path']}\n")
+          PY
+
+      - name: Run six scenarios, introduce defect, restore and repeat
+        run: python backend/tests/functional/run_local_suite.py --output-dir test-results/functional
+
+      - name: Publish functional summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          root = Path('test-results/functional')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as output:
+              output.write('## Funkcionalno testiranje (Selenium, headless Chrome)\n\n')
+              output.write('| Izvedba | Scenariji PASS | Koraki PASS | Koraki FAIL |\n|---|---|---|---|\n')
+              for name in ('baseline', 'intentional-defect', 'restored'):
+                  path = root / name / 'test_execution_summary.json'
+                  if not path.exists():
+                      output.write(f'| {name} | Zapisnik manjka | — | — |\n')
+                      continue
+                  summary = json.loads(path.read_text(encoding='utf-8'))
+                  statuses = summary['scenario_statuses']
+                  passed = sum(s == 'PASS' for s in statuses.values())
+                  output.write(f"| {name} | {passed}/{len(statuses)} | {summary['passed_steps']} | {summary['failed_steps']} |\n")
+                  if summary['execution_error']:
+                      output.write(f"\nNapaka izvedbe {name}: {summary['execution_error']}\n\n")
+              mutation = root / 'mutation_summary.json'
+              output.write('\nDokaz namerne napake: ' + ('PASS' if mutation.exists() and json.loads(mutation.read_text())['status'] == 'PASS' else 'MANJKA / FAIL') + '\n')
+              output.write('\nPrijava uporablja lokalni nadomestek Supabase; prava zunanja storitev ni preverjena.\n')
+          PY
+
+      - name: Upload results and service logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-functional-test-results
+          path: test-results/functional/
+          if-no-files-found: error
+          retention-days: 14
