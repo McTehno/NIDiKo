@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Kopiranje datotek z zahtevami
 COPY requirements.txt .
+COPY tests/functional/requirements.txt tests/functional/requirements.txt
 
 # Namestitev odvisnosti
 RUN pip install --no-cache-dir -r requirements.txt
