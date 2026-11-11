@@ -1,0 +1,2 @@
+# Pin the browser automation version used by local runs and CI.
+selenium==4.52.0

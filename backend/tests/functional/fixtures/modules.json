@@ -1,0 +1,55 @@
+[
+  {
+    "_id": "mod_014",
+    "title": "Analiza in obdelava podatkov",
+    "short_description": "Modul pokriva podatkovno modeliranje, statistično analizo, čiščenje in analizo podatkov v preglednicah.",
+    "duration_hours": 10.0,
+    "keywords": [
+      "statistika",
+      "čiščenje podatkov",
+      "analiza",
+      "modeliranje",
+      "transformacija"
+    ],
+    "domains": [
+      "Podatkovna analitika"
+    ],
+    "learning_units": [
+      {
+        "learning_unit_id": "ue_036",
+        "order": 1,
+        "parallel_group": null,
+        "is_required": true,
+        "prerequisites": []
+      },
+      {
+        "learning_unit_id": "ue_031",
+        "order": 2,
+        "parallel_group": null,
+        "is_required": true,
+        "prerequisites": [
+          "ue_036"
+        ]
+      },
+      {
+        "learning_unit_id": "ue_032",
+        "order": 3,
+        "parallel_group": null,
+        "is_required": true,
+        "prerequisites": [
+          "ue_031"
+        ]
+      },
+      {
+        "learning_unit_id": "ue_033",
+        "order": 4,
+        "parallel_group": null,
+        "is_required": true,
+        "prerequisites": [
+          "ue_031",
+          "ue_032"
+        ]
+      }
+    ]
+  }
+]

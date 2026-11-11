@@ -66,3 +66,99 @@ def test_all_steps_required_and_one_failure_fails_scenario(module, tmp_path):
     assert sum(s == 'PASS' for s in summary['scenario_statuses'].values()) == 5
     assert summary['passed_steps'] == 22
     assert summary['failed_steps'] == 1
+
+
+def test_duplicate_steps_cannot_replace_missing_step(module, tmp_path):
+    runner = module.FunctionalTestRunner(output_dir=tmp_path / 'run', scenarios=[1])
+    for number in (1, 2, 3, 4, 4):
+        runner.record_step('TS-01', 'Tester', number, '', '', '', 'PASS', 0)
+    assert runner.generate_json_summary()['scenario_statuses'] == {'TS-NIDIKO-01': 'FAIL'}
+
+
+def test_runner_instances_keep_their_own_target_and_evidence(module, tmp_path):
+    first = module.FunctionalTestRunner('http://first.test', tmp_path / 'first', [1])
+    second = module.FunctionalTestRunner('http://second.test', tmp_path / 'second', [6])
+    assert first.generate_json_summary()['target_environment'] == 'http://first.test'
+    assert second.generate_json_summary()['target_environment'] == 'http://second.test'
+    assert (tmp_path / 'first/test_execution_summary.json').exists()
+    assert (tmp_path / 'second/test_execution_summary.json').exists()
+
+
+def test_junit_reports_missing_scenarios_and_escapes_errors(module, tmp_path):
+    import xml.etree.ElementTree as ET
+    runner = module.FunctionalTestRunner(output_dir=tmp_path / 'run')
+    runner.execution_error = 'Setup failed: <browser> & driver'
+    runner.generate_json_summary()
+    suite = ET.parse(tmp_path / 'run/junit.xml').getroot()
+    assert suite.attrib['tests'] == '6'
+    assert suite.attrib['failures'] == '6'
+    assert len(suite.findall('testcase/failure')) == 6
+    assert suite.find('testcase/failure').attrib['message'] == runner.execution_error
+
+
+@pytest.fixture
+def local_suite(monkeypatch):
+    monkeypatch.syspath_prepend(str(Path(__file__).parent))
+    import run_local_suite
+    return run_local_suite
+
+
+def mutation_reports():
+    baseline = {'scenario_statuses': {f'TS-NIDIKO-{n:02d}': 'PASS' for n in range(1, 7)}}
+    mutant = {'execution_error': None, 'total_steps': 5, 'failed_steps': 1,
+              'steps': [{'scenario_id': 'TS-NIDIKO-01', 'step_no': 1, 'status': 'FAIL'}],
+              'scenario_statuses': {'TS-NIDIKO-01': 'FAIL'}}
+    restored = {'scenario_statuses': {'TS-NIDIKO-01': 'PASS'}}
+    return baseline, mutant, restored
+
+
+def test_mutation_requires_a_passing_baseline_specific_failure_and_restoration(local_suite):
+    baseline, mutant, restored = mutation_reports()
+    local_suite.verify_detection(baseline, mutant, restored, [0, 1, 0])
+    mutant['execution_error'] = 'Browser did not start'
+    with pytest.raises(AssertionError, match='not browser/environment setup'):
+        local_suite.verify_detection(baseline, mutant, restored, [0, 1, 0])
+
+
+@pytest.mark.parametrize('case', ['baseline', 'wrong_step', 'extra_failure', 'restoration', 'exit_code'])
+def test_unrelated_failures_cannot_count_as_mutation_detection(local_suite, case):
+    baseline, mutant, restored = mutation_reports()
+    codes = [0, 1, 0]
+    if case == 'baseline':
+        baseline['scenario_statuses']['TS-NIDIKO-03'] = 'FAIL'
+    elif case == 'wrong_step':
+        mutant['steps'][0]['step_no'] = 3
+    elif case == 'extra_failure':
+        mutant['failed_steps'] = 2
+    elif case == 'restoration':
+        restored['scenario_statuses']['TS-NIDIKO-01'] = 'FAIL'
+    elif case == 'exit_code':
+        codes[1] = 0
+    with pytest.raises(AssertionError):
+        local_suite.verify_detection(baseline, mutant, restored, codes)
+
+
+@pytest.mark.parametrize('uri,name', [
+    ('mongodb://production.example', 'nidiko_functional_test'),
+    ('mongodb://127.0.0.1', 'psi_up'),
+])
+def test_seed_rejects_external_host_or_production_database(local_suite, uri, name):
+    with pytest.raises(ValueError):
+        local_suite.seed_database(uri, name)
+
+
+def test_startup_failure_stops_already_started_services(local_suite, tmp_path):
+    process = Mock()
+    process.poll.return_value = None
+    output = tmp_path / 'suite'
+    with patch.object(local_suite.sys, 'argv', ['suite', '--output-dir', str(output)]), \
+         patch.object(local_suite.socket, 'socket'), \
+         patch.object(local_suite, 'seed_database'), \
+         patch.object(local_suite, 'create_auth_stub'), \
+         patch.object(local_suite.threading, 'Thread'), \
+         patch.object(local_suite.subprocess, 'run'), \
+         patch.object(local_suite.subprocess, 'Popen', side_effect=[process, OSError('frontend missing')]):
+        assert local_suite.main() == 1
+    process.terminate.assert_called_once()
+    process.wait.assert_called_once()
+    assert 'frontend missing' in (output / 'suite_error.txt').read_text()
