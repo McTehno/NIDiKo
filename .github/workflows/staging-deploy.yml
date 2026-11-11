@@ -63,6 +63,9 @@ jobs:
         working-directory: backend
         run: pytest
 
+      - name: Build backend deployment image
+        run: docker build --pull --tag nidiko-backend:ci ./backend
+
   deploy-staging:
     # Med dolgotrajnim testom preskoči nove namestitve.
     if: ${{ vars.STAGING_DEPLOY_PAUSED != 'true' }}
